@@ -1,0 +1,25 @@
+{
+  "name": "infinity-code",
+  "version": "1.0.0",
+  "description": "Infinity Code - Learn code. Practise code. Build projects. Prove your skills. Grow as a developer.",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && npm --prefix artifacts/cpp-learn install",
+    "dev:client": "npm --prefix artifacts/cpp-learn run dev",
+    "dev": "npm run dev:client",
+    "build:client": "cd artifacts/cpp-learn && npm install && npm run build",
+    "build": "npm run build:client",
+    "start:client": "npm --prefix artifacts/cpp-learn run preview",
+    "start": "npm run start:client"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "clsx": "^2.1.1",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^5.0.0"
+  }
+}

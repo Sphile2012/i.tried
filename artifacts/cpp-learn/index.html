@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Force cache busting -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>Infinity Code - Learn Programming</title>
+<script>
+  // Build info
+  console.log('🔨 Build: NUCLEAR_REBUILD_2025_01_15_FINAL');
+  console.log('📄 HTML loaded');
+  window.addEventListener('DOMContentLoaded', () => console.log('✅ DOM ready'));
+  window.addEventListener('load', () => console.log('✅ Page fully loaded'));
+  window.addEventListener('error', (e) => console.error('💥 Window error:', e.error || e.message));
+  window.addEventListener('unhandledrejection', (e) => console.error('💥 Unhandled rejection:', e.reason));
+</script>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+<noscript>
+  <div style="padding: 40px; text-align: center; font-family: system-ui;">
+    <h1>JavaScript Required</h1>
+    <p>This application requires JavaScript to run. Please enable JavaScript in your browser.</p>
+  </div>
+</noscript>
+</body>
+</html>
