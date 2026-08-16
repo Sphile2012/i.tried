@@ -6,7 +6,8 @@ import { AppLayout } from '@/components/layout/app-layout';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 // Pages
-import HomePage, { AboutPage } from '@/pages/home';
+import HomePage from '@/pages/home';
+import AboutPage from '@/pages/about';
 import Dashboard from '@/pages/dashboard';
 import LessonBrowser from '@/pages/lessons';
 import LessonDetail from '@/pages/lesson-detail';

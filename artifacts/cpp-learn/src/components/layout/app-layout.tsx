@@ -22,6 +22,7 @@ import {
   FileText,
   Sparkles,
   LayoutDashboard,
+  Info,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,7 @@ const navItems: NavItem[] = [
   { path: '/challenges', label: 'Challenges', icon: Target },
   { path: '/community', label: 'Community', icon: Users },
   { path: '/resources', label: 'Resources', icon: Library },
+  { path: '/about', label: 'About', icon: Info },
   { path: '/career', label: 'Career', icon: Briefcase },
   { path: '/portfolio', label: 'Portfolio', icon: FileText },
   { path: '/ai-tutor', label: 'AI Tutor', icon: Sparkles },
