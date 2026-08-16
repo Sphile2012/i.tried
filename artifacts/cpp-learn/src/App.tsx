@@ -31,8 +31,6 @@ import AdminDashboardPage from '@/pages/admin-dashboard';
 import ChallengesPage from '@/pages/challenges';
 import CommunityPage from '@/pages/community';
 import ResourcesPage from '@/pages/resources';
-import CareerPage from '@/pages/career';
-import PortfolioPage from '@/pages/portfolio';
 import SettingsPage from '@/pages/settings';
 import LeaderboardPage from '@/pages/leaderboard';
 import NotFound from '@/pages/not-found';
@@ -70,8 +68,6 @@ function Router() {
             <Route path="/challenges" component={ChallengesPage} />
             <Route path="/community" component={CommunityPage} />
             <Route path="/resources" component={ResourcesPage} />
-            <Route path="/career" component={CareerPage} />
-            <Route path="/portfolio" component={PortfolioPage} />
             <Route path="/leaderboard" component={LeaderboardPage} />
             {/* Protected routes */}
             <Route path="/profile">
