@@ -747,35 +747,24 @@ int main() {
         {
           id: 'switch',
           title: 'Switch Statement',
-          content: `**Switch statement** tests a variable against multiple values. It's cleaner than many if-else statements when checking one variable against several constant values.
+          content: `**Switch statement** tests a variable against multiple values. Cleaner than many if-else when checking one variable.
 
 **How It Works:**
-1. Evaluate the expression once
-2. Compare with each case value
-3. Execute matching case block
-4. Break exits the switch
-5. Default executes if no match
+1. Evaluate expression once
+2. Compare with each case
+3. Execute matching case
+4. break exits switch
+5. default executes if no match
 
 **Key Points:**
-- Cases must be constant values (no variables or ranges)
-- Break is important! Without it, execution "falls through" to next case
-- Default is optional but recommended
-- Can only test for equality (==)
-
-**When to Use:**
-- Multiple specific values to test
-- Better readability than many if-else
-- Menu systems, command processing
-
-**When NOT to Use:**
-- Range checking (use if-else)
-- String comparison (use if-else)
-- Complex conditions`,
+- Cases must be constants
+- break is important!
+- Can only test equality
+- Use for menu systems`,
           codeExample: `#include <iostream>
 using namespace std;
 
 int main() {
-    // Basic switch
     int day = 3;
     
     switch (day) {
@@ -788,55 +777,204 @@ int main() {
         case 3:
             cout << "Wednesday" << endl;
             break;
-        case 4:
-            cout << "Thursday" << endl;
-            break;
-        case 5:
-            cout << "Friday" << endl;
-            break;
-        case 6:
-        case 7:
-            cout << "Weekend!" << endl;
-            break;
         default:
-            cout << "Invalid day" << endl;
+            cout << "Other day" << endl;
     }
     
-    // Menu system example
-    char choice;
-    cout << "\n--- Menu ---" << endl;
-    cout << "A. Add" << endl;
-    cout << "S. Subtract" << endl;
-    cout << "M. Multiply" << endl;
-    cout << "Choice: ";
-    cin >> choice;
-    
-    int a = 10, b = 5;
-    
-    switch (choice) {
-        case 'A':
-        case 'a':
-            cout << "Result: " << (a + b) << endl;
-            break;
-        case 'S':
-        case 's':
-            cout << "Result: " << (a - b) << endl;
-            break;
-        case 'M':
-        case 'm':
-            cout << "Result: " << (a * b) << endl;
-            break;
-        default:
-            cout << "Invalid choice" << endl;
+    return 0;
+}`,
+        },
+        {
+          id: 'for-loop',
+          title: 'For Loop',
+          content: `**for loop** repeats code a specific number of times. Best when you know iteration count.
+
+**Syntax:**
+for (init; condition; increment) { code }
+
+**How It Works:**
+1. Init runs once
+2. Check condition
+3. Execute code if true
+4. Run increment
+5. Repeat from step 2
+
+**Common Uses:**
+- Count 0 to n-1
+- Array iteration
+- Nested loops`,
+          codeExample: `#include <iostream>
+using namespace std;
+
+int main() {
+    // Count 1 to 5
+    for (int i = 1; i <= 5; i++) {
+        cout << i << " ";
     }
+    cout << endl;
+    
+    // Array iteration
+    int arr[] = {10, 20, 30};
+    for (int i = 0; i < 3; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}`,
+        },
+        {
+          id: 'while-loop',
+          title: 'While Loop',
+          content: `**while loop** repeats while condition is true. Best when iteration count is unknown.
+
+**Syntax:**
+while (condition) { code }
+
+**Key Points:**
+- Condition checked BEFORE execution
+- Must make condition false eventually
+- Risk of infinite loop
+
+**Use Cases:**
+- Input validation
+- Unknown data amount
+- Menu systems`,
+          codeExample: `#include <iostream>
+using namespace std;
+
+int main() {
+    int count = 1;
+    while (count <= 5) {
+        cout << count << " ";
+        count++;
+    }
+    cout << endl;
+    
+    // Input validation
+    int num;
+    cout << "Enter positive: ";
+    cin >> num;
+    while (num <= 0) {
+        cout << "Invalid! Try again: ";
+        cin >> num;
+    }
+    cout << "Valid: " << num << endl;
+    
+    return 0;
+}`,
+        },
+        {
+          id: 'do-while',
+          title: 'Do-While Loop',
+          content: `**do-while loop** executes at least once, then checks condition.
+
+**Syntax:**
+do { code } while (condition);
+
+**Difference:**
+- while: Check first, maybe execute
+- do-while: Execute first, then check
+
+**Perfect For:**
+- Menus (must show once)
+- Input validation`,
+          codeExample: `#include <iostream>
+using namespace std;
+
+int main() {
+    int num;
+    do {
+        cout << "Enter positive: ";
+        cin >> num;
+    } while (num <= 0);
+    
+    cout << "You entered: " << num << endl;
+    return 0;
+}`,
+        },
+        {
+          id: 'break-continue',
+          title: 'Break and Continue',
+          content: `**break** exits loop immediately. **continue** skips to next iteration.
+
+**break:**
+- Exits loop completely
+- Continues after loop
+
+**continue:**
+- Skips rest of iteration
+- Goes to next iteration
+
+**Use Cases:**
+- break: Found what you need
+- continue: Skip invalid data`,
+          codeExample: `#include <iostream>
+using namespace std;
+
+int main() {
+    // break example
+    for (int i = 1; i <= 10; i++) {
+        if (i == 6) break;
+        cout << i << " ";
+    }
+    cout << endl;
+    
+    // continue example (skip evens)
+    for (int i = 1; i <= 10; i++) {
+        if (i % 2 == 0) continue;
+        cout << i << " ";  // Only odds
+    }
+    cout << endl;
     
     return 0;
 }`,
         },
       ],
     },
+    {
+      id: 'functions',
+      title: '3. Functions',
+      icon: '⚙️',
+      topics: [
+        {
+          id: 'function-basics',
+          title: 'Function Basics',
+          content: `A **function** is a reusable code block that performs a task.
+
+**Parts:**
+1. Return type
+2. Name
+3. Parameters
+4. Body
+5. Return statement
+
+**Why Use?**
+- Reusability
+- Organization
+- Maintenance
+- Readability`,
+          codeExample: `#include <iostream>
+using namespace std;
+
+// Function declaration
+int add(int a, int b);
+
+int main() {
+    int result = add(5, 3);
+    cout << "Sum: " << result << endl;
+    return 0;
+}
+
+// Function definition
+int add(int a, int b) {
+    return a + b;
+}`,
+        },
+      ],
+    },
   ],
-  // Continue with other languages...
+  // Placeholder for other languages - to be expanded
   python: [],
   typescript: [],
   java: [],
