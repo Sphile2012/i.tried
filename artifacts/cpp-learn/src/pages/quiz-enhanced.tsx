@@ -193,7 +193,7 @@ export default function QuizEnhanced() {
     // Update user XP (in real app, this would be an API call)
     if (isCorrect && user) {
       toast({
-        title: 'Correct! 🎉',
+        title: 'Correct!',
         description: `You earned ${xpEarned} XP!`,
       });
     }
@@ -253,7 +253,7 @@ export default function QuizEnhanced() {
 
     // Show completion toast
     toast({
-      title: quizResult.passed ? 'Quiz Completed! 🎉' : 'Quiz Completed',
+      title: quizResult.passed ? 'Quiz Completed!' : 'Quiz Completed',
       description: `You scored ${quizResult.score}% and earned ${quizResult.xpEarned} XP!`,
     });
   };
