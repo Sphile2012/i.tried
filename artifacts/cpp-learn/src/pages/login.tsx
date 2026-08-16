@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Mail, Lock, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,16 +15,43 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<{ email?: string; password?: string }>({});
+
+  const validateForm = () => {
+    const errors: { email?: string; password?: string } = {};
+    
+    if (!email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = 'Please enter a valid email';
+    }
+    
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    }
+    
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    setFieldErrors({});
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
+
     const result = await login(email, password);
     if (result.success) {
       navigate('/dashboard');
     } else {
-      setError(result.error || 'Login failed');
+      setError(result.error || 'Invalid email or password');
     }
     setIsLoading(false);
   };
@@ -56,13 +83,22 @@ export default function LoginPage() {
                 id="email" 
                 type="email" 
                 value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
-                className="h-12 pl-10 bg-slate-950 text-white" 
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (fieldErrors.email) setFieldErrors({ ...fieldErrors, email: undefined });
+                }} 
+                className={`h-12 pl-10 bg-slate-950 text-white ${fieldErrors.email ? 'border-red-500' : ''}`} 
                 placeholder="your@email.com" 
                 required 
                 autoComplete="email"
               />
             </div>
+            {fieldErrors.email && (
+              <p className="mt-1 text-xs text-red-400 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {fieldErrors.email}
+              </p>
+            )}
           </div>
           
           <div>
@@ -73,8 +109,11 @@ export default function LoginPage() {
                 id="password" 
                 type={showPassword ? 'text' : 'password'} 
                 value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                className="h-12 pl-10 pr-10 bg-slate-950 text-white" 
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (fieldErrors.password) setFieldErrors({ ...fieldErrors, password: undefined });
+                }} 
+                className={`h-12 pl-10 pr-10 bg-slate-950 text-white ${fieldErrors.password ? 'border-red-500' : ''}`} 
                 placeholder="••••••••" 
                 required 
                 minLength={6}
@@ -89,6 +128,12 @@ export default function LoginPage() {
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
+            {fieldErrors.password && (
+              <p className="mt-1 text-xs text-red-400 flex items-center gap-1">
+                <AlertCircle className="h-3 w-3" />
+                {fieldErrors.password}
+              </p>
+            )}
           </div>
 
           <div className="flex items-center justify-between">
