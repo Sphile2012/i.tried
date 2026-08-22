@@ -146,6 +146,8 @@ model Profile {
   postLikes             PostLike[]
   commentLikes          CommentLike[]
   savedResources        SavedResource[]
+  auditLogs             AuditLog[]
+  apiRateLimits         ApiRateLimit[]
 
   @@index([email])
   @@index([username])
@@ -196,6 +198,7 @@ model Topic {
   // Relations
   modules           Module[]
   enrollments       Enrollment[]
+  communityPosts    CommunityPost[]
 
   @@index([slug])
   @@index([isPublished])
@@ -247,7 +250,6 @@ model Lesson {
 
   // Relations
   lessonTopics      LessonTopic[]
-  enrollments       Enrollment[]
   lessonProgress    LessonProgress[]
   quizzes           Quiz[]
   communityPosts    CommunityPost[]
