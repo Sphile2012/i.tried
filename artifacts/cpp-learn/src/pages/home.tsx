@@ -236,11 +236,6 @@ function FeaturesSection() {
       desc: 'Take notes on lessons, bookmark important content, and build your personal knowledge base.',
       link: '/lessons',
     },
-    {
-      title: 'Certificates & Verification',
-      desc: 'Earn certificates with public verification links to prove your skills to employers.',
-      link: '/achievements',
-    },
   ];
 
   return (

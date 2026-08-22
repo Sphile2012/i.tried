@@ -209,7 +209,7 @@ export default function AdminDashboardPage() {
           { title: 'Manage Courses', icon: BookOpen, desc: 'Create, edit, and publish courses' },
           { title: 'Manage Quizzes', icon: Brain, desc: 'Create and review quiz questions' },
           { title: 'Manage Payments', icon: DollarSign, desc: 'View payment and subscription records' },
-          { title: 'Manage Certificates', icon: Award, desc: 'Issue and verify certificates' },
+          { title: 'Manage Achievements', icon: Award, desc: 'Configure badges and achievement criteria' },
           { title: 'Platform Settings', icon: Shield, desc: 'Configure platform-wide settings' },
         ].map((section, i) => {
           const Icon = section.icon;

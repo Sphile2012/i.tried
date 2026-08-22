@@ -1,85 +1,239 @@
 /**
  * Infinity Code - Leaderboard Page
  * Weekly, Monthly, and All Time rankings
+ * 
+ * Note: This page is designed to display real user data from the backend.
+ * Currently showing empty state until backend integration is complete.
  */
 
 import { useState } from 'react';
+import { Trophy, Users, Calendar, TrendingUp, AlertCircle } from 'lucide-react';
 
-const leaderboard = [
-  { rank: 1, username: 'CodeMaster', xp: 12450, challenges: 87, projects: 12, level: 6, avatar: 'C' },
-  { rank: 2, username: 'JaneDoe', xp: 9800, challenges: 65, projects: 8, level: 5, avatar: 'J' },
-  { rank: 3, username: 'MLDev', xp: 8200, challenges: 54, projects: 6, level: 5, avatar: 'M' },
-  { rank: 4, username: 'Phumeh', xp: 2450, challenges: 18, projects: 3, level: 3, avatar: 'P' },
-  { rank: 5, username: 'GameDev', xp: 2100, challenges: 22, projects: 2, level: 3, avatar: 'G' },
-  { rank: 6, username: 'DataSci', xp: 1850, challenges: 15, projects: 4, level: 2, avatar: 'D' },
-  { rank: 7, username: 'WebDev', xp: 1200, challenges: 10, projects: 1, level: 2, avatar: 'W' },
-  { rank: 8, username: 'Pythonista', xp: 950, challenges: 8, projects: 2, level: 1, avatar: 'P' },
-  { rank: 9, username: 'ReactNinja', xp: 750, challenges: 6, projects: 1, level: 1, avatar: 'R' },
-  { rank: 10, username: 'NewCoder', xp: 500, challenges: 4, projects: 0, level: 1, avatar: 'N' },
-];
+interface LeaderboardEntry {
+  rank: number;
+  userId: string;
+  username: string;
+  xp: number;
+  challengesCompleted: number;
+  projectsCompleted: number;
+  level: number;
+  avatarUrl?: string;
+}
 
-const levelColors = ['from-gray-500 to-gray-400', 'from-green-500 to-emerald-500', 'from-blue-500 to-cyan-500', 'from-purple-500 to-pink-500', 'from-orange-500 to-red-500', 'from-yellow-500 to-amber-500'];
+interface LeaderboardData {
+  weekly: LeaderboardEntry[];
+  monthly: LeaderboardEntry[];
+  allTime: LeaderboardEntry[];
+}
+
+// Empty state - data will be fetched from backend
+const EMPTY_LEADERBOARD: LeaderboardData = {
+  weekly: [],
+  monthly: [],
+  allTime: [],
+};
 
 export default function LeaderboardPage() {
-  const [period, setPeriod] = useState('All Time');
-  const periods = ['Weekly', 'Monthly', 'All Time'];
+  const [period, setPeriod] = useState<'weekly' | 'monthly' | 'allTime'>('allTime');
+  const [leaderboardData] = useState<LeaderboardData>(EMPTY_LEADERBOARD);
 
-  const rankColor = (r: number) => {
-    if (r === 1) return 'from-yellow-500 to-amber-500';
-    if (r === 2) return 'from-gray-300 to-gray-400';
-    if (r === 3) return 'from-orange-600 to-orange-500';
-    return 'from-white/10 to-white/5';
+  const getCurrentData = () => {
+    return leaderboardData[period] || [];
   };
+
+  const getPeriodLabel = () => {
+    switch (period) {
+      case 'weekly': return 'This Week';
+      case 'monthly': return 'This Month';
+      case 'allTime': return 'All Time';
+    }
+  };
+
+  const topThree = getCurrentData().slice(0, 3);
+  const restOfList = getCurrentData().slice(3);
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] pt-20 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">Leaderboard</h1>
-          <p className="text-gray-400">Top developers ranked by XP and activity.</p>
-        </div>
-
-        <div className="flex gap-2 mb-8">
-          {periods.map((p) => (
-            <button key={p} onClick={() => setPeriod(p)} className={`px-4 py-2 text-sm rounded-lg transition ${period === p ? 'bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white' : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white'}`}>{p}</button>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-3 gap-4 mb-8">
-          {leaderboard.slice(0, 3).map((user, i) => (
-            <div key={user.rank} className={`bg-gradient-to-b ${rankColor(user.rank)} bg-opacity-10 border border-white/10 rounded-2xl p-6 text-center ${i === 0 ? 'md:scale-105' : ''}`}>
-              <div className="text-3xl mb-2">{user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : '🥉'}</div>
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">{user.avatar}</div>
-              <div className="font-bold text-white">{user.username}</div>
-              <div className="text-sm text-gray-300">{user.xp.toLocaleString()} XP</div>
-              <div className="text-xs text-gray-400 mt-1">Level {user.level}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-          <div className="grid grid-cols-12 gap-2 px-6 py-3 border-b border-white/5 text-xs text-gray-500 font-medium uppercase">
-            <div className="col-span-1">Rank</div>
-            <div className="col-span-5">User</div>
-            <div className="col-span-2 text-center">Level</div>
-            <div className="col-span-2 text-center">Challenges</div>
-            <div className="col-span-2 text-right">XP</div>
+          <div className="flex items-center gap-3 mb-2">
+            <Trophy className="w-8 h-8 text-[#00d4ff]" />
+            <h1 className="text-3xl lg:text-4xl font-bold text-white">Leaderboard</h1>
           </div>
-          {leaderboard.map((user) => (
-            <div key={user.rank} className={`grid grid-cols-12 gap-2 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/5 transition ${user.username === 'Phumeh' ? 'bg-[#00d4ff]/5' : ''}`}>
-              <div className="col-span-1">
-                <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${user.rank <= 3 ? `bg-gradient-to-r ${rankColor(user.rank)} text-white` : 'bg-white/5 text-gray-400'}`}>{user.rank}</span>
-              </div>
-              <div className="col-span-5 flex items-center gap-3">
-                <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${levelColors[user.level - 1]} flex items-center justify-center text-white font-bold text-sm`}>{user.avatar}</div>
-                <span className="text-white font-medium">{user.username}</span>
-                {user.username === 'Phumeh' && <span className="text-xs text-[#00d4ff]">(You)</span>}
-              </div>
-              <div className="col-span-2 text-center"><span className="text-sm text-gray-300">Lv {user.level}</span></div>
-              <div className="col-span-2 text-center"><span className="text-sm text-gray-300">{user.challenges}</span></div>
-              <div className="col-span-2 text-right"><span className="text-sm font-bold text-[#00d4ff]">{user.xp.toLocaleString()}</span></div>
+          <p className="text-gray-400">
+            Track your progress and compete with other developers.
+          </p>
+        </div>
+
+        {/* Period Selector */}
+        <div className="flex gap-2 mb-8">
+          <button
+            onClick={() => setPeriod('weekly')}
+            className={`flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition ${
+              period === 'weekly'
+                ? 'bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white'
+                : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
+            Weekly
+          </button>
+          <button
+            onClick={() => setPeriod('monthly')}
+            className={`flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition ${
+              period === 'monthly'
+                ? 'bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white'
+                : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white'
+            }`}
+          >
+            <Calendar className="w-4 h-4" />
+            Monthly
+          </button>
+          <button
+            onClick={() => setPeriod('allTime')}
+            className={`flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition ${
+              period === 'allTime'
+                ? 'bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white'
+                : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white'
+            }`}
+          >
+            <TrendingUp className="w-4 h-4" />
+            All Time
+          </button>
+        </div>
+
+        {/* Empty State */}
+        {getCurrentData().length === 0 ? (
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-12 text-center">
+            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4">
+              <Users className="w-8 h-8 text-gray-500" />
             </div>
-          ))}
+            <h2 className="text-xl font-semibold text-white mb-2">
+              Leaderboard Coming Soon
+            </h2>
+            <p className="text-gray-400 max-w-md mx-auto mb-6">
+              The leaderboard for {getPeriodLabel()} will be available soon. 
+              Start completing lessons and challenges to earn XP and climb the rankings!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="bg-white/[0.03] border border-white/10 rounded-xl p-4 text-left">
+                <h3 className="text-white font-medium mb-2">How to Earn XP:</h3>
+                <ul className="text-sm text-gray-400 space-y-1">
+                  <li>• Complete lessons (+10 XP)</li>
+                  <li>• Solve challenges (+25-100 XP)</li>
+                  <li>• Build projects (+200-500 XP)</li>
+                  <li>• Maintain coding streaks (+50 XP)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Top 3 Podium */}
+            {topThree.length > 0 && (
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                {/* 2nd Place */}
+                {topThree[1] && (
+                  <div className="bg-gradient-to-b from-gray-300/10 to-gray-400/5 border border-white/10 rounded-2xl p-6 text-center order-2">
+                    <div className="text-3xl mb-2">🥈</div>
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-gray-400 to-gray-500 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+                      {topThree[1].username[0].toUpperCase()}
+                    </div>
+                    <div className="font-bold text-white">{topThree[1].username}</div>
+                    <div className="text-sm text-gray-300">{topThree[1].xp.toLocaleString()} XP</div>
+                    <div className="text-xs text-gray-400 mt-1">Level {topThree[1].level}</div>
+                  </div>
+                )}
+
+                {/* 1st Place */}
+                {topThree[0] && (
+                  <div className="bg-gradient-to-b from-yellow-500/10 to-amber-500/5 border border-white/10 rounded-2xl p-6 text-center order-1 md:order-2 md:scale-105">
+                    <div className="text-3xl mb-2">🥇</div>
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+                      {topThree[0].username[0].toUpperCase()}
+                    </div>
+                    <div className="font-bold text-white">{topThree[0].username}</div>
+                    <div className="text-sm text-gray-300">{topThree[0].xp.toLocaleString()} XP</div>
+                    <div className="text-xs text-gray-400 mt-1">Level {topThree[0].level}</div>
+                  </div>
+                )}
+
+                {/* 3rd Place */}
+                {topThree[2] && (
+                  <div className="bg-gradient-to-b from-orange-600/10 to-orange-500/5 border border-white/10 rounded-2xl p-6 text-center order-3">
+                    <div className="text-3xl mb-2">🥉</div>
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-r from-orange-600 to-orange-500 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
+                      {topThree[2].username[0].toUpperCase()}
+                    </div>
+                    <div className="font-bold text-white">{topThree[2].username}</div>
+                    <div className="text-sm text-gray-300">{topThree[2].xp.toLocaleString()} XP</div>
+                    <div className="text-xs text-gray-400 mt-1">Level {topThree[2].level}</div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Full Leaderboard Table */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+              <div className="grid grid-cols-12 gap-2 px-6 py-3 border-b border-white/5 text-xs text-gray-500 font-medium uppercase">
+                <div className="col-span-1">Rank</div>
+                <div className="col-span-5">User</div>
+                <div className="col-span-2 text-center">Level</div>
+                <div className="col-span-2 text-center">Challenges</div>
+                <div className="col-span-2 text-right">XP</div>
+              </div>
+              
+              {getCurrentData().map((entry) => (
+                <div
+                  key={entry.userId}
+                  className="grid grid-cols-12 gap-2 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/5 transition"
+                >
+                  <div className="col-span-1">
+                    <span
+                      className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${
+                        entry.rank <= 3
+                          ? 'bg-gradient-to-r from-yellow-500 to-amber-500 text-white'
+                          : 'bg-white/5 text-gray-400'
+                      }`}
+                    >
+                      {entry.rank}
+                    </span>
+                  </div>
+                  <div className="col-span-5 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] flex items-center justify-center text-white font-bold text-sm">
+                      {entry.username[0].toUpperCase()}
+                    </div>
+                    <span className="text-white font-medium">{entry.username}</span>
+                  </div>
+                  <div className="col-span-2 text-center">
+                    <span className="text-sm text-gray-300">Lv {entry.level}</span>
+                  </div>
+                  <div className="col-span-2 text-center">
+                    <span className="text-sm text-gray-300">{entry.challengesCompleted}</span>
+                  </div>
+                  <div className="col-span-2 text-right">
+                    <span className="text-sm font-bold text-[#00d4ff]">
+                      {entry.xp.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Info Banner */}
+        <div className="mt-8 bg-white/[0.03] border border-white/10 rounded-xl p-4 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-[#00d4ff] flex-shrink-0 mt-0.5" />
+          <div>
+            <h3 className="text-white font-medium mb-1">Leaderboard Updates</h3>
+            <p className="text-sm text-gray-400">
+              Leaderboards are updated in real-time. XP is earned by completing lessons, 
+              challenges, and projects. Weekly leaderboards reset every Monday, 
+              monthly on the 1st of each month.
+            </p>
+          </div>
         </div>
       </div>
     </div>

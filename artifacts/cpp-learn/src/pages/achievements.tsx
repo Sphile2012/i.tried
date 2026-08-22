@@ -9,7 +9,7 @@ const badges = [
   { id: 3, name: 'Quiz Master', description: 'Pass 5 quizzes with 100%', icon: Trophy, color: 'text-purple-400', earned: false },
   { id: 4, name: 'On Fire', description: 'Maintain a 7-day streak', icon: Flame, color: 'text-orange-400', earned: false },
   { id: 5, name: 'Goal Getter', description: 'Complete your first course', icon: Target, color: 'text-green-400', earned: false },
-  { id: 6, name: 'Scholar', description: 'Earn your first certificate', icon: Award, color: 'text-cyan-400', earned: false },
+  { id: 6, name: 'Scholar', description: 'Complete 10 lessons', icon: Award, color: 'text-cyan-400', earned: false },
   { id: 7, name: 'Champion', description: 'Reach level 10', icon: Medal, color: 'text-red-400', earned: false },
   { id: 8, name: 'Legend', description: 'Reach level 25', icon: Crown, color: 'text-amber-400', earned: false },
 ];

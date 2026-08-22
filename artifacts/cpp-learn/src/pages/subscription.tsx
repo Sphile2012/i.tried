@@ -19,7 +19,7 @@ type PlanType = 'premium' | 'pro';
 const premiumFeatures = [
   { icon: BookOpen, text: 'Unlimited access to all core courses' },
   { icon: Brain, text: 'Unlimited AI coding assistant' },
-  { icon: Award, text: 'Digital certificates of completion' },
+  { icon: Award, text: 'Completion badges & achievements' },
   { icon: Download, text: 'Downloadable resources & PDFs' },
   { icon: Zap, text: 'Coding challenges & projects' },
   { icon: Crown, text: 'Premium learning paths' },
@@ -339,7 +339,7 @@ export default function SubscriptionPage() {
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> Interactive glossary & explanations</li>
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> Quizzes & coding challenges</li>
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> Progress tracking & XP system</li>
-              <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> Completion certificates</li>
+              <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> Achievement badges</li>
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> Code Studio playground</li>
             </ul>
           </CardContent>
