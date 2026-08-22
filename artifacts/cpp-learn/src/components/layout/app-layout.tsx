@@ -226,19 +226,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   </div>
                 </>
               ) : (
-                <div className="flex items-center gap-2">
-                  <Link href="/login">
-                    <Button variant="outline" size="sm" className="text-slate-300 hover:text-white border-slate-700">
-                      <LogIn className="h-4 w-4 sm:mr-1" />
-                      <span className="hidden sm:inline">Log In</span>
-                    </Button>
-                  </Link>
-                  <Link href="/signup">
-                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
-                      <UserPlus className="h-4 w-4 sm:mr-1" />
-                      <span className="hidden sm:inline">Sign Up</span>
-                    </Button>
-                  </Link>
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <span className="hidden sm:inline">Authentication temporarily disabled</span>
                 </div>
               )}
             </div>

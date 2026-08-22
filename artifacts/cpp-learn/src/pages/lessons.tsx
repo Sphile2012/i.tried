@@ -11,10 +11,10 @@ import { lessonContent, glossaries, type LanguageId } from '@/data/lesson-conten
 const languages: Record<LanguageId, { name: string; color: string; icon: string }> = {
   typescript: { name: 'TypeScript', color: '#3178c6', icon: '💙' },
   cpp: { name: 'C++', color: '#00599c', icon: '⚡' },
-  python: { name: 'Python', color: '#3776ab', icon: '🐍' },
-  java: { name: 'Java', color: '#f89820', icon: '☕' },
-  csharp: { name: 'C#', color: '#68217a', icon: '🎯' },
-  react: { name: 'React', color: '#61dafb', icon: '⚛️' },
+  python: { name: 'Python', color: '#3776ab', icon: 'PY' },
+  java: { name: 'Java', color: '#f89820', icon: 'JV' },
+  csharp: { name: 'C#', color: '#68217a', icon: 'C#' },
+  react: { name: 'React', color: '#61dafb', icon: 'RX' },
 };
 
 export default function LessonsPage() {

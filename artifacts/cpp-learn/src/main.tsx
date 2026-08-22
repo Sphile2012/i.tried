@@ -7,7 +7,7 @@ import { AuthProvider } from './hooks/use-auth';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './index.css';
 
-console.log('🚀 Infinity Code - App Starting...');
+console.log('Infinity Code - App Starting...');
 console.log('Environment:', import.meta.env.MODE);
 console.log('Base URL:', window.location.origin);
 

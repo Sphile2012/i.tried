@@ -42,11 +42,11 @@ const queryClient = new QueryClient({
 function Router() {
   return (
     <Switch>
-      {/* Auth routes - no layout */}
-      <Route path="/login" component={LoginPage} />
-      <Route path="/signup" component={SignupPage} />
-      <Route path="/forgot-password" component={ForgotPasswordPage} />
-      <Route path="/reset-password" component={ResetPasswordPage} />
+      {/* Auth routes - temporarily disabled */}
+      {/* <Route path="/login" component={LoginPage} /> */}
+      {/* <Route path="/signup" component={SignupPage} /> */}
+      {/* <Route path="/forgot-password" component={ForgotPasswordPage} /> */}
+      {/* <Route path="/reset-password" component={ResetPasswordPage} /> */}
       {/* App routes - with layout */}
       <Route>
         <AppLayout>

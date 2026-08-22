@@ -15,29 +15,218 @@ export interface GlossaryTerm {
 }
 
 export const glossaryData: Record<string, GlossaryTerm> = {
-  // C++ Fundamental Terms
-  'Object': {
-    term: 'Object',
-    simpleExplanation: 'An object is an instance of a class. It\'s a concrete entity that contains data (attributes) and functions (methods) that operate on that data.',
-    whyUsed: 'Objects allow you to model real-world entities in your code. They bundle related data and behavior together, making code more organized and reusable.',
-    example: `class Car {
-  string color;
-  int speed;
-  void accelerate() { speed += 10; }
-};
+  // Programming Fundamental Terms (Cross-language)
+  'Variable': {
+    term: 'Variable',
+    simpleExplanation: 'A variable is a named storage location in memory that holds a value which can change during program execution.',
+    whyUsed: 'Variables allow programs to store and manipulate data. They give names to values so you can reference them throughout your code.',
+    example: `// JavaScript
+let age = 25;
+age = 26;  // Value can change
 
-Car myCar;        // myCar is an object
-myCar.color = "red";
-myCar.accelerate();`,
+// Python
+name = "Alice"
+name = "Bob"  // Value can be reassigned
+
+// TypeScript
+let score: number = 100;
+score = 200;`,
     commonMistakes: [
-      'Confusing objects with classes (a class is a blueprint, an object is the actual thing)',
-      'Forgetting to initialize object members',
-      'Creating objects when a simple variable would suffice'
+      'Using variables before declaring them',
+      'Forgetting that variable names are case-sensitive',
+      'Not initializing variables before use',
+      'Using reserved keywords as variable names'
     ],
-    realWorldAnalogy: 'A class is like a blueprint for a house. An object is the actual house built from that blueprint. You can build many houses (objects) from one blueprint (class).',
-    relatedTerms: ['Class', 'Instance', 'Constructor'],
+    realWorldAnalogy: 'A variable is like a labeled box. You can put things in it, take things out, and replace them with other things. The label (variable name) stays the same.',
+    relatedTerms: ['Constant', 'Data Type', 'Assignment'],
     category: 'fundamental'
   },
+  'Constant': {
+    term: 'Constant',
+    simpleExplanation: 'A constant is a named value that cannot be changed after it is assigned. Once set, it remains fixed throughout program execution.',
+    whyUsed: 'Constants prevent accidental modification of values that should remain fixed, like mathematical constants or configuration values.',
+    example: `// JavaScript
+const PI = 3.14159;
+const MAX_USERS = 100;
+
+// Python
+PI = 3.14159
+MAX_USERS = 100  # Convention: use UPPERCASE
+
+// TypeScript
+const API_URL: string = "https://api.example.com";`,
+    commonMistakes: [
+      'Trying to reassign a constant after declaration',
+      'Confusing const with immutability (object properties can still change)',
+      'Using constants for values that actually need to change'
+    ],
+    realWorldAnalogy: 'A constant is like a birth date - once set, it never changes. You cannot go back and change when you were born.',
+    relatedTerms: ['Variable', 'Immutability'],
+    category: 'fundamental'
+  },
+  'Function': {
+    term: 'Function',
+    simpleExplanation: 'A function is a reusable block of code that performs a specific task. It can accept input (parameters) and return output.',
+    whyUsed: 'Functions help organize code, avoid repetition, and make programs modular and easier to understand and maintain.',
+    example: `// JavaScript
+function greet(name) {
+  return "Hello, " + name;
+}
+console.log(greet("Alice"));  // Output: Hello, Alice
+
+// Python
+def calculate_area(width, height):
+    return width * height
+area = calculate_area(5, 10)  # area = 50
+
+// TypeScript
+function add(a: number, b: number): number {
+  return a + b;
+}`,
+    commonMistakes: [
+      'Forgetting to return a value when one is expected',
+      'Not handling all possible parameter cases',
+      'Creating functions that do too many things',
+      'Confusing function definition with function call'
+    ],
+    realWorldAnalogy: 'A function is like a recipe. You give it ingredients (parameters), follow the steps (code), and get a result (return value).',
+    relatedTerms: ['Parameter', 'Return Value', 'Method'],
+    category: 'fundamental'
+  },
+  'Array': {
+    term: 'Array',
+    simpleExplanation: 'An array is a collection that stores multiple values in a single variable, accessed by numeric index positions starting at 0.',
+    whyUsed: 'Arrays store ordered lists of related data, making it easy to process collections of items with loops and array methods.',
+    example: `// JavaScript
+let fruits = ["apple", "banana", "orange"];
+console.log(fruits[0]);  // Output: apple
+fruits.push("grape");    // Add to end
+
+// Python
+numbers = [1, 2, 3, 4, 5]
+print(numbers[0])  # Output: 1
+numbers.append(6)  # Add to end
+
+// TypeScript
+let colors: string[] = ["red", "green", "blue"];
+colors[1] = "yellow";  // Modify element`,
+    commonMistakes: [
+      'Accessing index out of bounds (array length)',
+      'Forgetting arrays are zero-indexed',
+      'Modifying arrays while iterating over them',
+      'Confusing array methods that mutate vs return new arrays'
+    ],
+    realWorldAnalogy: 'An array is like a row of mailboxes, each with a number (index). You can store items in each mailbox and access them by their number.',
+    relatedTerms: ['Index', 'List', 'Collection'],
+    category: 'fundamental'
+  },
+  'Object': {
+    term: 'Object',
+    simpleExplanation: 'An object is a collection of key-value pairs (properties) that represents a structured entity with related data and behavior.',
+    whyUsed: 'Objects model real-world entities by bundling related data and functions together, making code more organized and meaningful.',
+    example: `// JavaScript
+let person = {
+  name: "Alice",
+  age: 30,
+  greet: function() {
+    return "Hello, " + this.name;
+  }
+};
+console.log(person.name);  // Output: Alice
+console.log(person.greet());  // Output: Hello, Alice
+
+// Python
+person = {
+    "name": "Bob",
+    "age": 25
+}
+print(person["name"])  # Output: Bob
+
+// TypeScript
+interface User {
+  name: string;
+  email: string;
+}
+let user: User = { name: "Charlie", email: "charlie@example.com" };`,
+    commonMistakes: [
+      'Forgetting that JavaScript object is different from OOP class instance',
+      'Accessing properties that don\'t exist without checking',
+      'Confusing dot notation with bracket notation',
+      'Not understanding this binding in methods'
+    ],
+    realWorldAnalogy: 'An object is like a file folder with labeled sections. Each section (property) holds specific information about the subject.',
+    relatedTerms: ['Property', 'Method', 'Class', 'Key-Value'],
+    category: 'fundamental'
+  },
+  'Loop': {
+    term: 'Loop',
+    simpleExplanation: 'A loop is a control structure that repeatedly executes a block of code until a specified condition is met.',
+    whyUsed: 'Loops eliminate repetitive code and allow processing collections of data or performing tasks multiple times efficiently.',
+    example: `// JavaScript - for loop
+for (let i = 0; i < 5; i++) {
+  console.log(i);  // Output: 0, 1, 2, 3, 4
+}
+
+// Python - while loop
+count = 0
+while count < 3:
+    print(count)
+    count += 1
+
+// TypeScript - for...of loop
+let items = [10, 20, 30];
+for (let item of items) {
+  console.log(item);
+}`,
+    commonMistakes: [
+      'Creating infinite loops (forgetting to update condition)',
+      'Off-by-one errors in loop conditions',
+      'Modifying loop counter inside loop body incorrectly',
+      'Using wrong loop type for the task'
+    ],
+    realWorldAnalogy: 'A loop is like walking around a track. You keep going around (repeating) until you\'ve completed the required number of laps (condition is met).',
+    relatedTerms: ['For Loop', 'While Loop', 'Iteration'],
+    category: 'fundamental'
+  },
+  'Conditional': {
+    term: 'Conditional',
+    simpleExplanation: 'A conditional statement allows a program to make decisions and execute different code based on whether a condition is true or false.',
+    whyUsed: 'Conditionals enable programs to respond to different situations and user input, making software dynamic and interactive.',
+    example: `// JavaScript
+let age = 18;
+if (age >= 18) {
+  console.log("Adult");
+} else {
+  console.log("Minor");
+}
+
+// Python
+temperature = 30
+if temperature > 25:
+    print("Hot")
+elif temperature > 15:
+    print("Warm")
+else:
+    print("Cold")
+
+// TypeScript
+let score: number = 85;
+if (score >= 90) {
+  console.log("A");
+} else if (score >= 80) {
+  console.log("B");
+}`,
+    commonMistakes: [
+      'Using assignment (=) instead of comparison (==, ===)',
+      'Not considering all possible cases',
+      'Over-nesting conditionals making code hard to read',
+      'Forgetting to use curly braces for multi-line blocks'
+    ],
+    realWorldAnalogy: 'A conditional is like a fork in the road. Depending on the sign (condition), you take one path or another.',
+    relatedTerms: ['If Statement', 'Boolean', 'Comparison'],
+    category: 'fundamental'
+  },
+  // C++ Specific Terms
   'Class': {
     term: 'Class',
     simpleExplanation: 'A class is a blueprint or template for creating objects. It defines the properties (data members) and behaviors (member functions) that objects of that class will have.',

@@ -14,18 +14,18 @@ export default function Dashboard() {
   const [level] = useState(3);
 
   const stats = [
-    { label: 'Lessons Completed', value: 24, icon: '📚', color: 'from-blue-500 to-cyan-500' },
-    { label: 'Challenges Solved', value: 18, icon: '🎯', color: 'from-green-500 to-emerald-500' },
-    { label: 'Projects Created', value: 3, icon: '🚀', color: 'from-purple-500 to-pink-500' },
-    { label: 'Coding Sessions', value: 45, icon: '💻', color: 'from-orange-500 to-red-500' },
+    { label: 'Lessons Completed', value: 24, color: 'from-blue-500 to-cyan-500' },
+    { label: 'Challenges Solved', value: 18, color: 'from-green-500 to-emerald-500' },
+    { label: 'Projects Created', value: 3, color: 'from-purple-500 to-pink-500' },
+    { label: 'Coding Sessions', value: 45, color: 'from-orange-500 to-red-500' },
   ];
 
   const recentActivity = [
-    { type: 'lesson', title: 'Completed: JavaScript Fundamentals', time: '2 hours ago', icon: '✅' },
-    { type: 'challenge', title: 'Solved: Two Sum (Easy)', time: '5 hours ago', icon: '🎯' },
-    { type: 'achievement', title: 'Unlocked: Code Streak 🔥', time: '1 day ago', icon: '🏆' },
-    { type: 'project', title: 'Updated: Portfolio Website', time: '2 days ago', icon: '🚀' },
-    { type: 'lesson', title: 'Completed: React Hooks', time: '3 days ago', icon: '✅' },
+    { type: 'lesson', title: 'Completed: JavaScript Fundamentals', time: '2 hours ago' },
+    { type: 'challenge', title: 'Solved: Two Sum (Easy)', time: '5 hours ago' },
+    { type: 'achievement', title: 'Unlocked: Code Streak', time: '1 day ago' },
+    { type: 'project', title: 'Updated: Portfolio Website', time: '2 days ago' },
+    { type: 'lesson', title: 'Completed: React Hooks', time: '3 days ago' },
   ];
 
   const learningPaths = [
@@ -44,7 +44,7 @@ export default function Dashboard() {
         {/* Welcome Header */}
         <div className="mb-8">
           <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">
-            Welcome back, {user?.name || 'Developer'} 👋
+            Welcome back, {user?.name || 'Developer'}
           </h1>
           <p className="text-gray-400">Ready to continue your coding journey?</p>
         </div>
@@ -77,7 +77,9 @@ export default function Dashboard() {
         {/* Streak Banner */}
         <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/20 rounded-2xl p-6 mb-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="text-4xl">🔥</span>
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white font-bold text-xl">
+              {streak}
+            </div>
             <div>
               <div className="text-2xl font-bold text-white">{streak} Day Coding Streak</div>
               <div className="text-sm text-gray-400">Keep it up! Code today to maintain your streak.</div>
@@ -87,7 +89,7 @@ export default function Dashboard() {
             to="/playground"
             className="px-4 py-2 bg-orange-500/20 border border-orange-500/30 text-orange-400 rounded-lg text-sm font-medium hover:bg-orange-500/30 transition"
           >
-            Code Now →
+            Code Now
           </Link>
         </div>
 
@@ -95,8 +97,8 @@ export default function Dashboard() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((stat) => (
             <div key={stat.label} className="bg-white/5 border border-white/10 rounded-2xl p-6">
-              <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${stat.color} flex items-center justify-center text-xl mb-3`}>
-                {stat.icon}
+              <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${stat.color} flex items-center justify-center text-xl font-bold text-white mb-3`}>
+                {stat.value}
               </div>
               <div className="text-2xl font-bold text-white">{stat.value}</div>
               <div className="text-sm text-gray-400">{stat.label}</div>
@@ -142,7 +144,9 @@ export default function Dashboard() {
               <div className="space-y-4">
                 {recentActivity.map((activity, i) => (
                   <div key={i} className="flex items-start gap-3 pb-4 border-b border-white/5 last:border-0 last:pb-0">
-                    <span className="text-xl">{activity.icon}</span>
+                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-[#00d4ff]" />
+                    </div>
                     <div className="flex-1">
                       <p className="text-sm text-white">{activity.title}</p>
                       <p className="text-xs text-gray-500">{activity.time}</p>
@@ -157,19 +161,19 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
           <Link to="/playground" className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition group">
-            <div className="text-2xl mb-2">💻</div>
+            <div className="text-2xl mb-2 font-bold text-[#00d4ff]">CODE</div>
             <div className="text-sm font-medium text-white group-hover:text-[#00d4ff] transition">Code Studio</div>
           </Link>
           <Link to="/quiz" className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition group">
-            <div className="text-2xl mb-2">🎯</div>
+            <div className="text-2xl mb-2 font-bold text-green-400">TEST</div>
             <div className="text-sm font-medium text-white group-hover:text-[#00d4ff] transition">Challenges</div>
           </Link>
           <Link to="/achievements" className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition group">
-            <div className="text-2xl mb-2">🏆</div>
+            <div className="text-2xl mb-2 font-bold text-yellow-400">WIN</div>
             <div className="text-sm font-medium text-white group-hover:text-[#00d4ff] transition">Achievements</div>
           </Link>
           <Link to="/learning-hub" className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition group">
-            <div className="text-2xl mb-2">📚</div>
+            <div className="text-2xl mb-2 font-bold text-purple-400">LEARN</div>
             <div className="text-sm font-medium text-white group-hover:text-[#00d4ff] transition">Learn</div>
           </Link>
         </div>

@@ -116,7 +116,7 @@ export default function ChallengesPage() {
             <div className="text-sm text-gray-400">Success Rate</div>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-            <div className="text-2xl font-bold text-white">🔥 7</div>
+            <div className="text-2xl font-bold text-white">7</div>
             <div className="text-sm text-gray-400">Day Streak</div>
           </div>
         </div>
