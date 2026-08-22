@@ -974,10 +974,1887 @@ int add(int a, int b) {
       ],
     },
   ],
-  // Placeholder for other languages - to be expanded
-  python: [],
-  typescript: [],
-  java: [],
-  csharp: [],
-  react: [],
+  python: [
+    {
+      id: 'fundamentals',
+      title: '1. Python Fundamentals',
+      icon: '🎯',
+      topics: [
+        {
+          id: 'what-is-python',
+          title: 'What is Python?',
+          content: `Python is a high-level, interpreted programming language created by Guido van Rossum in 1991. It emphasizes code readability with significant indentation and dynamic semantics.
+
+**Why Learn Python?**
+- **Easy to Learn**: Clean, readable syntax close to English
+- **Versatile**: Web development, data science, AI, automation, scripting
+- **Large Community**: Extensive libraries and frameworks
+- **High Demand**: One of the most sought-after skills
+
+**Key Characteristics:**
+- **Interpreted**: Code runs line by line
+- **Dynamically Typed**: No need to declare variable types
+- **Multi-Paradigm**: Supports procedural, OOP, and functional programming
+- **Cross-Platform**: Runs on Windows, Mac, Linux`,
+          codeExample: `# Your first Python program
+print("Hello, Infinity Code!")
+
+# Variables (no type declaration needed!)
+name = "Phumeh"
+age = 21
+height = 1.75
+is_student = True
+
+# Display
+print(f"Name: {name}")
+print(f"Age: {age}")
+print(f"Height: {height}m")
+print(f"Student: {is_student}")`,
+        },
+        {
+          id: 'variables-datatypes',
+          title: 'Variables and Data Types',
+          content: `Python has several built-in data types. Variables are created when you first assign a value.
+
+**Numeric Types:**
+- **int**: Whole numbers (42, -17, 0)
+- **float**: Decimal numbers (3.14, -0.5)
+- **complex**: Complex numbers (3+4j)
+
+**Sequence Types:**
+- **str**: Text strings ("Hello")
+- **list**: Ordered, mutable [1, 2, 3]
+- **tuple**: Ordered, immutable (1, 2, 3)
+
+**Mapping Type:**
+- **dict**: Key-value pairs {"name": "John"}
+
+**Boolean Type:**
+- **bool**: True or False
+
+**None Type:**
+- **NoneType**: None (absence of value)`,
+          codeExample: `# Numbers
+age = 25           # int
+price = 19.99      # float
+complex_num = 3 + 4j  # complex
+
+# Strings
+name = "Python"
+message = 'Hello World'
+multi_line = """This is
+a multi-line string"""
+
+# Lists (mutable)
+fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")  # Add item
+fruits[0] = "apricot"    # Modify
+
+# Tuples (immutable)
+coordinates = (10, 20)
+colors = ("red", "green", "blue")
+
+# Dictionaries
+person = {
+    "name": "Alice",
+    "age": 30,
+    "city": "New York"
+}
+print(person["name"])  # Access value
+
+# Booleans
+is_active = True
+is_admin = False
+
+# None
+result = None  # No value
+
+print(type(age))      # <class 'int'>
+print(type(fruits))   # <class 'list'>
+print(type(person))   # <class 'dict'>`,
+        },
+        {
+          id: 'operators',
+          title: 'Operators',
+          content: `Operators perform operations on variables and values.
+
+**Arithmetic:** +, -, *, /, // (floor), ** (power), % (modulo)
+
+**Comparison:** ==, !=, <, >, <=, >=
+
+**Logical:** and, or, not
+
+**Identity:** is, is not
+
+**Membership:** in, not in
+
+**Bitwise:** &, |, ^, ~, <<, >>`,
+          codeExample: `# Arithmetic
+a, b = 10, 3
+print(a + b)   # 13
+print(a / b)   # 3.333...
+print(a // b)  # 3 (floor division)
+print(a ** b)  # 1000 (power)
+print(a % b)   # 1 (remainder)
+
+# Comparison
+print(a == b)  # False
+print(a > b)   # True
+print(a != b)  # True
+
+# Logical
+x, y = True, False
+print(x and y)  # False
+print(x or y)   # True
+print(not x)    # False
+
+# Membership
+fruits = ["apple", "banana"]
+print("apple" in fruits)    # True
+print("orange" not in fruits)  # True
+
+# Identity
+a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+print(a is b)   # True (same object)
+print(a is c)   # False (different objects)
+print(a == c)   # True (same values)`,
+        },
+        {
+          id: 'control-flow',
+          title: 'Control Flow',
+          content: `Control flow statements control the order of code execution.
+
+**if, elif, else:** Conditional execution
+
+**for loop:** Iterate over sequences
+
+**while loop:** Repeat while condition is true
+
+**break:** Exit loop
+
+**continue:** Skip to next iteration
+
+**pass:** Do nothing (placeholder)`,
+          codeExample: `# If-elif-else
+score = 85
+if score >= 90:
+    grade = "A"
+elif score >= 80:
+    grade = "B"
+elif score >= 70:
+    grade = "C"
+else:
+    grade = "F"
+print(f"Grade: {grade}")
+
+# For loop
+for i in range(5):
+    print(i, end=" ")  # 0 1 2 3 4
+
+# Iterate over list
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(fruit)
+
+# While loop
+count = 0
+while count < 5:
+    print(count, end=" ")
+    count += 1
+
+# Break and continue
+for i in range(10):
+    if i == 3:
+        continue  # Skip 3
+    if i == 7:
+        break     # Stop at 7
+    print(i, end=" ")  # 0 1 2 4 5 6`,
+        },
+        {
+          id: 'functions',
+          title: 'Functions',
+          content: `Functions are reusable blocks of code defined with def.
+
+**Syntax:**
+def function_name(parameters):
+    """docstring"""
+    return value
+
+**Key Concepts:**
+- Default parameters
+- Variable arguments (*args, **kwargs)
+- Lambda functions
+- Scope (local, global)`,
+          codeExample: `# Basic function
+def greet(name):
+    """Return a greeting message"""
+    return f"Hello, {name}!"
+
+print(greet("Alice"))  # Hello, Alice!
+
+# Default parameter
+def power(base, exp=2):
+    return base ** exp
+
+print(power(3))     # 9
+print(power(3, 3))  # 27
+
+# Variable arguments
+def sum_all(*args):
+    return sum(args)
+
+print(sum_all(1, 2, 3, 4))  # 10
+
+# Keyword arguments
+def create_person(**kwargs):
+    return kwargs
+
+person = create_person(name="Bob", age=25)
+print(person)  # {'name': 'Bob', 'age': 25}
+
+# Lambda (anonymous function)
+square = lambda x: x ** 2
+print(square(5))  # 25
+
+# Using with map
+numbers = [1, 2, 3, 4]
+squares = list(map(lambda x: x**2, numbers))
+print(squares)  # [1, 4, 9, 16]`,
+        },
+        {
+          id: 'list-comprehension',
+          title: 'List Comprehension',
+          content: `List comprehension provides a concise way to create lists.
+
+**Syntax:**
+[expression for item in iterable if condition]
+
+**Benefits:**
+- More readable
+- Faster than for loops
+- Functional programming style`,
+          codeExample: `# Basic list comprehension
+squares = [x**2 for x in range(10)]
+print(squares)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# With condition
+evens = [x for x in range(20) if x % 2 == 0]
+print(evens)  # [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+
+# Nested comprehension
+matrix = [[i*j for j in range(3)] for i in range(3)]
+print(matrix)  # [[0, 0, 0], [0, 1, 2], [0, 2, 4]]
+
+# Dictionary comprehension
+squares_dict = {x: x**2 for x in range(5)}
+print(squares_dict)  # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+
+# Set comprehension
+unique_lengths = {len(word) for word in ["hello", "world", "python"]}
+print(unique_lengths)  # {5, 6}`,
+        },
+      ],
+    },
+    {
+      id: 'data-structures',
+      title: '2. Data Structures',
+      icon: '📦',
+      topics: [
+        {
+          id: 'lists-tuples',
+          title: 'Lists and Tuples',
+          content: `**Lists** are ordered, mutable collections.
+**Tuples** are ordered, immutable collections.
+
+**List Methods:**
+- append(), extend(), insert()
+- remove(), pop(), clear()
+- sort(), reverse()
+- index(), count()
+
+**Tuple:**
+- Faster than lists
+- Can be used as dictionary keys
+- Immutable - cannot change after creation`,
+          codeExample: `# Lists
+fruits = ["apple", "banana", "cherry"]
+fruits.append("orange")
+fruits.insert(0, "apricot")
+fruits.remove("banana")
+
+# Slicing
+print(fruits[0:2])   # ['apricot', 'apple']
+print(fruits[-1])    # Last item
+print(fruits[::-1])  # Reversed
+
+# List unpacking
+a, b, c = fruits
+print(a, b, c)
+
+# Tuples
+coordinates = (10, 20)
+x, y = coordinates  # Unpacking
+print(f"({x}, {y})")
+
+# Named tuple
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(10, 20)
+print(p.x, p.y)  # 10 20`,
+        },
+        {
+          id: 'dictionaries-sets',
+          title: 'Dictionaries and Sets',
+          content: `**Dictionary** is an unordered collection of key-value pairs.
+**Set** is an unordered collection of unique elements.
+
+**Dict Methods:**
+- keys(), values(), items()
+- get(), setdefault()
+- update(), pop()
+
+**Set Operations:**
+- union (|), intersection (&)
+- difference (-), symmetric_difference (^)`,
+          codeExample: `# Dictionary
+person = {"name": "Alice", "age": 30}
+person["city"] = "NYC"  # Add
+person["age"] = 31      # Update
+
+# Safe access
+print(person.get("email", "Not provided"))
+
+# Iterate
+for key, value in person.items():
+    print(f"{key}: {value}")
+
+# Sets
+set_a = {1, 2, 3, 4, 5}
+set_b = {4, 5, 6, 7, 8}
+
+print(set_a | set_b)  # Union: {1, 2, 3, 4, 5, 6, 7, 8}
+print(set_a & set_b)  # Intersection: {4, 5}
+print(set_a - set_b)  # Difference: {1, 2, 3}
+print(set_a ^ set_b)  # Symmetric diff: {1, 2, 3, 6, 7, 8}`,
+        },
+      ],
+    },
+    {
+      id: 'oop',
+      title: '3. Object-Oriented Programming',
+      icon: '🏗️',
+      topics: [
+        {
+          id: 'classes-objects',
+          title: 'Classes and Objects',
+          content: `**Class** is a blueprint for creating objects.
+**Object** is an instance of a class.
+
+**Key Concepts:**
+- __init__ method (constructor)
+- self parameter
+- Instance and class attributes
+- Instance and class methods`,
+          codeExample: `class Person:
+    # Class attribute
+    species = "Homo sapiens"
+    
+    def __init__(self, name, age):
+        # Instance attributes
+        self.name = name
+        self.age = age
+    
+    # Instance method
+    def greet(self):
+        return f"Hi, I'm {self.name}"
+    
+    # Class method
+    @classmethod
+    def get_species(cls):
+        return cls.species
+    
+    # Static method
+    @staticmethod
+    def is_adult(age):
+        return age >= 18
+    
+    # String representation
+    def __str__(self):
+        return f"Person({self.name}, {self.age})"
+
+# Create objects
+alice = Person("Alice", 30)
+bob = Person("Bob", 25)
+
+print(alice.greet())        # Hi, I'm Alice
+print(Person.get_species()) # Homo sapiens
+print(Person.is_adult(20))  # True
+print(alice)                # Person(Alice, 30)`,
+        },
+        {
+          id: 'inheritance',
+          title: 'Inheritance',
+          content: `**Inheritance** allows a class to inherit attributes and methods from another class.
+
+**Key Concepts:**
+- Parent/Base class
+- Child/Derived class
+- super() function
+- Method overriding
+- Multiple inheritance`,
+          codeExample: `class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def speak(self):
+        return "Some sound"
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
+    
+    # Method overriding
+    def speak(self):
+        return "Woof!"
+
+class Cat(Animal):
+    def speak(self):
+        return "Meow!"
+
+dog = Dog("Buddy", "Golden Retriever")
+cat = Cat("Whiskers")
+
+print(dog.name)     # Buddy
+print(dog.speak())  # Woof!
+print(cat.speak())  # Meow!
+
+# isinstance check
+print(isinstance(dog, Dog))    # True
+print(isinstance(dog, Animal)) # True`,
+        },
+      ],
+    },
+  ],
+  typescript: [
+    {
+      id: 'fundamentals',
+      title: '1. TypeScript Fundamentals',
+      icon: '🎯',
+      topics: [
+        {
+          id: 'what-is-typescript',
+          title: 'What is TypeScript?',
+          content: `TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Created by Microsoft in 2012.
+
+**Why TypeScript?**
+- **Type Safety**: Catch errors at compile time
+- **Better IDE Support**: Autocompletion, navigation, refactoring
+- **Modern JavaScript**: Use latest ES features
+- **Scalability**: Better for large codebases
+
+**Key Features:**
+- Static type checking
+- Interfaces and generics
+- Enums and tuples
+- Advanced type inference`,
+          codeExample: `// TypeScript file: hello.ts
+const greeting: string = "Hello, TypeScript!";
+console.log(greeting);
+
+// Type annotations
+let age: number = 25;
+let isStudent: boolean = true;
+let hobbies: string[] = ["coding", "reading"];
+
+// Interface
+interface Person {
+  name: string;
+  age: number;
+  email?: string; // Optional
+}
+
+const user: Person = {
+  name: "Alice",
+  age: 30,
+  email: "alice@example.com"
+};
+
+// Type alias
+type ID = string | number;
+const userId: ID = "abc123";
+
+// Compile with: tsc hello.ts
+// Run with: node hello.js`,
+        },
+        {
+          id: 'basic-types',
+          title: 'Basic Types',
+          content: `TypeScript provides several basic types for type safety.
+
+**Primitive Types:**
+- string, number, boolean
+- null, undefined
+- void, never
+- any, unknown
+
+**Special Types:**
+- Array types: number[], Array<string>
+- Tuple: [string, number]
+- Enum: enum { Red, Green, Blue }
+- Union: string | number
+- Intersection: TypeA & TypeB`,
+          codeExample: `// String
+let name: string = "TypeScript";
+
+// Number (no int/float distinction)
+let age: number = 25;
+let pi: number = 3.14;
+
+// Boolean
+let isActive: boolean = true;
+
+// Array
+let numbers: number[] = [1, 2, 3];
+let names: Array<string> = ["Alice", "Bob"];
+
+// Tuple (fixed length, known types)
+let tuple: [string, number] = ["Alice", 30];
+console.log(tuple[0]); // "Alice"
+
+// Enum
+enum Color {
+  Red = "RED",
+  Green = "GREEN",
+  Blue = "BLUE"
+}
+let favoriteColor: Color = Color.Blue;
+
+// Any (avoid when possible)
+let flexible: any = 4;
+flexible = "now a string";
+
+// Unknown (type-safe any)
+let unknownValue: unknown = "hello";
+if (typeof unknownValue === "string") {
+  console.log(unknownValue.toUpperCase());
+}
+
+// Void (no return value)
+function log(message: string): void {
+  console.log(message);
+}
+
+// Never (never returns)
+function throwError(msg: string): never {
+  throw new Error(msg);
+}
+
+// Union types
+let id: string | number;
+id = "abc123";
+id = 123;
+
+// Type inference (TypeScript figures out the type)
+let inferred = "hello"; // TypeScript knows this is string`,
+        },
+        {
+          id: 'interfaces-types',
+          title: 'Interfaces and Type Aliases',
+          content: `**Interfaces** define the shape of objects.
+**Type Aliases** create custom type names.
+
+**Interface Features:**
+- Optional properties (?)
+- Readonly properties
+- Function types
+- Index signatures
+- Extending interfaces
+
+**Type vs Interface:**
+- Interfaces can be extended and merged
+- Types support unions, intersections, mapped types`,
+          codeExample: `// Interface
+interface User {
+  id: number;
+  name: string;
+  email?: string;        // Optional
+  readonly createdAt: Date; // Readonly
+}
+
+interface Employee extends User {
+  department: string;
+  salary: number;
+}
+
+const employee: Employee = {
+  id: 1,
+  name: "Alice",
+  email: "alice@company.com",
+  createdAt: new Date(),
+  department: "Engineering",
+  salary: 100000
+};
+
+// Type Alias
+type Point = {
+  x: number;
+  y: number;
+};
+
+type Color = "red" | "green" | "blue";
+
+type Result<T> = {
+  success: boolean;
+  data?: T;
+  error?: string;
+};
+
+// Using type alias
+const point: Point = { x: 10, y: 20 };
+const color: Color = "red";
+
+// Intersection type
+type Person = User & { phone?: string };
+
+// Generic interface
+interface Container<T> {
+  value: T;
+  getValue(): T;
+}
+
+const stringContainer: Container<string> = {
+  value: "hello",
+  getValue() { return this.value; }
+};`,
+        },
+        {
+          id: 'generics',
+          title: 'Generics',
+          content: `**Generics** allow creating reusable components that work with multiple types.
+
+**Use Cases:**
+- Generic functions
+- Generic classes
+- Generic interfaces
+- Type constraints
+
+**Benefits:**
+- Type safety with flexibility
+- Code reusability
+- DRY principle`,
+          codeExample: `// Generic function
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+const output1 = identity<string>("hello");
+const output2 = identity<number>(42);
+
+// Generic with constraint
+function logLength<T extends { length: number }>(arg: T): number {
+  return arg.length;
+}
+
+logLength("hello");      // OK
+logLength([1, 2, 3]);    // OK
+// logLength(123);       // Error: no length property
+
+// Generic interface
+interface KeyValuePair<K, V> {
+  key: K;
+  value: V;
+}
+
+const entry1: KeyValuePair<string, number> = {
+  key: "age",
+  value: 30
+};
+
+// Generic class
+class Stack<T> {
+  private items: T[] = [];
+  
+  push(item: T): void {
+    this.items.push(item);
+  }
+  
+  pop(): T | undefined {
+    return this.items.pop();
+  }
+}
+
+const numberStack = new Stack<number>();
+numberStack.push(1);
+numberStack.push(2);
+console.log(numberStack.pop()); // 2`,
+        },
+      ],
+    },
+    {
+      id: 'advanced-types',
+      title: '2. Advanced Types',
+      icon: '🔧',
+      topics: [
+        {
+          id: 'type-guards',
+          title: 'Type Guards and Narrowing',
+          content: `**Type guards** are expressions that perform runtime checks to narrow down types.
+
+**Type Guard Methods:**
+- typeof
+- instanceof
+- in operator
+- Type predicates
+- Discriminated unions`,
+          codeExample: `// typeof guard
+function printId(id: number | string) {
+  if (typeof id === "string") {
+    console.log(id.toUpperCase());
+  } else {
+    console.log(id);
+  }
+}
+
+// instanceof guard
+class Dog { bark() { return "Woof!"; } }
+class Cat { meow() { return "Meow!"; } }
+
+function makeSound(animal: Dog | Cat) {
+  if (animal instanceof Dog) {
+    console.log(animal.bark());
+  } else {
+    console.log(animal.meow());
+  }
+}
+
+// Type predicate
+function isFish(pet: Dog | Cat): pet is Cat {
+  return (pet as Cat).meow !== undefined;
+}
+
+// Discriminated union
+interface Circle { kind: "circle"; radius: number; }
+interface Square { kind: "square"; side: number; }
+
+type Shape = Circle | Square;
+
+function getArea(shape: Shape): number {
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.side ** 2;
+  }
+}
+
+// "in" operator guard
+interface Admin { name: string; permissions: string[]; }
+interface User { name: string; email: string; }
+
+function printName(person: Admin | User) {
+  if ("permissions" in person) {
+    console.log(`Admin: ${person.name}`);
+  } else {
+    console.log(`User: ${person.name}`);
+  }
+}`,
+        },
+        {
+          id: 'utility-types',
+          title: 'Utility Types',
+          content: `TypeScript provides built-in utility types for common transformations.
+
+**Common Utility Types:**
+- Partial<T>: All properties optional
+- Required<T>: All properties required
+- Readonly<T>: All properties readonly
+- Pick<T, K>: Select specific properties
+- Omit<T, K>: Exclude specific properties
+- Record<K, V>: Map keys to values`,
+          codeExample: `interface Product {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+}
+
+// Partial - all properties optional
+type UpdateProduct = Partial<Product>;
+const update: UpdateProduct = { price: 99.99 };
+
+// Required - all properties required
+type RequiredProduct = Required<UpdateProduct>;
+
+// Readonly - cannot modify properties
+const config: Readonly<Product> = {
+  id: 1, name: "Laptop", price: 999, description: "A laptop"
+};
+// config.price = 899; // Error!
+
+// Pick - select specific properties
+type ProductSummary = Pick<Product, "id" | "name">;
+const summary: ProductSummary = { id: 1, name: "Laptop" };
+
+// Omit - exclude specific properties
+type ProductWithoutId = Omit<Product, "id">;
+
+// Record - create object type with specific keys
+type RolePermissions = Record<"admin" | "user" | "guest", string[]>;
+const permissions: RolePermissions = {
+  admin: ["read", "write", "delete"],
+  user: ["read", "write"],
+  guest: ["read"]
+};
+
+// ReturnType - extract return type of function
+function getUser() { return { id: 1, name: "Alice" }; }
+type User = ReturnType<typeof getUser>;
+
+// Parameters - extract parameter types
+function greet(name: string, age: number) {}
+type GreetParams = Parameters<typeof greet>; // [string, number]`,
+        },
+      ],
+    },
+  ],
+  java: [
+    {
+      id: 'fundamentals',
+      title: '1. Java Fundamentals',
+      icon: '☕',
+      topics: [
+        {
+          id: 'what-is-java',
+          title: 'What is Java?',
+          content: `Java is a high-level, object-oriented programming language developed by Sun Microsystems (now Oracle) in 1995.
+
+**Why Learn Java?**
+- **Platform Independent**: Write Once, Run Anywhere (WORA)
+- **Enterprise Standard**: Widely used in large-scale applications
+- **Android Development**: Primary language for Android apps
+- **Robust Ecosystem**: Spring, Hibernate, Maven, Gradle
+
+**Key Characteristics:**
+- Compiled to bytecode, runs on JVM
+- Strongly typed and statically typed
+- Automatic memory management (garbage collection)
+- Multi-threading support`,
+          codeExample: `// Main.java
+public class Main {
+    // Main method - entry point
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+        
+        // Variables
+        String name = "Phumeh";
+        int age = 21;
+        double salary = 50000.50;
+        boolean isStudent = true;
+        
+        // Output
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.printf("Salary: $%.2f%n", salary);
+    }
+}
+
+// Compile: javac Main.java
+// Run: java Main`,
+        },
+        {
+          id: 'data-types',
+          title: 'Data Types and Variables',
+          content: `Java has two categories of data types:
+
+**Primitive Types:**
+- byte, short, int, long (integers)
+- float, double (floating-point)
+- char (single character)
+- boolean (true/false)
+
+**Reference Types:**
+- String, Arrays, Classes, Interfaces
+
+**Variable Declaration:**
+type variableName = value;`,
+          codeExample: `public class DataTypes {
+    public static void main(String[] args) {
+        // Integer types
+        byte b = 127;
+        short s = 32000;
+        int i = 100000;
+        long l = 1000000000L;
+        
+        // Floating-point
+        float f = 3.14f;    // f suffix required
+        double d = 3.14159265359;
+        
+        // Character
+        char grade = 'A';
+        
+        // Boolean
+        boolean isJavaFun = true;
+        
+        // String (reference type)
+        String message = "Hello Java!";
+        
+        // Type conversion
+        int numInt = 10;
+        double numDouble = numInt;  // Automatic (widening)
+        
+        double pi = 3.14;
+        int piInt = (int) pi;  // Manual cast (narrowing)
+        
+        // Constants
+        final double PI = 3.14159;
+        // PI = 3.14;  // Error: cannot modify final
+        
+        System.out.println("Grade: " + grade);
+        System.out.println("Message: " + message);
+    }
+}`,
+        },
+        {
+          id: 'operators',
+          title: 'Operators',
+          content: `Java supports various operators for operations.
+
+**Arithmetic:** +, -, *, /, %, ++, --
+
+**Comparison:** ==, !=, <, >, <=, >=
+
+**Logical:** &&, ||, !
+
+**Bitwise:** &, |, ^, ~, <<, >>, >>>
+
+**Assignment:** =, +=, -=, *=, /=, %=`,
+          codeExample: `public class Operators {
+    public static void main(String[] args) {
+        // Arithmetic
+        int a = 10, b = 3;
+        System.out.println("a + b = " + (a + b));  // 13
+        System.out.println("a / b = " + (a / b));  // 3 (integer)
+        System.out.println("a % b = " + (a % b));  // 1
+        
+        // Comparison
+        System.out.println("a == b: " + (a == b));  // false
+        System.out.println("a > b: " + (a > b));    // true
+        
+        // Logical
+        boolean x = true, y = false;
+        System.out.println("x && y: " + (x && y));  // false
+        System.out.println("x || y: " + (x || y));  // true
+        System.out.println("!x: " + (!x));          // false
+        
+        // Increment
+        int count = 5;
+        count++;  // Post-increment
+        ++count;  // Pre-increment
+        
+        // Ternary
+        int max = (a > b) ? a : b;
+        System.out.println("Max: " + max);  // 10
+    }
+}`,
+        },
+        {
+          id: 'control-flow',
+          title: 'Control Flow',
+          content: `Control flow statements control program execution order.
+
+**Conditional:**
+- if, else if, else
+- switch
+
+**Loops:**
+- for, enhanced for (for-each)
+- while, do-while
+
+**Branching:**
+- break, continue, return`,
+          codeExample: `public class ControlFlow {
+    public static void main(String[] args) {
+        // If-else
+        int score = 85;
+        if (score >= 90) {
+            System.out.println("Grade: A");
+        } else if (score >= 80) {
+            System.out.println("Grade: B");
+        } else {
+            System.out.println("Grade: C");
+        }
+        
+        // Switch
+        int day = 3;
+        switch (day) {
+            case 1: System.out.println("Monday"); break;
+            case 2: System.out.println("Tuesday"); break;
+            case 3: System.out.println("Wednesday"); break;
+            default: System.out.println("Other day");
+        }
+        
+        // For loop
+        for (int i = 0; i < 5; i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        
+        // Enhanced for
+        String[] fruits = {"apple", "banana", "cherry"};
+        for (String fruit : fruits) {
+            System.out.println(fruit);
+        }
+        
+        // While
+        int count = 0;
+        while (count < 3) {
+            System.out.println("Count: " + count);
+            count++;
+        }
+        
+        // Break and continue
+        for (int i = 0; i < 10; i++) {
+            if (i == 3) continue;  // Skip 3
+            if (i == 7) break;     // Stop at 7
+            System.out.print(i + " ");
+        }
+    }
+}`,
+        },
+        {
+          id: 'methods',
+          title: 'Methods',
+          content: `Methods are blocks of code that perform specific tasks.
+
+**Method Structure:**
+accessModifier returnType methodName(parameters) { }
+
+**Key Concepts:**
+- Method overloading
+- Pass by value
+- Varargs
+- Recursion`,
+          codeExample: `public class Methods {
+    // Basic method
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    // Method overloading
+    public static double add(double a, double b) {
+        return a + b;
+    }
+    
+    // Varargs
+    public static int sumAll(int... numbers) {
+        int sum = 0;
+        for (int n : numbers) {
+            sum += n;
+        }
+        return sum;
+    }
+    
+    // Recursive method
+    public static int factorial(int n) {
+        if (n <= 1) return 1;
+        return n * factorial(n - 1);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("5 + 3 = " + add(5, 3));
+        System.out.println("5.5 + 3.2 = " + add(5.5, 3.2));
+        System.out.println("Sum: " + sumAll(1, 2, 3, 4, 5));
+        System.out.println("5! = " + factorial(5));  // 120
+    }
+}`,
+        },
+      ],
+    },
+    {
+      id: 'oop',
+      title: '2. Object-Oriented Programming',
+      icon: '🏗️',
+      topics: [
+        {
+          id: 'classes-objects',
+          title: 'Classes and Objects',
+          content: `**Class** is a blueprint for creating objects.
+**Object** is an instance of a class.
+
+**Key Concepts:**
+- Fields (instance variables)
+- Constructors
+- Methods
+- this keyword
+- Access modifiers`,
+          codeExample: `// Class definition
+class Person {
+    // Fields
+    private String name;
+    private int age;
+    
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    // Getter methods
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    
+    // Setter methods
+    public void setAge(int age) {
+        if (age > 0) this.age = age;
+    }
+    
+    // Instance method
+    public void greet() {
+        System.out.println("Hi, I'm " + name);
+    }
+    
+    // Override toString
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        // Create objects
+        Person alice = new Person("Alice", 30);
+        Person bob = new Person("Bob", 25);
+        
+        alice.greet();  // Hi, I'm Alice
+        System.out.println(bob);  // Person{name='Bob', age=25}
+        
+        bob.setAge(26);
+        System.out.println("Bob is " + bob.getAge());
+    }
+}`,
+        },
+        {
+          id: 'inheritance-polymorphism',
+          title: 'Inheritance and Polymorphism',
+          content: `**Inheritance** allows a class to inherit from another.
+**Polymorphism** allows objects to be treated through a common interface.
+
+**Key Concepts:**
+- extends keyword
+- super keyword
+- Method overriding
+- Abstract classes
+- Interfaces`,
+          codeExample: `// Abstract class
+abstract class Animal {
+    protected String name;
+    
+    public Animal(String name) {
+        this.name = name;
+    }
+    
+    // Abstract method
+    public abstract void makeSound();
+    
+    // Concrete method
+    public void sleep() {
+        System.out.println(name + " is sleeping");
+    }
+}
+
+// Interface
+interface Swimmable {
+    void swim();
+}
+
+// Subclass
+class Dog extends Animal implements Swimmable {
+    public Dog(String name) {
+        super(name);
+    }
+    
+    @Override
+    public void makeSound() {
+        System.out.println(name + " says: Woof!");
+    }
+    
+    @Override
+    public void swim() {
+        System.out.println(name + " is swimming");
+    }
+}
+
+class Cat extends Animal {
+    public Cat(String name) {
+        super(name);
+    }
+    
+    @Override
+    public void makeSound() {
+        System.out.println(name + " says: Meow!");
+    }
+}
+
+// Main
+public class Main {
+    public static void main(String[] args) {
+        // Polymorphism
+        Animal dog = new Dog("Buddy");
+        Animal cat = new Cat("Whiskers");
+        
+        dog.makeSound();  // Buddy says: Woof!
+        cat.makeSound();  // Whiskers says: Meow!
+        
+        // instanceof check
+        if (dog instanceof Dog) {
+            ((Dog) dog).swim();
+        }
+    }
+}`,
+        },
+      ],
+    },
+  ],
+  csharp: [
+    {
+      id: 'fundamentals',
+      title: '1. C# Fundamentals',
+      icon: '🎯',
+      topics: [
+        {
+          id: 'what-is-csharp',
+          title: 'What is C#?',
+          content: `C# (C Sharp) is a modern, object-oriented programming language developed by Microsoft in 2000.
+
+**Why Learn C#?**
+- **Versatile**: Web, desktop, mobile, games (Unity)
+- **.NET Ecosystem**: Rich libraries and frameworks
+- **Enterprise Ready**: Widely used in business applications
+- **Modern Features**: LINQ, async/await, properties
+
+**Key Characteristics:**
+- Compiled to Intermediate Language (IL)
+- Runs on .NET runtime (CLR)
+- Type-safe and memory-safe
+- Cross-platform with .NET Core`,
+          codeExample: `using System;
+
+namespace HelloWorld
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Hello, C#!");
+            
+            // Variables
+            string name = "Phumeh";
+            int age = 21;
+            double salary = 50000.50;
+            bool isStudent = true;
+            
+            // String interpolation
+            Console.WriteLine($"Name: {name}");
+            Console.WriteLine($"Age: {age}");
+            Console.WriteLine($"Salary: ${salary:F2}");
+        }
+    }
+}
+
+// Run with: dotnet run`,
+        },
+        {
+          id: 'data-types',
+          title: 'Data Types and Variables',
+          content: `C# is a strongly typed language with value and reference types.
+
+**Value Types:**
+- int, long, float, double, decimal
+- bool, char
+- struct, enum
+
+**Reference Types:**
+- string, object
+- class, interface, delegate
+- array, dynamic
+
+**Variable Declaration:**
+- var for implicit typing
+- const for constants`,
+          codeExample: `using System;
+
+class DataTypes
+{
+    static void Main()
+    {
+        // Integer types
+        int num = 100;
+        long bigNum = 1000000000L;
+        
+        // Floating-point
+        float pi = 3.14f;
+        double d = 3.14159;
+        decimal money = 19.99m;
+        
+        // String
+        string name = "C#";
+        string path = @"C:\Users\Name";  // Verbatim
+        
+        // Boolean
+        bool isActive = true;
+        
+        // Char
+        char grade = 'A';
+        
+        // Implicit typing
+        var message = "Hello";  // Compiler infers string
+        var numbers = new[] { 1, 2, 3 };  // int[]
+        
+        // Constants
+        const double PI = 3.14159;
+        // PI = 3.14;  // Error: const is readonly
+        
+        // Nullable types
+        int? nullableInt = null;
+        
+        Console.WriteLine($"Name: {name}");
+        Console.WriteLine($"Money: ${money}");
+    }
+}`,
+        },
+        {
+          id: 'properties',
+          title: 'Properties and Auto-Properties',
+          content: `Properties provide flexible access to class fields.
+
+**Auto-Properties:**
+- Automatic backing field
+- Get and set accessors
+- Init-only properties (C# 9+)
+
+**Property Features:**
+- Read-only properties
+- Computed properties
+- Expression-bodied properties`,
+          codeExample: `class Person
+{
+    // Auto-property
+    public string Name { get; set; }
+    
+    // Read-only auto-property
+    public int Id { get; }
+    
+    // Property with backing field
+    private int age;
+    public int Age
+    {
+        get { return age; }
+        set
+        {
+            if (value < 0 || value > 150)
+                throw new ArgumentException("Invalid age");
+            age = value;
+        }
+    }
+    
+    // Computed property
+    public string FullName => $"{FirstName} {LastName}";
+    
+    // Init-only (C# 9+)
+    public string Email { get; init; }
+    
+    public Person(string name, int id)
+    {
+        Name = name;
+        Id = id;
+    }
+}
+
+// Usage
+var person = new Person("Alice", 1)
+{
+    Age = 30,
+    Email = "alice@example.com"
+};
+
+Console.WriteLine(person.FullName);  // Alice undefined
+// person.Email = "new@example.com";  // Error: init-only`,
+        },
+      ],
+    },
+    {
+      id: 'linq',
+      title: '2. LINQ (Language Integrated Query)',
+      icon: '🔍',
+      topics: [
+        {
+          id: 'linq-basics',
+          title: 'LINQ Basics',
+          content: `LINQ provides query capabilities directly in C#.
+
+**Query Syntax vs Method Syntax:**
+- Query: from x in collection where condition select x
+- Method: collection.Where(condition).Select(x => x)
+
+**Common Operators:**
+- Where, Select, OrderBy
+- First, Single, Any, All
+- GroupBy, Join, SelectMany`,
+          codeExample: `using System;
+using System.Linq;
+using System.Collections.Generic;
+
+class LinqDemo
+{
+    static void Main()
+    {
+        var numbers = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        
+        // Query syntax
+        var evens = from n in numbers
+                    where n % 2 == 0
+                    select n;
+        
+        // Method syntax
+        var odds = numbers.Where(n => n % 2 != 0);
+        
+        Console.WriteLine("Evens: " + string.Join(", ", evens));
+        Console.WriteLine("Odds: " + string.Join(", ", odds));
+        
+        // More operations
+        var squares = numbers.Select(n => n * n);
+        var firstThree = numbers.Take(3);
+        var skipTwo = numbers.Skip(2);
+        var ordered = numbers.OrderByDescending(n => n);
+        
+        // Aggregation
+        Console.WriteLine($"Sum: {numbers.Sum()}");
+        Console.WriteLine($"Average: {numbers.Average()}");
+        Console.WriteLine($"Max: {numbers.Max()}");
+        Console.WriteLine($"Count: {numbers.Count()}");
+        
+        // Any and All
+        bool hasEven = numbers.Any(n => n % 2 == 0);
+        bool allPositive = numbers.All(n => n > 0);
+        
+        // First and Single
+        int first = numbers.First();
+        int firstEven = numbers.First(n => n % 2 == 0);
+        // int onlyOne = numbers.Single(n => n > 10);  // Throws if not exactly one
+    }
+}`,
+        },
+      ],
+    },
+  ],
+  react: [
+    {
+      id: 'fundamentals',
+      title: '1. React Fundamentals',
+      icon: '⚛️',
+      topics: [
+        {
+          id: 'what-is-react',
+          title: 'What is React?',
+          content: `React is a JavaScript library for building user interfaces, developed by Facebook in 2013.
+
+**Why React?**
+- **Component-Based**: Reusable UI pieces
+- **Virtual DOM**: Efficient updates
+- **Declarative**: Describe what you want
+- **Large Ecosystem**: Rich tools and libraries
+
+**Key Concepts:**
+- JSX syntax
+- Components (functional and class)
+- Props and state
+- Hooks`,
+          codeExample: `import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+// Functional Component
+function App() {
+  const name = "React";
+  
+  return (
+    <div className="app">
+      <h1>Hello, {name}!</h1>
+      <p>Welcome to React</p>
+    </div>
+  );
+}
+
+// Render to DOM
+const root = ReactDOM.createRoot(
+  document.getElementById('root')
+);
+root.render(<App />);`,
+        },
+        {
+          id: 'jsx',
+          title: 'JSX Syntax',
+          content: `JSX is a syntax extension for JavaScript that looks like HTML.
+
+**JSX Rules:**
+- Return single parent element
+- Use className instead of class
+- Close all tags
+- JavaScript expressions in {}
+
+**JSX Features:**
+- Embed expressions
+- Conditional rendering
+- Lists and keys
+- Fragments`,
+          codeExample: `import React from 'react';
+
+function JSXDemo() {
+  const name = "React";
+  const items = ["Apple", "Banana", "Cherry"];
+  const isLoggedIn = true;
+  
+  return (
+    <div>
+      {/* JavaScript expressions */}
+      <h1>Hello, {name}!</h1>
+      <p>2 + 2 = {2 + 2}</p>
+      
+      {/* Conditional rendering */}
+      {isLoggedIn ? (
+        <p>Welcome back!</p>
+      ) : (
+        <p>Please log in.</p>
+      )}
+      
+      {/* Lists with keys */}
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+      
+      {/* Fragment for multiple elements */}
+      <>
+        <p>First paragraph</p>
+        <p>Second paragraph</p>
+      </>
+    </div>
+  );
+}
+
+export default JSXDemo;`,
+        },
+        {
+          id: 'props-state',
+          title: 'Props and State',
+          content: `**Props** (properties) are passed from parent to child.
+**State** is internal data that triggers re-renders when changed.
+
+**Key Differences:**
+- Props: Read-only, passed down
+- State: Mutable, managed within component
+
+**useState Hook:**
+- Returns [value, setValue]
+- Triggers re-render on update`,
+          codeExample: `import React, { useState } from 'react';
+
+// Component with props
+function Greeting({ name, greeting = "Hello" }) {
+  return <h1>{greeting}, {name}!</h1>;
+}
+
+// Component with state
+function Counter() {
+  // State declaration
+  const [count, setCount] = useState(0);
+  const [step, setStep] = useState(1);
+  
+  const increment = () => {
+    setCount(count + step);
+  };
+  
+  const reset = () => {
+    setCount(0);
+  };
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <p>Step: {step}</p>
+      <button onClick={increment}>+{step}</button>
+      <button onClick={reset}>Reset</button>
+      <input
+        type="number"
+        value={step}
+        onChange={(e) => setStep(Number(e.target.value))}
+      />
+    </div>
+  );
+}
+
+// Parent component
+function App() {
+  return (
+    <div>
+      <Greeting name="Alice" />
+      <Greeting name="Bob" greeting="Hi" />
+      <Counter />
+    </div>
+  );
+}
+
+export default App;`,
+        },
+        {
+          id: 'effects',
+          title: 'useEffect Hook',
+          content: `useEffect handles side effects in functional components.
+
+**Common Use Cases:**
+- Data fetching
+- Subscriptions
+- DOM manipulation
+- Cleanup
+
+**Dependency Array:**
+- []: Run once on mount
+- [dep]: Run when dep changes
+- No array: Run on every render`,
+          codeExample: `import React, { useState, useEffect } from 'react';
+
+function EffectDemo() {
+  const [count, setCount] = useState(0);
+  const [data, setData] = useState(null);
+  
+  // Run on mount and when count changes
+  useEffect(() => {
+    console.log(`Count is now: ${count}`);
+    
+    // Cleanup function
+    return () => {
+      console.log(`Cleaning up count: ${count}`);
+    };
+  }, [count]);
+  
+  // Run only on mount
+  useEffect(() => {
+    console.log('Component mounted');
+    
+    // Fetch data
+    fetch('https://api.example.com/data')
+      .then(res => res.json())
+      .then(data => setData(data));
+  }, []);
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+}
+
+export default EffectDemo;`,
+        },
+      ],
+    },
+    {
+      id: 'advanced-hooks',
+      title: '2. Advanced Hooks',
+      icon: '🔧',
+      topics: [
+        {
+          id: 'custom-hooks',
+          title: 'Custom Hooks',
+          content: `Custom hooks are reusable functions that use React hooks.
+
+**Naming Convention:**
+- Start with "use" (e.g., useCounter, useFetch)
+
+**Benefits:**
+- Share stateful logic
+- Reuse across components
+- Cleaner component code`,
+          codeExample: `import React, { useState, useEffect } from 'react';
+
+// Custom hook for fetching data
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed to fetch');
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, [url]);
+  
+  return { data, loading, error };
+}
+
+// Custom hook for local storage
+function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch {
+      return initialValue;
+    }
+  });
+  
+  const setValue = (value) => {
+    try {
+      setStoredValue(value);
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  return [storedValue, setValue];
+}
+
+// Using custom hooks
+function App() {
+  const { data, loading, error } = useFetch('https://api.example.com/users');
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
+  
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  
+  return (
+    <div className={theme}>
+      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        Toggle Theme
+      </button>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
+  );
+}
+
+export default App;`,
+        },
+        {
+          id: 'context-api',
+          title: 'Context API',
+          content: `Context provides a way to pass data through the component tree without props.
+
+**Key Concepts:**
+- React.createContext
+- Context.Provider
+- useContext hook
+
+**Use Cases:**
+- Theme switching
+- User authentication
+- Language/i18n
+- Global state`,
+          codeExample: `import React, { createContext, useContext, useState } from 'react';
+
+// Create context
+const ThemeContext = createContext();
+const UserContext = createContext();
+
+// Provider components
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+  
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+  
+  const login = (userData) => setUser(userData);
+  const logout = () => setUser(null);
+  
+  return (
+    <UserContext.Provider value={{ user, login, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
+}
+
+// Custom hooks for contexts
+function useTheme() {
+  return useContext(ThemeContext);
+}
+
+function useUser() {
+  return useContext(UserContext);
+}
+
+// Using context in components
+function Header() {
+  const { theme, toggleTheme } = useTheme();
+  
+  return (
+    <header className={theme}>
+      <h1>My App</h1>
+      <button onClick={toggleTheme}>
+        Switch to {theme === 'light' ? 'dark' : 'light'} mode
+      </button>
+    </header>
+  );
+}
+
+function UserProfile() {
+  const { user, logout } = useUser();
+  
+  if (!user) return <p>Please log in</p>;
+  
+  return (
+    <div>
+      <p>Welcome, {user.name}!</p>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+}
+
+// App with providers
+function App() {
+  return (
+    <ThemeProvider>
+      <UserProvider>
+        <Header />
+        <UserProfile />
+      </UserProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;`,
+        },
+      ],
+    },
+  ],
 };
