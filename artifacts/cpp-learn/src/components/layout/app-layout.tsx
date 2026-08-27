@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
+import LanguageSelector from '@/components/LanguageSelector';
 
 interface NavItem {
   path: string;
@@ -129,8 +130,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               })}
             </nav>
 
-            {/* Right: Auth Buttons or User Menu */}
+            {/* Right: Language Selector + Auth Buttons or User Menu */}
             <div className="flex items-center gap-3">
+              {/* Language Selector */}
+              <LanguageSelector className="hidden md:block" />
+              
               {isAuthenticated && user ? (
                 <>
                   {/* Plus Badge */}
