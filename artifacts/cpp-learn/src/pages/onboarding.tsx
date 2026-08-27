@@ -59,7 +59,7 @@ export default function OnboardingPage() {
                 Welcome to Infinity Code
               </h1>
               <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                Coding is like giving instructions to a computer. You tell it what to do, step by step, and it follows your commands to create amazing things.
+                Programming is the process of writing instructions that computers execute. You provide step-by-step logic, and the computer follows your commands to build applications.
               </p>
             </div>
 

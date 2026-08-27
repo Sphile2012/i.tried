@@ -20,9 +20,11 @@ import {
   GraduationCap,
   Briefcase,
   FileText,
-  Sparkles,
+  BookOpen,
   LayoutDashboard,
-  Info,
+  TrendingUp,
+  Award,
+  MessageSquare,
 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
@@ -31,20 +33,31 @@ interface NavItem {
   path: string;
   label: string;
   icon: typeof Home;
+  description?: string;
 }
 
-const navItems: NavItem[] = [
-  { path: '/', label: 'Home', icon: Home },
-  { path: '/lessons', label: 'Learn', icon: GraduationCap },
-  { path: '/playground', label: 'Code', icon: Terminal },
-  { path: '/challenges', label: 'Challenges', icon: Target },
-  { path: '/community', label: 'Community', icon: Users },
-  { path: '/resources', label: 'Resources', icon: Library },
-  { path: '/about', label: 'About', icon: Info },
-  { path: '/career', label: 'Career', icon: Briefcase },
-  { path: '/portfolio', label: 'Portfolio', icon: FileText },
-  { path: '/ai-tutor', label: 'AI Tutor', icon: Sparkles },
+// Organized navigation structure
+const mainNavItems: NavItem[] = [
+  { path: '/', label: 'Home', icon: Home, description: 'Platform overview' },
+  { path: '/lessons', label: 'Lessons', icon: GraduationCap, description: 'Learn programming' },
+  { path: '/playground', label: 'Playground', icon: Terminal, description: 'Code editor' },
+  { path: '/challenges', label: 'Challenges', icon: Target, description: 'Practice problems' },
+  { path: '/resources', label: 'Resources', icon: Library, description: 'Documentation' },
+  { path: '/community', label: 'Community', icon: Users, description: 'Connect with others' },
+];
+
+const userNavItems: NavItem[] = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { path: '/progress', label: 'Progress', icon: TrendingUp },
+  { path: '/achievements', label: 'Achievements', icon: Award },
+  { path: '/portfolio', label: 'Portfolio', icon: FileText },
+];
+
+const moreNavItems: NavItem[] = [
+  { path: '/learning-hub', label: 'Learning Hub', icon: BookOpen },
+  { path: '/ai-tutor', label: 'AI Tutor', icon: MessageSquare },
+  { path: '/career', label: 'Career', icon: Briefcase },
+  { path: '/leaderboard', label: 'Leaderboard', icon: Award },
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
@@ -94,9 +107,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             </div>
 
-            {/* Center: Desktop Navigation - Only show key items */}
+            {/* Center: Desktop Navigation - Organized menu */}
             <nav className="hidden lg:flex items-center gap-1">
-              {navItems.slice(0, 6).map((item) => {
+              {mainNavItems.map((item) => {
                 const Icon = item.icon;
                 const active = isActive(item.path);
                 return (
@@ -257,28 +270,91 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               className="lg:hidden border-t border-slate-800 bg-slate-950"
             >
               <nav className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  const active = isActive(item.path);
-                  return (
-                    <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
-                      <div
-                        className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
-                          active
-                            ? 'bg-blue-500/10 text-blue-400'
-                            : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" />
-                        {item.label}
-                      </div>
-                    </Link>
-                  );
-                })}
-                
-                {/* Mobile: Additional Links */}
+                {/* Main Navigation */}
+                <div className="mb-4">
+                  <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Main
+                  </div>
+                  {mainNavItems.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.path);
+                    return (
+                      <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
+                        <div
+                          className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
+                            active
+                              ? 'bg-blue-500/10 text-blue-400'
+                              : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                          <div>
+                            <div>{item.label}</div>
+                            {item.description && (
+                              <div className="text-xs text-slate-500">{item.description}</div>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                {/* User Section - Only show if authenticated */}
                 {isAuthenticated && (
-                  <>
+                  <div className="mb-4">
+                    <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                      Your Progress
+                    </div>
+                    {userNavItems.map((item) => {
+                      const Icon = item.icon;
+                      const active = isActive(item.path);
+                      return (
+                        <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
+                          <div
+                            className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
+                              active
+                                ? 'bg-blue-500/10 text-blue-400'
+                                : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                            }`}
+                          >
+                            <Icon className="h-5 w-5" />
+                            {item.label}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* More Section */}
+                <div>
+                  <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    More
+                  </div>
+                  {moreNavItems.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.path);
+                    return (
+                      <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
+                        <div
+                          className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
+                            active
+                              ? 'bg-blue-500/10 text-blue-400'
+                              : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                          {item.label}
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+                
+                {/* Additional Links for authenticated users */}
+                {isAuthenticated && (
+                  <div className="pt-4 border-t border-slate-800">
                     <Link href="/profile" onClick={() => setMobileOpen(false)}>
                       <div className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 cursor-pointer">
                         <User className="h-5 w-5" />
@@ -299,7 +375,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                         </div>
                       </Link>
                     )}
-                  </>
+                  </div>
                 )}
               </nav>
             </motion.div>

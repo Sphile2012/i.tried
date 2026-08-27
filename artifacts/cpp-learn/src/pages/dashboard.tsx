@@ -129,7 +129,7 @@ export default function Dashboard() {
                       to="/learning-hub"
                       className="text-sm text-[#00d4ff] hover:underline"
                     >
-                      {path.progress === 100 ? 'Review →' : 'Continue →'}
+                      {path.progress === 100 ? 'Review' : 'Continue'}
                     </Link>
                   </div>
                 </div>
