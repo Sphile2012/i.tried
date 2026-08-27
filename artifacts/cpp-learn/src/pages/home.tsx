@@ -74,16 +74,16 @@ console.log(growAsDeveloper());`;
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
-                to="/lessons"
+                to="/signup"
                 className="px-6 py-3 text-center bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 transition shadow-lg shadow-[#00d4ff]/20"
               >
                 Start Learning
               </Link>
               <Link
-                to="/playground"
+                to="/lessons"
                 className="px-6 py-3 text-center bg-white/5 border border-white/10 text-white rounded-xl font-semibold hover:bg-white/10 transition"
               >
-                Try Code Editor
+                Explore Lessons
               </Link>
             </div>
           </div>
@@ -517,10 +517,10 @@ function CTASection() {
         </h2>
         <p className="text-gray-400 mb-8 max-w-xl mx-auto">
           Learn code. Practise code. Build projects. Prove your skills. Grow as a developer.
-          Start your journey with Infinity Code today.
+          Join Infinity Code today and start your journey.
         </p>
         <Link
-          to="/lessons"
+          to="/signup"
           className="inline-block px-6 sm:px-8 py-3 sm:py-4 text-center bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white rounded-xl font-bold text-base sm:text-lg hover:opacity-90 transition shadow-lg shadow-[#00d4ff]/20"
         >
           Start Learning
