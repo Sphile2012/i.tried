@@ -136,7 +136,7 @@ export default function LeaderboardPage() {
                 {/* 2nd Place */}
                 {topThree[1] && (
                   <div className="bg-gradient-to-b from-gray-300/10 to-gray-400/5 border border-white/10 rounded-2xl p-6 text-center order-2">
-                    <div className="text-3xl mb-2">🥈</div>
+                    <div className="text-3xl mb-2">&#129352;</div>
                     <div className="w-16 h-16 rounded-full bg-gradient-to-r from-gray-400 to-gray-500 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
                       {topThree[1].username[0].toUpperCase()}
                     </div>
@@ -149,7 +149,7 @@ export default function LeaderboardPage() {
                 {/* 1st Place */}
                 {topThree[0] && (
                   <div className="bg-gradient-to-b from-yellow-500/10 to-amber-500/5 border border-white/10 rounded-2xl p-6 text-center order-1 md:order-2 md:scale-105">
-                    <div className="text-3xl mb-2">🥇</div>
+                    <div className="text-3xl mb-2">&#129351;</div>
                     <div className="w-16 h-16 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
                       {topThree[0].username[0].toUpperCase()}
                     </div>
@@ -162,7 +162,7 @@ export default function LeaderboardPage() {
                 {/* 3rd Place */}
                 {topThree[2] && (
                   <div className="bg-gradient-to-b from-orange-600/10 to-orange-500/5 border border-white/10 rounded-2xl p-6 text-center order-3">
-                    <div className="text-3xl mb-2">🥉</div>
+                    <div className="text-3xl mb-2">&#129353;</div>
                     <div className="w-16 h-16 rounded-full bg-gradient-to-r from-orange-600 to-orange-500 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">
                       {topThree[2].username[0].toUpperCase()}
                     </div>

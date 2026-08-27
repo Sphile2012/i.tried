@@ -204,7 +204,7 @@ export const lessonContent: Record<LanguageId, LessonCategory[]> = {
     {
       id: 'fundamentals',
       title: '1. C++ Fundamentals',
-      icon: '🎯',
+      icon: 'Target',
       topics: [
         {
           id: 'what-is-cpp',
@@ -664,7 +664,7 @@ int main() {
     {
       id: 'control-flow',
       title: '2. Control Flow',
-      icon: '🔀',
+      icon: 'Flow',
       topics: [
         {
           id: 'if-else',
@@ -935,7 +935,7 @@ int main() {
     {
       id: 'functions',
       title: '3. Functions',
-      icon: '⚙️',
+      icon: 'Gear',
       topics: [
         {
           id: 'function-basics',
@@ -978,7 +978,7 @@ int add(int a, int b) {
     {
       id: 'fundamentals',
       title: '1. Python Fundamentals',
-      icon: '🎯',
+      icon: 'Target',
       topics: [
         {
           id: 'what-is-python',
@@ -1260,7 +1260,7 @@ print(unique_lengths)  # {5, 6}`,
     {
       id: 'data-structures',
       title: '2. Data Structures',
-      icon: '📦',
+      icon: 'Box',
       topics: [
         {
           id: 'lists-tuples',
@@ -1344,7 +1344,7 @@ print(set_a ^ set_b)  # Symmetric diff: {1, 2, 3, 6, 7, 8}`,
     {
       id: 'oop',
       title: '3. Object-Oriented Programming',
-      icon: '🏗️',
+      icon: 'Build',
       topics: [
         {
           id: 'classes-objects',
@@ -1442,7 +1442,7 @@ print(isinstance(dog, Animal)) # True`,
     {
       id: 'fundamentals',
       title: '1. TypeScript Fundamentals',
-      icon: '🎯',
+      icon: 'Target',
       topics: [
         {
           id: 'what-is-typescript',
@@ -1696,7 +1696,7 @@ console.log(numberStack.pop()); // 2`,
     {
       id: 'advanced-types',
       title: '2. Advanced Types',
-      icon: '🔧',
+      icon: 'Tools',
       topics: [
         {
           id: 'type-guards',
@@ -1756,9 +1756,9 @@ interface User { name: string; email: string; }
 
 function printName(person: Admin | User) {
   if ("permissions" in person) {
-    console.log(`Admin: ${person.name}`);
+    console.log('Admin: ' + person.name);
   } else {
-    console.log(`User: ${person.name}`);
+    console.log('User: ' + person.name);
   }
 }`,
         },
@@ -1824,7 +1824,7 @@ type GreetParams = Parameters<typeof greet>; // [string, number]`,
     {
       id: 'fundamentals',
       title: '1. Java Fundamentals',
-      icon: '☕',
+      icon: 'Java',
       topics: [
         {
           id: 'what-is-java',
@@ -2076,7 +2076,7 @@ accessModifier returnType methodName(parameters) { }
     {
       id: 'oop',
       title: '2. Object-Oriented Programming',
-      icon: '🏗️',
+      icon: 'Build',
       topics: [
         {
           id: 'classes-objects',
@@ -2224,7 +2224,7 @@ public class Main {
     {
       id: 'fundamentals',
       title: '1. C# Fundamentals',
-      icon: '🎯',
+      icon: 'Target',
       topics: [
         {
           id: 'what-is-csharp',
@@ -2261,7 +2261,7 @@ namespace HelloWorld
             // String interpolation
             Console.WriteLine($"Name: {name}");
             Console.WriteLine($"Age: {age}");
-            Console.WriteLine($"Salary: ${salary:F2}");
+            Console.WriteLine($"Salary: \${salary:F2}");
         }
     }
 }
@@ -2323,7 +2323,7 @@ class DataTypes
         int? nullableInt = null;
         
         Console.WriteLine($"Name: {name}");
-        Console.WriteLine($"Money: ${money}");
+        Console.WriteLine($"Money: \${money}");
     }
 }`,
         },
@@ -2390,7 +2390,7 @@ Console.WriteLine(person.FullName);  // Alice undefined
     {
       id: 'linq',
       title: '2. LINQ (Language Integrated Query)',
-      icon: '🔍',
+      icon: 'Search',
       topics: [
         {
           id: 'linq-basics',
@@ -2456,7 +2456,7 @@ class LinqDemo
     {
       id: 'fundamentals',
       title: '1. React Fundamentals',
-      icon: '⚛️',
+      icon: 'React',
       topics: [
         {
           id: 'what-is-react',
@@ -2634,11 +2634,11 @@ function EffectDemo() {
   
   // Run on mount and when count changes
   useEffect(() => {
-    console.log(`Count is now: ${count}`);
+    console.log(\`Count is now: \${count}\`);
     
     // Cleanup function
     return () => {
-      console.log(`Cleaning up count: ${count}`);
+      console.log(\`Cleaning up count: \${count}\`);
     };
   }, [count]);
   
@@ -2670,7 +2670,7 @@ export default EffectDemo;`,
     {
       id: 'advanced-hooks',
       title: '2. Advanced Hooks',
-      icon: '🔧',
+      icon: 'Tools',
       topics: [
         {
           id: 'custom-hooks',

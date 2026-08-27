@@ -34,8 +34,10 @@ export interface UserProfile {
   email_verified: boolean;
   theme: 'light' | 'dark' | 'system';
   notifications_enabled: boolean;
-  subscription_status: 'free' | 'premium';
+  subscription_status: 'free' | 'premium' | 'pro';
   subscription_expires_at?: string | null;
+  trial_status?: 'none' | 'active' | 'expired' | 'cancelled' | null;
+  trial_ends_at?: string | null;
   courses_enrolled: number;
   courses_completed: number;
   lessons_completed: number;
@@ -81,10 +83,10 @@ export function useAuthProvider() {
           if (lang) setLanguage(lang);
         }
       } catch (error) {
-        console.error('❌ Error loading session:', error);
+        console.error('Error loading session:', error);
         // If Supabase is not configured, show a helpful error
         if (error instanceof Error && error.message.includes('not configured')) {
-          console.error('⚠️ Supabase environment variables are missing. The app will work in demo mode.');
+          console.error('Supabase environment variables are missing. The app will work in demo mode.');
         }
       } finally {
         setIsLoading(false);
@@ -108,7 +110,7 @@ export function useAuthProvider() {
       });
       subscription = authListener.data.subscription;
     } catch (error) {
-      console.error('❌ Error setting up auth listener:', error);
+      console.error('Error setting up auth listener:', error);
     }
 
     return () => {

@@ -97,8 +97,8 @@ export default function PaymentHistoryPage() {
               </div>
               <div>
                 <p className="text-sm text-slate-400">Current Plan</p>
-                <p className="text-lg font-semibold text-white capitalize">
-                  {user?.subscription_status || 'Free'}
+                <p className="text-lg font-semibold text-white">
+                  {user?.subscription_status === 'premium' ? 'Plus' : user?.subscription_status === 'pro' ? 'Career' : 'Free'}
                 </p>
               </div>
             </div>

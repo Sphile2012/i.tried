@@ -9,8 +9,8 @@ import { lessonContent, glossaries, type LanguageId } from '@/data/lesson-conten
 
 // Language configuration
 const languages: Record<LanguageId, { name: string; color: string; icon: string }> = {
-  typescript: { name: 'TypeScript', color: '#3178c6', icon: '💙' },
-  cpp: { name: 'C++', color: '#00599c', icon: '⚡' },
+  typescript: { name: 'TypeScript', color: '#3178c6', icon: 'TS' },
+  cpp: { name: 'C++', color: '#00599c', icon: 'C+' },
   python: { name: 'Python', color: '#3776ab', icon: 'PY' },
   java: { name: 'Java', color: '#f89820', icon: 'JV' },
   csharp: { name: 'C#', color: '#68217a', icon: 'C#' },

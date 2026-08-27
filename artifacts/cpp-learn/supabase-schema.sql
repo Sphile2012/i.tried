@@ -1277,12 +1277,12 @@ INSERT INTO badges (name, slug, description, badge_type, is_active) VALUES
 -- Print completion message
 DO $$
 BEGIN
-  RAISE NOTICE '✅ Infinite Code database schema created successfully!';
-  RAISE NOTICE '📊 Total tables created: 40+';
-  RAISE NOTICE '🔐 Row Level Security enabled on all tables';
-  RAISE NOTICE '📈 Performance indexes created';
-  RAISE NOTICE '🔄 Triggers and functions configured';
-  RAISE NOTICE '🌱 Initial data seeded';
+  RAISE NOTICE 'Infinite Code database schema created successfully!';
+  RAISE NOTICE 'Total tables created: 40+';
+  RAISE NOTICE 'Row Level Security enabled on all tables';
+  RAISE NOTICE 'Performance indexes created';
+  RAISE NOTICE 'Triggers and functions configured';
+  RAISE NOTICE 'Initial data seeded';
   RAISE NOTICE '';
   RAISE NOTICE 'Next steps:';
   RAISE NOTICE '1. Configure Supabase storage buckets';

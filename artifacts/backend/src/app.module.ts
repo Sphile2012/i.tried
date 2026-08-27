@@ -4,7 +4,7 @@
  */
 
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ScheduleModule } from '@nestjs/schedule';
 import { PrismaModule } from './prisma/prisma.module';
@@ -28,14 +28,12 @@ import { AIModule } from './ai/ai.module';
     }),
 
     // Rate limiting
-    ThrottlerModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        ttl: config.get<number>('THROTTLE_TTL') || 60,
-        limit: config.get<number>('THROTTLE_LIMIT') || 100,
-      }),
-    }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
 
     // Scheduling
     ScheduleModule.forRoot(),

@@ -16,19 +16,19 @@ const TRIAL_DAYS = 7;
 
 type PlanType = 'premium' | 'pro';
 
-const premiumFeatures = [
+const plusFeatures = [
   { icon: BookOpen, text: 'Unlimited access to all core courses' },
   { icon: Brain, text: 'Unlimited AI coding assistant' },
   { icon: Award, text: 'Completion badges & achievements' },
   { icon: Download, text: 'Downloadable resources & PDFs' },
   { icon: Zap, text: 'Coding challenges & projects' },
-  { icon: Crown, text: 'Premium learning paths' },
+  { icon: Crown, text: 'Plus learning paths' },
   { icon: Target, text: 'Progress tracking & analytics' },
   { icon: Shield, text: '7-day free trial' },
 ];
 
-const proFeatures = [
-  { icon: BookOpen, text: 'Everything in Premium, plus:' },
+const careerFeatures = [
+  { icon: BookOpen, text: 'Everything in Plus, plus:' },
   { icon: Rocket, text: 'Advanced C++ topics & deep dives' },
   { icon: Brain, text: 'Advanced AI with code review' },
   { icon: Zap, text: 'Difficult coding & debugging challenges' },
@@ -74,7 +74,7 @@ export default function SubscriptionPage() {
 
     try {
       const price = plan === 'premium' ? PREMIUM_PRICE : PRO_PRICE;
-      const planName = plan === 'premium' ? 'Infinity Code Premium' : 'Infinity Code Pro';
+      const planName = plan === 'premium' ? 'Infinity Code Plus' : 'Infinity Code Career';
       const ref = `IC-${user.id.slice(0, 8)}-${plan}-${Date.now()}`;
       setTransactionRef(ref);
 
@@ -149,7 +149,7 @@ export default function SubscriptionPage() {
 
   // Handle successful payment return
   if (paymentResult === 'success' || isPremium || isPro) {
-    const currentPlan = isPro ? 'Pro' : 'Premium';
+    const currentPlan = isPro ? 'Career' : 'Plus';
     return (
       <div className="max-w-2xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -176,7 +176,7 @@ export default function SubscriptionPage() {
               {isOnTrial && trialEndsAt && !isTrialExpired && (
                 <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-6">
                   <p className="text-sm text-blue-400">
-                    🎉 You're on a free trial! First payment will be charged on{' '}
+                    You're on a free trial! First payment will be charged on{' '}
                     {trialEndsAt.toLocaleDateString()}.
                   </p>
                 </div>
@@ -228,7 +228,7 @@ export default function SubscriptionPage() {
       >
         <AlertCircle className="h-5 w-5 text-blue-400 mt-0.5 flex-shrink-0" />
         <div className="text-sm text-slate-300">
-          <p className="font-semibold text-blue-400 mb-1">🎉 {TRIAL_DAYS}-Day Free Trial</p>
+          <p className="font-semibold text-blue-400 mb-1">{TRIAL_DAYS}-Day Free Trial</p>
           <p>Start with full access to your chosen plan. You won't be charged until your trial ends. Cancel anytime.</p>
         </div>
       </motion.div>
@@ -241,7 +241,7 @@ export default function SubscriptionPage() {
 
       {/* Pricing Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Premium Plan */}
+        {/* Plus Plan */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -251,12 +251,12 @@ export default function SubscriptionPage() {
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-2">
                 <Crown className="h-5 w-5 text-blue-400" />
-                <h3 className="text-xl font-bold text-white">Premium</h3>
+                <h3 className="text-xl font-bold text-white">Plus</h3>
               </div>
               <p className="text-3xl font-bold text-white mb-1">R{PREMIUM_PRICE.toFixed(2)}</p>
               <p className="text-sm text-slate-400 mb-6">per month after trial</p>
               <ul className="space-y-3 text-sm text-slate-300 mb-6">
-                {premiumFeatures.map((feature, i) => {
+                {plusFeatures.map((feature, i) => {
                   const Icon = feature.icon;
                   return (
                     <li key={i} className="flex items-center gap-2">
@@ -282,7 +282,7 @@ export default function SubscriptionPage() {
           </Card>
         </motion.div>
 
-        {/* Pro Plan */}
+        {/* Career Plan */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -297,12 +297,12 @@ export default function SubscriptionPage() {
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-2">
                 <Rocket className="h-5 w-5 text-yellow-500" />
-                <h3 className="text-xl font-bold text-white">Pro</h3>
+                <h3 className="text-xl font-bold text-white">Career</h3>
               </div>
               <p className="text-3xl font-bold text-white mb-1">R{PRO_PRICE.toFixed(2)}</p>
               <p className="text-sm text-slate-400 mb-6">per month after trial</p>
               <ul className="space-y-3 text-sm text-slate-300 mb-6">
-                {proFeatures.map((feature, i) => {
+                {careerFeatures.map((feature, i) => {
                   const Icon = feature.icon;
                   return (
                     <li key={i} className="flex items-center gap-2">
@@ -333,7 +333,7 @@ export default function SubscriptionPage() {
       <div className="grid md:grid-cols-2 gap-6">
         <Card className="border-slate-800">
           <CardContent className="p-6">
-            <h3 className="text-lg font-bold text-white mb-4">Premium Includes</h3>
+            <h3 className="text-lg font-bold text-white mb-4">Plus Includes</h3>
             <ul className="space-y-2 text-sm text-slate-400">
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> All core programming courses</li>
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-blue-400" /> Interactive glossary & explanations</li>
@@ -347,7 +347,7 @@ export default function SubscriptionPage() {
 
         <Card className="border-slate-800">
           <CardContent className="p-6">
-            <h3 className="text-lg font-bold text-white mb-4">Pro Adds</h3>
+            <h3 className="text-lg font-bold text-white mb-4">Career Adds</h3>
             <ul className="space-y-2 text-sm text-slate-400">
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-yellow-500" /> Advanced C++ deep dives</li>
               <li className="flex items-center gap-2"><Check className="h-4 w-4 text-yellow-500" /> Difficult debugging challenges</li>
@@ -371,7 +371,7 @@ export default function SubscriptionPage() {
             </div>
             <div>
               <p className="font-semibold text-white mb-1">Can I switch plans later?</p>
-              <p className="text-sm text-slate-400">Yes! You can upgrade from Premium to Pro at any time from your account settings. The difference will be prorated.</p>
+              <p className="text-sm text-slate-400">Yes! You can upgrade from Plus to Career at any time from your account settings. The difference will be prorated.</p>
             </div>
             <div>
               <p className="font-semibold text-white mb-1">What payment methods do you accept?</p>

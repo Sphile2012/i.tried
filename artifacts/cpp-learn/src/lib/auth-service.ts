@@ -273,7 +273,7 @@ export async function getCurrentSession() {
     console.error('Error getting session:', error);
     // If Supabase is not configured, return null instead of throwing
     if (error instanceof Error && error.message.includes('not configured')) {
-      console.warn('⚠️ Supabase not configured - running without authentication');
+      console.warn('Supabase not configured - running without authentication');
       return null;
     }
     return null;

@@ -11,8 +11,16 @@ export class UserService {
       include: {
         userSettings: true,
         enrollments: true,
-        achievements: true,
-        badges: true,
+        userAchievements: {
+          include: {
+            achievement: true,
+          },
+        },
+        userBadges: {
+          include: {
+            badge: true,
+          },
+        },
       },
     });
 

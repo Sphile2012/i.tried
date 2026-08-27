@@ -314,16 +314,16 @@ export default function CodingChallenges() {
     
     const allPassed = results.every(r => r.passed);
     if (allPassed) {
-      setOutput(prev => prev + '\n✅ All test cases passed!\n');
+      setOutput(prev => prev + '\nAll test cases passed!\n');
       toast({
-        title: 'Challenge Completed! 🎉',
+        title: 'Challenge Completed!',
         description: `You earned ${selectedChallenge.points} XP!`,
       });
       if (!completedChallenges.includes(selectedChallenge.id)) {
         setCompletedChallenges([...completedChallenges, selectedChallenge.id]);
       }
     } else {
-      setOutput(prev => prev + '\n❌ Some test cases failed. Keep trying!\n');
+      setOutput(prev => prev + '\nSome test cases failed. Keep trying!\n');
     }
     
     setIsRunning(false);

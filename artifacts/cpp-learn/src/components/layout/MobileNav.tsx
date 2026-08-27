@@ -28,7 +28,7 @@ import {
   Brain,
   BarChart3,
   Briefcase,
-  FolderCode,
+  FolderCog,
   GitBranch,
   FileSpreadsheet,
   Clock,
@@ -75,7 +75,7 @@ const drawerNavItems: NavItem[] = [
   
   // Career
   { path: '/career', label: 'Career Development', icon: Briefcase },
-  { path: '/portfolio', label: 'Portfolio', icon: FolderCode },
+  { path: '/portfolio', label: 'Portfolio', icon: FolderCog },
   { path: '/profile', label: 'Resume Builder', icon: FileSpreadsheet },
   
   // Community & AI

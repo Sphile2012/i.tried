@@ -37,7 +37,7 @@ const isSupabaseKeyValid = supabaseAnonKey ? isValidSupabaseAnonKey(supabaseAnon
 const isConfigured = isSupabaseUrlValid && isSupabaseKeyValid;
 
 // Log configuration status for debugging in production
-console.log('🔧 Supabase Configuration Check:', {
+console.log('Supabase Configuration Check:', {
   hasUrl: !!supabaseUrl,
   hasKey: !!supabaseAnonKey,
   isUrlValid: isSupabaseUrlValid,

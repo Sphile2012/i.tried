@@ -377,7 +377,7 @@ function StepCard({
           <div className="mt-3">
             <details className="group">
               <summary className="text-sm text-gray-500 cursor-pointer hover:text-white transition-colors">
-                💡 Hints ({step.hints.length})
+                Hints ({step.hints.length})
               </summary>
               <ul className="mt-2 space-y-1 pl-4 border-l-2 border-white/10 ml-1">
                 {step.hints.map((hint, idx) => (
@@ -449,7 +449,7 @@ function CodeExampleModal({ step, language, onClose }: CodeExampleModalProps) {
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-white transition-colors"
           >
-            ✕
+            Close
           </button>
         </div>
 

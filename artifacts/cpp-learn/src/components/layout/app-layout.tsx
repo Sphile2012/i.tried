@@ -120,11 +120,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             <div className="flex items-center gap-3">
               {isAuthenticated && user ? (
                 <>
-                  {/* Premium Badge */}
+                  {/* Plus Badge */}
                   {user.subscription_status === 'premium' && (
                     <span className="hidden sm:flex items-center gap-1 rounded-full bg-gradient-to-r from-yellow-500 to-amber-500 px-3 py-1 text-xs font-semibold text-black">
                       <Crown className="h-3 w-3" />
-                      Premium
+                      Plus
                     </span>
                   )}
 
@@ -193,7 +193,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                                 <Link href="/subscription" onClick={() => setUserMenuOpen(false)}>
                                   <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer">
                                     <Crown className="h-4 w-4" />
-                                    Upgrade to Premium
+                                    Upgrade to Plus
                                   </div>
                                 </Link>
                               )}
@@ -331,6 +331,18 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
               <Link href="/ai-tutor">
                 <span className="hover:text-white transition-colors cursor-pointer">AI Tutor</span>
+              </Link>
+            </div>
+            <div className="flex items-center gap-4 text-sm">
+              <Link href="/subscription">
+                <span className="text-slate-400 hover:text-white transition-colors cursor-pointer">
+                  Plus <span className="text-slate-500">R49.99/mo</span>
+                </span>
+              </Link>
+              <Link href="/subscription">
+                <span className="text-slate-400 hover:text-white transition-colors cursor-pointer">
+                  Career <span className="text-slate-500">R89.99/mo</span>
+                </span>
               </Link>
             </div>
           </div>

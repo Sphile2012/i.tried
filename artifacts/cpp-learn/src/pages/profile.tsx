@@ -14,13 +14,24 @@ import {
   CheckCircle,
   AlertCircle,
   ArrowLeft,
-  RefreshCw
+  RefreshCw,
+  Globe,
+  Target,
+  Trash2
 } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+
+const LEARNING_GOALS = [
+  { value: 'absolute-beginner', label: 'Absolute Beginner - Just starting out' },
+  { value: 'daily-exerciser', label: 'Daily Exerciser - Practice every day' },
+  { value: 'career-switcher', label: 'Career Switcher - Transitioning to tech' },
+  { value: 'skill-builder', label: 'Skill Builder - Expanding my toolkit' },
+  { value: 'interview-prep', label: 'Interview Prep - Preparing for interviews' },
+];
 
 export default function ProfilePage() {
   const { user, updateProfile, logout, uploadAvatar, updatePassword, resendVerificationEmail } = useAuth();
@@ -30,6 +41,8 @@ export default function ProfilePage() {
   // Profile fields
   const [name, setName] = useState(user?.name ?? '');
   const [bio, setBio] = useState(user?.bio ?? '');
+  const [learningGoal, setLearningGoal] = useState(user?.learning_goals ?? 'absolute-beginner');
+  const [publicPortfolio, setPublicPortfolio] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
@@ -50,6 +63,9 @@ export default function ProfilePage() {
 
   // Email verification
   const [isResendingEmail, setIsResendingEmail] = useState(false);
+
+  // Delete account
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!user) {
     return (
@@ -73,7 +89,11 @@ export default function ProfilePage() {
   const handleSave = async () => {
     setIsSaving(true);
     setMessage(null);
-    const result = await updateProfile({ name, bio });
+    const result = await updateProfile({ 
+      name, 
+      bio, 
+      learning_goals: learningGoal 
+    });
     if (result.success) {
       setMessage('Profile updated successfully.');
       setMessageType('success');
@@ -83,7 +103,6 @@ export default function ProfilePage() {
     }
     setIsSaving(false);
     
-    // Clear message after 5 seconds
     setTimeout(() => {
       setMessage(null);
     }, 5000);
@@ -97,14 +116,12 @@ export default function ProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       setMessage('Please select an image file.');
       setMessageType('error');
       return;
     }
 
-    // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
       setMessage('Image must be less than 5MB.');
       setMessageType('error');
@@ -119,7 +136,6 @@ export default function ProfilePage() {
     }
     setIsUploadingAvatar(false);
     
-    // Reset file input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -147,7 +163,6 @@ export default function ProfilePage() {
     if (result.success) {
       setPasswordMessage('Password updated successfully.');
       setPasswordMessageType('success');
-      // Clear fields
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
@@ -158,7 +173,6 @@ export default function ProfilePage() {
     
     setIsChangingPassword(false);
     
-    // Clear message after 5 seconds
     setTimeout(() => {
       setPasswordMessage(null);
     }, 5000);
@@ -178,6 +192,16 @@ export default function ProfilePage() {
   };
 
   const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
+  const handleDeleteAccount = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteAccount = async () => {
+    // In production, this would call a deleteAccount API
     await logout();
     navigate('/login');
   };
@@ -330,6 +354,68 @@ export default function ProfilePage() {
             </div>
           </div>
 
+          {/* Learning Goal Section */}
+          <div className="pt-6 border-t border-slate-800">
+            <h2 className="text-xl font-medium text-white mb-4 flex items-center gap-2">
+              <Target className="h-5 w-5 text-blue-400" />
+              Learning Goal
+            </h2>
+            <p className="text-sm text-slate-400 mb-4">
+              Your learning goal shapes your recommended path. You can change this at any time.
+            </p>
+            <div>
+              <Label className="mb-2 block text-white">Current Goal</Label>
+              <select
+                value={learningGoal}
+                onChange={(e) => setLearningGoal(e.target.value)}
+                className="h-12 w-full rounded-lg border border-slate-700 bg-slate-950 px-4 text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              >
+                {LEARNING_GOALS.map((goal) => (
+                  <option key={goal.value} value={goal.value}>
+                    {goal.label}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-2 text-xs text-slate-500">
+                Switching goals will update your recommended lessons and challenges.
+              </p>
+            </div>
+          </div>
+
+          {/* Preferences Section */}
+          <div className="pt-6 border-t border-slate-800">
+            <h2 className="text-xl font-medium text-white mb-4 flex items-center gap-2">
+              <Globe className="h-5 w-5 text-blue-400" />
+              Preferences
+            </h2>
+            <div className="space-y-4">
+              {/* Public Portfolio Toggle */}
+              <div className="flex items-center justify-between p-4 rounded-lg border border-slate-700 bg-slate-950">
+                <div>
+                  <p className="text-sm font-medium text-white">Public Portfolio</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Allow your portfolio projects to be shared with recruiters and on LinkedIn.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={publicPortfolio}
+                  onClick={() => setPublicPortfolio(!publicPortfolio)}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    publicPortfolio ? 'bg-blue-600' : 'bg-slate-700'
+                  }`}
+                >
+                  <span
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      publicPortfolio ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+
           <Button 
             onClick={handleSave} 
             disabled={isSaving} 
@@ -452,6 +538,45 @@ export default function ProfilePage() {
                 )}
               </Button>
             </motion.form>
+          )}
+        </div>
+
+        {/* Delete Account Section - Plain text link, not a button */}
+        <div className="mt-10 pt-10 border-t border-slate-800">
+          <h2 className="text-xl font-medium text-white mb-4">Danger Zone</h2>
+          
+          {showDeleteConfirm ? (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="rounded-lg border border-red-800 bg-red-950/40 p-4"
+            >
+              <p className="text-sm text-red-300 mb-4">
+                Are you sure? This will permanently delete your account, progress, and certificates. This action cannot be undone.
+              </p>
+              <div className="flex gap-3">
+                <Button
+                  onClick={confirmDeleteAccount}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  Yes, delete my account
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowDeleteConfirm(false)}
+                  className="border-slate-700 text-white hover:bg-slate-800"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </motion.div>
+          ) : (
+            <button
+              onClick={handleDeleteAccount}
+              className="text-sm text-slate-500 hover:text-red-400 transition-colors"
+            >
+              Delete account
+            </button>
           )}
         </div>
       </div>

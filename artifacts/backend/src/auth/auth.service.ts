@@ -15,39 +15,56 @@ export class AuthService {
    * Register a new user
    */
   async register(registerDto: RegisterDto) {
-    const { email, password, fullName, username } = registerDto;
+    const { password, fullName, username } = registerDto;
+    const email = registerDto.email.trim().toLowerCase();
 
-    // Check if user already exists
+    // Check if user already exists (including soft-deleted accounts)
     const existingUser = await this.prisma.profile.findUnique({
       where: { email },
     });
 
-    if (existingUser) {
+    if (existingUser && !existingUser.deletedAt) {
       throw new ConflictException('Email already registered');
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
-    const user = await this.prisma.profile.create({
-      data: {
+    // Create user (reactivate if previously soft-deleted)
+    const user = await this.prisma.profile.upsert({
+      where: { email },
+      update: {
+        password: hashedPassword,
+        fullName: fullName || null,
+        username: username || null,
+        role: 'STUDENT',
+        subscriptionStatus: 'FREE',
+        trialStatus: 'NONE',
+        deletedAt: null,
+      },
+      create: {
         email,
         password: hashedPassword,
-        fullName,
-        username,
+        fullName: fullName || null,
+        username: username || null,
         role: 'STUDENT',
         subscriptionStatus: 'FREE',
         trialStatus: 'NONE',
       },
     });
 
-    // Create user settings
-    await this.prisma.userSettings.create({
-      data: {
-        userId: user.id,
-      },
+    // Create user settings if they don't exist
+    const existingSettings = await this.prisma.userSettings.findUnique({
+      where: { userId: user.id },
     });
+
+    if (!existingSettings) {
+      await this.prisma.userSettings.create({
+        data: {
+          userId: user.id,
+        },
+      });
+    }
 
     // Generate JWT token
     const token = this.generateToken(user.id);
@@ -62,7 +79,8 @@ export class AuthService {
    * Login user
    */
   async login(loginDto: LoginDto) {
-    const { email, password } = loginDto;
+    const { password } = loginDto;
+    const email = loginDto.email.trim().toLowerCase();
 
     // Find user
     const user = await this.prisma.profile.findUnique({
@@ -216,18 +234,20 @@ export class AuthService {
    */
   async updateProfile(userId: string, updateData: any) {
     const allowedFields = ['fullName', 'username', 'avatarUrl', 'bio', 'timezone', 'language', 'darkMode'];
-    const dataToUpdate = {};
+    const dataToUpdate: Record<string, any> = {};
 
-    Object.keys(updateData).forEach(key => {
+    Object.keys(updateData).forEach((key) => {
       if (allowedFields.includes(key)) {
         dataToUpdate[key] = updateData[key];
       }
     });
 
-    return this.prisma.profile.update({
+    const updated = await this.prisma.profile.update({
       where: { id: userId },
       data: dataToUpdate,
     });
+
+    return this.sanitizeUser(updated);
   }
 
   /**

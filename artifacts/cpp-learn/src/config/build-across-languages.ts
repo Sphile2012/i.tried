@@ -107,7 +107,7 @@ export const todoAppProject: AppProject = {
       id: 'planning',
       title: 'Planning & Design',
       description: 'Define the application requirements, design the database schema, and plan the API structure.',
-      icon: '📋',
+      icon: 'Planning',
       color: 'from-blue-500 to-cyan-500',
       order: 1,
       steps: [
@@ -261,7 +261,7 @@ CREATE TABLE todos (
       id: 'setup',
       title: 'Environment Setup',
       description: 'Set up the development environment for your chosen language.',
-      icon: '🛠️',
+      icon: 'Setup',
       color: 'from-green-500 to-emerald-500',
       order: 2,
       steps: [
@@ -522,7 +522,7 @@ nest g class user --no-spec
       id: 'development',
       title: 'Core Development',
       description: 'Implement the core functionality of the Todo application.',
-      icon: '💻',
+      icon: 'Dev',
       color: 'from-purple-500 to-pink-500',
       order: 3,
       steps: [
@@ -711,7 +711,7 @@ export class Todo {
       id: 'api',
       title: 'API Development',
       description: 'Build RESTful API endpoints for CRUD operations.',
-      icon: '🔌',
+      icon: 'API',
       color: 'from-orange-500 to-amber-500',
       order: 4,
       steps: []
@@ -720,7 +720,7 @@ export class Todo {
       id: 'auth',
       title: 'Authentication',
       description: 'Implement user registration, login, and JWT authentication.',
-      icon: '🔐',
+      icon: 'Auth',
       color: 'from-red-500 to-rose-500',
       order: 5,
       steps: []
@@ -729,7 +729,7 @@ export class Todo {
       id: 'testing',
       title: 'Testing',
       description: 'Write unit and integration tests for your application.',
-      icon: '🧪',
+      icon: 'Test',
       color: 'from-indigo-500 to-purple-500',
       order: 6,
       steps: []
@@ -738,7 +738,7 @@ export class Todo {
       id: 'deployment',
       title: 'Deployment',
       description: 'Deploy your application using Docker and cloud services.',
-      icon: '🚀',
+      icon: 'Deploy',
       color: 'from-green-500 to-teal-500',
       order: 7,
       steps: []
@@ -772,12 +772,12 @@ export function getCodeExampleForLanguage(
  */
 export function getLanguageInfo(language: SupportedLanguage): { name: string; color: string; icon: string } {
   const info = {
-    python: { name: 'Python', color: '#3776AB', icon: '🐍' },
-    javascript: { name: 'JavaScript', color: '#F7DF1E', icon: '🟨' },
-    java: { name: 'Java', color: '#ED8B00', icon: '☕' },
-    cpp: { name: 'C++', color: '#00599C', icon: '⚡' },
-    csharp: { name: 'C#', color: '#68217A', icon: '🟪' },
-    typescript: { name: 'TypeScript', color: '#3178C6', icon: '🔷' }
+    python: { name: 'Python', color: '#3776AB', icon: 'Py' },
+    javascript: { name: 'JavaScript', color: '#F7DF1E', icon: 'JS' },
+    java: { name: 'Java', color: '#ED8B00', icon: 'Jv' },
+    cpp: { name: 'C++', color: '#00599C', icon: 'C+' },
+    csharp: { name: 'C#', color: '#68217A', icon: 'C#' },
+    typescript: { name: 'TypeScript', color: '#3178C6', icon: 'TS' }
   };
   return info[language];
 }

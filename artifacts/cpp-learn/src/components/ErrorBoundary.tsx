@@ -29,7 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('💥 Error Boundary caught an error:', error, errorInfo);
+    console.error('Error Boundary caught an error:', error, errorInfo);
     this.setState({
       error,
       errorInfo
@@ -51,7 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
         }}>
           <div style={{ maxWidth: '600px', width: '100%' }}>
             <h1 style={{ color: '#ef4444', fontSize: '24px', marginBottom: '16px' }}>
-              ⚠️ Application Error
+              Application Error
             </h1>
             <p style={{ marginBottom: '20px', color: '#94a3b8' }}>
               The application encountered an error and couldn't load properly.

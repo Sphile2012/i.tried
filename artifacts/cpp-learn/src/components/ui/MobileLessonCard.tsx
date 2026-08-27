@@ -60,7 +60,7 @@ export function MobileLessonCard({
             <p className="text-sm text-gray-500 line-clamp-2">{description}</p>
           </div>
           <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center ml-3">
-            <span className="text-xl">🔒</span>
+            <span className="text-xl">&#128274;</span>
           </div>
         </div>
         <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -177,7 +177,7 @@ export function CompactLessonCard({
         <h4 className="text-white font-medium text-sm line-clamp-2 mb-2">{title}</h4>
         {isCompleted ? (
           <div className="flex items-center gap-1 text-green-400 text-xs">
-            <span>✓</span>
+            <span>Done</span>
             <span>Complete</span>
           </div>
         ) : progress > 0 ? (

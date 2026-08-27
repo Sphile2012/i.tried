@@ -112,7 +112,7 @@ export default function AdminDashboardPage() {
 
   const statCards = [
     { label: 'Total Users', value: stats.totalUsers, icon: Users, color: 'text-blue-400', bg: 'bg-blue-500/20' },
-    { label: 'Premium Subscribers', value: stats.premiumSubscribers, icon: Crown, color: 'text-yellow-400', bg: 'bg-yellow-500/20' },
+    { label: 'Plus Subscribers', value: stats.premiumSubscribers, icon: Crown, color: 'text-yellow-400', bg: 'bg-yellow-500/20' },
     { label: 'Total Courses', value: stats.totalCourses, icon: BookOpen, color: 'text-green-400', bg: 'bg-green-500/20' },
     { label: 'Total Revenue', value: `R${stats.totalRevenue.toFixed(2)}`, icon: DollarSign, color: 'text-emerald-400', bg: 'bg-emerald-500/20' },
     { label: 'Active Users', value: stats.activeUsers, icon: Activity, color: 'text-purple-400', bg: 'bg-purple-500/20' },
@@ -189,7 +189,7 @@ export default function AdminDashboardPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     {u.subscription_status === 'premium' && (
-                      <Badge variant="default"><Crown className="h-3 w-3 mr-1" />Premium</Badge>
+                      <Badge variant="default"><Crown className="h-3 w-3 mr-1" />Plus</Badge>
                     )}
                     <span className="text-xs text-slate-500">
                       {new Date(u.created_at).toLocaleDateString()}

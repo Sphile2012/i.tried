@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Patch, Delete, Body, Param, UseGuards, Request, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Get, Patch, Delete, Body, UseGuards, Request, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto, ForgotPasswordDto, ResetPasswordDto, UpdateProfileDto } from './dto/auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -33,23 +33,25 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  async getProfile(@Request() req) {
+  async getProfile(@Request() req: any) {
     return this.authService.getProfile(req.user.userId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('profile')
-  async updateProfile(@Request() req, @Body() updateProfileDto: UpdateProfileDto) {
+  async updateProfile(@Request() req: any, @Body() updateProfileDto: UpdateProfileDto) {
     return this.authService.updateProfile(req.user.userId, updateProfileDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('account')
-  async deleteAccount(@Request() req) {
+  @HttpCode(HttpStatus.OK)
+  async deleteAccount(@Request() req: any) {
     return this.authService.deleteAccount(req.user.userId);
   }
 
   @Post('verify-email')
+  @HttpCode(HttpStatus.OK)
   async verifyEmail(@Body() body: { token: string }) {
     // TODO: Implement email verification
     return { message: 'Email verification not implemented yet' };

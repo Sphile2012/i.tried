@@ -17,7 +17,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then((registrations) => {
     for (const registration of registrations) {
       registration.unregister().then(() => {
-        console.log('✅ ServiceWorker unregistered');
+        console.log('ServiceWorker unregistered');
       });
     }
   });
@@ -25,11 +25,11 @@ if ('serviceWorker' in navigator) {
 
 // Error boundary for catching render errors
 window.addEventListener('error', (event) => {
-  console.error('💥 Global error caught:', event.error);
+  console.error('Global error caught:', event.error);
 });
 
 window.addEventListener('unhandledrejection', (event) => {
-  console.error('💥 Unhandled promise rejection:', event.reason);
+  console.error('Unhandled promise rejection:', event.reason);
 });
 
 try {
@@ -38,7 +38,7 @@ try {
     throw new Error('Root element not found!');
   }
   
-  console.log('✅ Root element found, mounting React app...');
+  console.log('Root element found, mounting React app...');
   
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
@@ -54,12 +54,12 @@ try {
     </React.StrictMode>
   );
   
-  console.log('✅ React app mounted successfully');
+  console.log('React app mounted successfully');
 } catch (error) {
-  console.error('💥 Failed to mount React app:', error);
+  console.error('Failed to mount React app:', error);
   document.body.innerHTML = `
     <div style="padding: 20px; font-family: system-ui; max-width: 600px; margin: 50px auto; background: #0f172a; color: #e2e8f0; min-height: 100vh;">
-      <h1 style="color: #ef4444;">⚠️ Application Failed to Load</h1>
+      <h1 style="color: #ef4444;">Application Failed to Load</h1>
       <p>There was an error starting the application. Please check the browser console for details.</p>
       <pre style="background: #1e293b; color: #f87171; padding: 15px; border-radius: 8px; overflow: auto;">${error}</pre>
       <p style="margin-top: 20px; color: #94a3b8;">If you're an administrator, check that all environment variables are properly configured in Netlify.</p>
