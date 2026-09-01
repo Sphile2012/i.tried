@@ -19,6 +19,12 @@ build/
 .env.local
 .env.*.local
 
+# Database
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
 # Netlify
 .netlify/
 
