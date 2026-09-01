@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Crown, Check, Loader2, CreditCard, Zap, Award, BookOpen, Brain, Download, Star, TrendingUp, Target, Shield, Rocket, AlertCircle } from 'lucide-react';
+import { Crown, Check, Loader2, CreditCard, Zap, Award, BookOpen, Brain, Download, TrendingUp, Target, Shield, Rocket, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
@@ -34,7 +34,7 @@ const careerFeatures = [
   { icon: Zap, text: 'Difficult coding & debugging challenges' },
   { icon: Target, text: 'Advanced performance analytics' },
   { icon: Award, text: 'Interview preparation materials' },
-  { icon: Star, text: 'Advanced projects & case studies' },
+  { icon: Rocket, text: 'Advanced projects & case studies' },
   { icon: TrendingUp, text: 'Priority support & early features' },
 ];
 

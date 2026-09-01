@@ -22,7 +22,10 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "prisma:seed": "ts-node prisma/seed.ts",
-    "prisma:seed:complete": "ts-node prisma/seed-complete-topics.ts"
+    "prisma:seed:complete": "ts-node prisma/seed-complete-topics.ts",
+    "seed:all": "ts-node prisma/seed-all-150-lessons.ts",
+    "seed:900": "ts-node prisma/seed-900-lessons.ts",
+    "setup": "powershell -ExecutionPolicy Bypass -File ./quick-setup.ps1"
   },
   "dependencies": {
     "@nestjs/common": "^10.3.0",

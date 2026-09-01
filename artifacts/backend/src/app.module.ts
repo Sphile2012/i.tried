@@ -18,6 +18,7 @@ import { CertificateModule } from './certificate/certificate.module';
 import { NotificationModule } from './notification/notification.module';
 import { EmailModule } from './email/email.module';
 import { AIModule } from './ai/ai.module';
+import { LessonModule } from './lesson/lesson.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { AIModule } from './ai/ai.module';
     AuthModule,
     UserModule,
     CourseModule,
+    LessonModule,
     QuizModule,
     ChallengeModule,
     PaymentModule,

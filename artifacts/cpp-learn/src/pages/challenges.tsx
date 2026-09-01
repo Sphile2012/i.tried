@@ -9,7 +9,9 @@
  */
 
 import { useState } from 'react';
-import { ChevronLeft, Play, Send, RotateCcw, CheckCircle, Clock, Award, Flame } from 'lucide-react';
+import { ChevronLeft, Play, Send, RotateCcw, CheckCircle, Clock, Award, Flame, Code2 } from 'lucide-react';
+
+type LanguageId = 'python' | 'cpp' | 'javascript' | 'java' | 'typescript' | 'csharp';
 
 interface Challenge {
   id: number;
@@ -19,7 +21,17 @@ interface Challenge {
   solved: boolean;
   xp: number;
   description: string;
+  starterCode: Record<LanguageId, string>;
 }
+
+const languages = [
+  { id: 'python' as LanguageId, name: 'Python', color: 'bg-blue-500' },
+  { id: 'cpp' as LanguageId, name: 'C++', color: 'bg-blue-600' },
+  { id: 'javascript' as LanguageId, name: 'JavaScript', color: 'bg-yellow-500' },
+  { id: 'java' as LanguageId, name: 'Java', color: 'bg-orange-500' },
+  { id: 'typescript' as LanguageId, name: 'TypeScript', color: 'bg-blue-400' },
+  { id: 'csharp' as LanguageId, name: 'C#', color: 'bg-purple-500' },
+];
 
 const categories = [
   'All',
@@ -35,29 +47,147 @@ const categories = [
 ];
 
 const challenges: Challenge[] = [
-  { id: 1, title: 'Two Sum', difficulty: 'Easy', category: 'Algorithms', solved: true, xp: 50, description: 'Find two numbers in an array that add up to a target.' },
-  { id: 2, title: 'Reverse String', difficulty: 'Easy', category: 'JavaScript', solved: true, xp: 30, description: 'Reverse a string without using built-in methods.' },
-  { id: 3, title: 'Valid Parentheses', difficulty: 'Medium', category: 'Data Structures', solved: false, xp: 100, description: 'Check if a string of brackets is valid.' },
-  { id: 4, title: 'Binary Search', difficulty: 'Medium', category: 'Algorithms', solved: false, xp: 100, description: 'Implement binary search on a sorted array.' },
-  { id: 5, title: 'Merge Sorted Arrays', difficulty: 'Medium', category: 'Algorithms', solved: false, xp: 120, description: 'Merge two sorted arrays into one.' },
-  { id: 6, title: 'Maximum Subarray', difficulty: 'Hard', category: 'Algorithms', solved: false, xp: 200, description: 'Find the contiguous subarray with the largest sum.' },
-  { id: 7, title: 'Fibonacci Sequence', difficulty: 'Easy', category: 'Mathematics', solved: true, xp: 50, description: 'Generate the nth Fibonacci number.' },
-  { id: 8, title: 'Palindrome Checker', difficulty: 'Easy', category: 'JavaScript', solved: false, xp: 40, description: 'Check if a string is a palindrome.' },
-  { id: 9, title: 'Binary Tree Traversal', difficulty: 'Hard', category: 'Data Structures', solved: false, xp: 200, description: 'Traverse a binary tree in-order.' },
-  { id: 10, title: 'TypeScript Generics', difficulty: 'Medium', category: 'TypeScript', solved: false, xp: 100, description: 'Create a generic type-safe function.' },
-  { id: 11, title: 'Array Chunking', difficulty: 'Easy', category: 'JavaScript', solved: false, xp: 40, description: 'Split an array into chunks of a given size.' },
-  { id: 12, title: 'Graph BFS', difficulty: 'Hard', category: 'Algorithms', solved: false, xp: 250, description: 'Implement breadth-first search on a graph.' },
+  { 
+    id: 1, 
+    title: 'Two Sum', 
+    difficulty: 'Easy', 
+    category: 'Algorithms', 
+    solved: true, 
+    xp: 50, 
+    description: 'Find two numbers in an array that add up to a target.',
+    starterCode: {
+      python: `def two_sum(nums: list[int], target: int) -> list[int]:
+    # Write your solution here
+    pass`,
+      cpp: `#include <vector>
+using namespace std;
+
+vector<int> twoSum(vector<int>& nums, int target) {
+    // Write your solution here
+    return {};
+}`,
+      javascript: `function twoSum(nums, target) {
+    // Write your solution here
+    
+}`,
+      java: `public class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        // Write your solution here
+        return new int[]{};
+    }
+}`,
+      typescript: `function twoSum(nums: number[], target: number): number[] {
+    // Write your solution here
+    return [];
+}`,
+      csharp: `public class Solution {
+    public int[] TwoSum(int[] nums, int target) {
+        // Write your solution here
+        return new int[]{};
+    }
+}`
+    }
+  },
+  { 
+    id: 2, 
+    title: 'Reverse String', 
+    difficulty: 'Easy', 
+    category: 'JavaScript', 
+    solved: true, 
+    xp: 30, 
+    description: 'Reverse a string without using built-in methods.',
+    starterCode: {
+      python: `def reverse_string(s: str) -> str:
+    # Write your solution here
+    pass`,
+      cpp: `#include <string>
+using namespace std;
+
+string reverseString(string s) {
+    // Write your solution here
+    return "";
+}`,
+      javascript: `function reverseString(s) {
+    // Write your solution here
+    
+}`,
+      java: `public class Solution {
+    public String reverseString(String s) {
+        // Write your solution here
+        return "";
+    }
+}`,
+      typescript: `function reverseString(s: string): string {
+    // Write your solution here
+    return "";
+}`,
+      csharp: `public class Solution {
+    public string ReverseString(string s) {
+        // Write your solution here
+        return "";
+    }
+}`
+    }
+  },
+  { 
+    id: 3, 
+    title: 'Valid Parentheses', 
+    difficulty: 'Medium', 
+    category: 'Data Structures', 
+    solved: false, 
+    xp: 100, 
+    description: 'Check if a string of brackets is valid.',
+    starterCode: {
+      python: `def is_valid(s: str) -> bool:
+    # Write your solution here
+    pass`,
+      cpp: `#include <string>
+using namespace std;
+
+bool isValid(string s) {
+    // Write your solution here
+    return false;
+}`,
+      javascript: `function isValid(s) {
+    // Write your solution here
+    
+}`,
+      java: `public class Solution {
+    public boolean isValid(String s) {
+        // Write your solution here
+        return false;
+    }
+}`,
+      typescript: `function isValid(s: string): boolean {
+    // Write your solution here
+    return false;
+}`,
+      csharp: `public class Solution {
+    public bool IsValid(string s) {
+        // Write your solution here
+        return false;
+    }
+}`
+    }
+  },
 ];
 
 export default function ChallengesPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedChallenge, setSelectedChallenge] = useState<number | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageId>('python');
+  const [code, setCode] = useState('');
 
   const filtered = activeCategory === 'All'
     ? challenges
     : challenges.filter(c => c.category === activeCategory || c.difficulty === activeCategory);
 
   const selected = challenges.find(c => c.id === selectedChallenge);
+
+  // Initialize code when challenge or language changes
+  if (selected && code === '') {
+    setCode(selected.starterCode[selectedLanguage]);
+  }
 
   const difficultyColor = (d: string) => {
     if (d === 'Easy') return 'bg-green-500/20 text-green-400 border border-green-500/30';
@@ -92,6 +222,34 @@ export default function ChallengesPage() {
                 </span>
               </div>
             </div>
+
+            {/* Language Switcher - PolyCode Feature */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Code2 className="w-4 h-4 text-gray-400" />
+                <span className="text-sm font-medium text-gray-400">Choose Language</span>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.id}
+                    onClick={() => {
+                      setSelectedLanguage(lang.id);
+                      setCode(selected.starterCode[lang.id]);
+                    }}
+                    className={`flex-shrink-0 px-4 py-2 text-sm rounded-lg transition min-h-[44px] active:scale-[0.95] flex items-center gap-2 ${
+                      selectedLanguage === lang.id
+                        ? 'bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white'
+                        : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${lang.color}`} />
+                    {lang.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <p className="text-gray-400 mb-4">{selected.description}</p>
 
             {/* Example */}
@@ -117,20 +275,27 @@ export default function ChallengesPage() {
 
           {/* Code Editor */}
           <div className="bg-[#0d0d1a] border border-white/10 rounded-2xl overflow-hidden mb-4">
-            <div className="flex items-center gap-2 px-4 py-3 bg-[#0a0a0f] border-b border-white/5">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500/70" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <div className="w-3 h-3 rounded-full bg-green-500/70" />
+            <div className="flex items-center justify-between px-4 py-3 bg-[#0a0a0f] border-b border-white/5">
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-red-500/70" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/70" />
+                </div>
+                <span className="text-xs text-gray-500 ml-2">
+                  solution.{selectedLanguage === 'python' ? 'py' : selectedLanguage === 'cpp' ? 'cpp' : selectedLanguage === 'java' ? 'java' : selectedLanguage === 'csharp' ? 'cs' : 'ts'}
+                </span>
               </div>
-              <span className="text-xs text-gray-500 ml-2">solution.ts</span>
+              <span className="text-xs text-[#00d4ff] font-medium">
+                {languages.find(l => l.id === selectedLanguage)?.name}
+              </span>
             </div>
-            <pre className="p-3 sm:p-4 text-sm font-mono text-gray-300 overflow-x-auto min-h-[200px]">
-              <code>{`function solution(nums: number[], target: number): number[] {
-  // Write your solution here
-  
-}`}</code>
-            </pre>
+            <textarea
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="w-full p-3 sm:p-4 text-sm font-mono text-gray-300 bg-transparent min-h-[250px] resize-none focus:outline-none"
+              spellCheck={false}
+            />
           </div>
 
           {/* Action Buttons - Mobile optimized with proper touch targets */}
@@ -149,6 +314,7 @@ export default function ChallengesPage() {
             </button>
             <button
               className="flex items-center justify-center gap-2 min-h-[48px] px-4 sm:px-6 py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-semibold hover:bg-white/10 hover:text-white active:scale-[0.98] transition-all"
+              onClick={() => setCode(selected.starterCode[selectedLanguage])}
             >
               <RotateCcw className="w-4 h-4" />
               Reset

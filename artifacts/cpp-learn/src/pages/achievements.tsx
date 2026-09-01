@@ -1,10 +1,10 @@
-import { Trophy, Star, Award, Flame, Zap, Target, Medal, Crown } from 'lucide-react';
+import { Trophy, Award, Flame, Zap, Target, Medal, Crown, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 
 const badges = [
-  { id: 1, name: 'First Steps', description: 'Complete your first lesson', icon: Star, color: 'text-yellow-400', earned: false },
+  { id: 1, name: 'First Steps', description: 'Complete your first lesson', icon: CheckCircle, color: 'text-green-400', earned: false },
   { id: 2, name: 'Code Warrior', description: 'Complete 10 coding exercises', icon: Zap, color: 'text-blue-400', earned: false },
   { id: 3, name: 'Quiz Master', description: 'Pass 5 quizzes with 100%', icon: Trophy, color: 'text-purple-400', earned: false },
   { id: 4, name: 'On Fire', description: 'Maintain a 7-day streak', icon: Flame, color: 'text-orange-400', earned: false },

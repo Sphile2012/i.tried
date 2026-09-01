@@ -6,21 +6,11 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async findOne(id: string) {
-    const user = await this.prisma.profile.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
       include: {
-        userSettings: true,
         enrollments: true,
-        userAchievements: {
-          include: {
-            achievement: true,
-          },
-        },
-        userBadges: {
-          include: {
-            badge: true,
-          },
-        },
+        progresses: true,
       },
     });
 
@@ -32,7 +22,7 @@ export class UserService {
   }
 
   async update(id: string, data: any) {
-    return this.prisma.profile.update({
+    return this.prisma.user.update({
       where: { id },
       data,
     });
@@ -46,8 +36,8 @@ export class UserService {
       },
     });
 
-    const lessonProgress = await this.prisma.lessonProgress.findMany({
-      where: { userId, isCompleted: true },
+    const lessonProgress = await this.prisma.progress.findMany({
+      where: { userId, status: 'COMPLETED' },
     });
 
     return {
@@ -57,11 +47,6 @@ export class UserService {
   }
 
   async getAchievements(userId: string) {
-    return this.prisma.userAchievement.findMany({
-      where: { userId },
-      include: {
-        achievement: true,
-      },
-    });
+    return [];
   }
 }

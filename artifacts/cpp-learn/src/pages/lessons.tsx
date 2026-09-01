@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { ChevronDown, BookOpen, Code2, Sparkles } from 'lucide-react';
+import { ChevronDown, BookOpen, Code2, Info } from 'lucide-react';
 import { lessonContent, glossaries, type LanguageId } from '@/data/lesson-content';
 
 // Language configuration
@@ -174,7 +174,7 @@ export default function LessonsPage() {
                 <div className="bg-gradient-to-br from-slate-900/80 to-slate-900/50 border border-slate-800 rounded-xl p-6">
                   <h2 className="text-3xl font-bold text-white mb-2">{activeTopic.title}</h2>
                   <div className="flex items-center gap-2 text-sm text-slate-400">
-                    <Sparkles className="h-4 w-4" />
+                    <Info className="h-4 w-4" />
                     <span>Hover over highlighted terms to see definitions</span>
                   </div>
                 </div>

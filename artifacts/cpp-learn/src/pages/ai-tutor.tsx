@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Brain, Send, Sparkles, Code, BookOpen, Lightbulb } from 'lucide-react';
+import { Brain, Send, HelpCircle, Code, BookOpen, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,7 +10,7 @@ const suggestions = [
   { icon: BookOpen, text: 'Explain what a variable is' },
   { icon: Code, text: 'How do loops work in C++?' },
   { icon: Lightbulb, text: 'Give me a hint for my exercise' },
-  { icon: Sparkles, text: 'Review my code' },
+  { icon: HelpCircle, text: 'Review my code' },
 ];
 
 export default function AITutor() {

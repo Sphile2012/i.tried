@@ -252,8 +252,7 @@ input, textarea, select {
 /* Prevent horizontal scroll on body */
 body {
   overflow-x: hidden;
-  position: fixed;
-  width: 100%;
+  min-height: 100vh;
 }
 
 /* Mobile-specific text sizes */

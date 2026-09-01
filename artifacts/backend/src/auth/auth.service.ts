@@ -15,56 +15,30 @@ export class AuthService {
    * Register a new user
    */
   async register(registerDto: RegisterDto) {
-    const { password, fullName, username } = registerDto;
+    const { password, fullName } = registerDto;
     const email = registerDto.email.trim().toLowerCase();
 
-    // Check if user already exists (including soft-deleted accounts)
-    const existingUser = await this.prisma.profile.findUnique({
+    // Check if user already exists
+    const existingUser = await this.prisma.user.findUnique({
       where: { email },
     });
 
-    if (existingUser && !existingUser.deletedAt) {
+    if (existingUser) {
       throw new ConflictException('Email already registered');
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user (reactivate if previously soft-deleted)
-    const user = await this.prisma.profile.upsert({
-      where: { email },
-      update: {
-        password: hashedPassword,
-        fullName: fullName || null,
-        username: username || null,
-        role: 'STUDENT',
-        subscriptionStatus: 'FREE',
-        trialStatus: 'NONE',
-        deletedAt: null,
-      },
-      create: {
+    // Create user
+    const user = await this.prisma.user.create({
+      data: {
         email,
         password: hashedPassword,
-        fullName: fullName || null,
-        username: username || null,
+        name: fullName || email.split('@')[0] || 'User',
         role: 'STUDENT',
-        subscriptionStatus: 'FREE',
-        trialStatus: 'NONE',
       },
     });
-
-    // Create user settings if they don't exist
-    const existingSettings = await this.prisma.userSettings.findUnique({
-      where: { userId: user.id },
-    });
-
-    if (!existingSettings) {
-      await this.prisma.userSettings.create({
-        data: {
-          userId: user.id,
-        },
-      });
-    }
 
     // Generate JWT token
     const token = this.generateToken(user.id);
@@ -83,7 +57,7 @@ export class AuthService {
     const email = loginDto.email.trim().toLowerCase();
 
     // Find user
-    const user = await this.prisma.profile.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
@@ -106,9 +80,9 @@ export class AuthService {
     const token = this.generateToken(user.id);
 
     // Update last activity
-    await this.prisma.profile.update({
+    await this.prisma.user.update({
       where: { id: user.id },
-      data: { lastActivityAt: new Date() },
+      data: { lastActiveAt: new Date() },
     });
 
     return {
@@ -121,7 +95,7 @@ export class AuthService {
    * Validate user for local strategy (login)
    */
   async validateUserForLocal(email: string, password: string) {
-    const user = await this.prisma.profile.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
@@ -141,7 +115,7 @@ export class AuthService {
    * Validate user for JWT strategy
    */
   async validateUser(userId: string) {
-    const user = await this.prisma.profile.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
 
@@ -172,7 +146,7 @@ export class AuthService {
    * Forgot password - send reset email
    */
   async forgotPassword(email: string) {
-    const user = await this.prisma.profile.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
@@ -200,7 +174,7 @@ export class AuthService {
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      await this.prisma.profile.update({
+      await this.prisma.user.update({
         where: { id: userId },
         data: { password: hashedPassword },
       });
@@ -215,11 +189,8 @@ export class AuthService {
    * Get user profile
    */
   async getProfile(userId: string) {
-    const user = await this.prisma.profile.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      include: {
-        userSettings: true,
-      },
     });
 
     if (!user) {
@@ -233,7 +204,7 @@ export class AuthService {
    * Update user profile
    */
   async updateProfile(userId: string, updateData: any) {
-    const allowedFields = ['fullName', 'username', 'avatarUrl', 'bio', 'timezone', 'language', 'darkMode'];
+    const allowedFields = ['name', 'avatar', 'bio'];
     const dataToUpdate: Record<string, any> = {};
 
     Object.keys(updateData).forEach((key) => {
@@ -242,7 +213,7 @@ export class AuthService {
       }
     });
 
-    const updated = await this.prisma.profile.update({
+    const updated = await this.prisma.user.update({
       where: { id: userId },
       data: dataToUpdate,
     });
@@ -254,12 +225,12 @@ export class AuthService {
    * Delete user account
    */
   async deleteAccount(userId: string) {
-    // Soft delete
-    await this.prisma.profile.update({
+    // Hard delete for SQLite (no soft delete support)
+    await this.prisma.user.update({
       where: { id: userId },
-      data: { deletedAt: new Date() },
+      data: { isActive: false },
     });
 
-    return { message: 'Account deleted successfully' };
+    return { message: 'Account deactivated successfully' };
   }
 }
