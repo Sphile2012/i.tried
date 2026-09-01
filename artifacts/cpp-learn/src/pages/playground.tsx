@@ -10,17 +10,17 @@ const defaultCodeExamples: Record<LanguageId, string> = {
   python: `# Python Hello World\nprint("Hello, World!")\n`,
   java: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}\n`,
   javascript: `// JavaScript Hello World\nconsole.log("Hello, World!");\n`,
-  c: `#include <stdio.h>\n\nint main() {\n    printf("Hello, World!\\n");\n    return 0;\n}\n`,
-  go: `package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("Hello, World!")\n}\n`,
+  typescript: `// TypeScript Hello World\nconsole.log("Hello, World!");\n`,
+  csharp: `using System;\n\nclass Program {\n    static void Main() {\n        Console.WriteLine("Hello, World!");\n    }\n}\n`,
 };
 
 const variableExamples: Record<LanguageId, string> = {
   cpp: `#include <iostream>\nusing namespace std;\n\nint main() {\n    int age = 25;\n    string name = "Alice";\n    double price = 19.99;\n    \n    cout << "Name: " << name << endl;\n    cout << "Age: " << age << endl;\n    cout << "Price: $" << price << endl;\n    return 0;\n}\n`,
-  python: `# Python Variables\nage = 25\nname = "Alice"\nprice = 19.99\n\nprint(f"Name: {name}")\nprint(f"Age: {age}")\nprint(f"Price: ${price}")\n`,
+  python: `# Python Variables\nage = 25\nname = "Alice"\nprice = 19.99\n\nprint(f"Name: ${'${name}'}")\nprint(f"Age: ${'${age}'}")\nprint(f"Price: $${'${price}'}")\n`,
   java: `public class Main {\n    public static void main(String[] args) {\n        int age = 25;\n        String name = "Alice";\n        double price = 19.99;\n        \n        System.out.println("Name: " + name);\n        System.out.println("Age: " + age);\n        System.out.println("Price: $" + price);\n    }\n}\n`,
   javascript: `// JavaScript Variables\nconst age = 25;\nconst name = "Alice";\nconst price = 19.99;\n\nconsole.log(\`Name: \${name}\`);\nconsole.log(\`Age: \${age}\`);\nconsole.log(\`Price: $\${price}\`);\n`,
-  c: `#include <stdio.h>\n\nint main() {\n    int age = 25;\n    char name[] = "Alice";\n    double price = 19.99;\n    \n    printf("Name: %s\\n", name);\n    printf("Age: %d\\n", age);\n    printf("Price: $%.2f\\n", price);\n    return 0;\n}\n`,
-  go: `package main\n\nimport "fmt"\n\nfunc main() {\n    age := 25\n    name := "Alice"\n    price := 19.99\n    \n    fmt.Printf("Name: %s\\n", name)\n    fmt.Printf("Age: %d\\n", age)\n    fmt.Printf("Price: $%.2f\\n", price)\n}\n`,
+  typescript: `// TypeScript Variables\nconst age: number = 25;\nconst name: string = "Alice";\nconst price: number = 19.99;\n\nconsole.log(\`Name: \${name}\`);\nconsole.log(\`Age: \${age}\`);\nconsole.log(\`Price: $\${price}\`);\n`,
+  csharp: `using System;\n\nclass Program {\n    static void Main() {\n        int age = 25;\n        string name = "Alice";\n        double price = 19.99;\n        \n        Console.WriteLine($"Name: ${'${name}'}");\n        Console.WriteLine($"Age: ${'${age}'}");\n        Console.WriteLine($"Price: $${'${price}'}");\n    }\n}\n`,
 };
 
 const loopExamples: Record<LanguageId, string> = {
@@ -28,8 +28,8 @@ const loopExamples: Record<LanguageId, string> = {
   python: `# Python For Loop\n# Count from 1 to 5\nfor i in range(1, 6):\n    print(f"Count: {i}")\n`,
   java: `public class Main {\n    public static void main(String[] args) {\n        // Count from 1 to 5\n        for(int i = 1; i <= 5; i++) {\n            System.out.println("Count: " + i);\n        }\n    }\n}\n`,
   javascript: `// JavaScript For Loop\n// Count from 1 to 5\nfor(let i = 1; i <= 5; i++) {\n    console.log(\`Count: \${i}\`);\n}\n`,
-  c: `#include <stdio.h>\n\nint main() {\n    // Count from 1 to 5\n    for(int i = 1; i <= 5; i++) {\n        printf("Count: %d\\n", i);\n    }\n    return 0;\n}\n`,
-  go: `package main\n\nimport "fmt"\n\nfunc main() {\n    // Count from 1 to 5\n    for i := 1; i <= 5; i++ {\n        fmt.Printf("Count: %d\\n", i)\n    }\n}\n`,
+  typescript: `// TypeScript For Loop\n// Count from 1 to 5\nfor(let i: number = 1; i <= 5; i++) {\n    console.log(\`Count: \${i}\`);\n}\n`,
+  csharp: `using System;\n\nclass Program {\n    static void Main() {\n        // Count from 1 to 5\n        for(int i = 1; i <= 5; i++) {\n            Console.WriteLine($"Count: {i}");\n        }\n    }\n}\n`,
 };
 
 const outputSimulations: Record<LanguageId, string> = {
@@ -37,8 +37,8 @@ const outputSimulations: Record<LanguageId, string> = {
   python: 'Running Python code...\n\n[Simulated Output]\nHello, World!\n\n--- Program finished with exit code: 0 ---',
   java: 'Running Java code...\n\n[Simulated Output]\nHello, World!\n\n--- Program finished with exit code: 0 ---',
   javascript: 'Running JavaScript code...\n\n[Simulated Output]\nHello, World!\n\n--- Program finished with exit code: 0 ---',
-  c: 'Running C code...\n\n[Simulated Output]\nHello, World!\n\n--- Program finished with exit code: 0 ---',
-  go: 'Running Go code...\n\n[Simulated Output]\nHello, World!\n\n--- Program finished with exit code: 0 ---',
+  typescript: 'Running TypeScript code...\n\n[Simulated Output]\nHello, World!\n\n--- Program finished with exit code: 0 ---',
+  csharp: 'Running C# code...\n\n[Simulated Output]\nHello, World!\n\n--- Program finished with exit code: 0 ---',
 };
 
 export default function Playground() {
@@ -92,24 +92,24 @@ export default function Playground() {
         }
         break;
 
-      case 'c':
-        // Check for missing main
-        if (!trimmedCode.includes('main')) {
-          errors.push('Missing main() function');
+      case 'csharp':
+        // Check for missing Main
+        if (!trimmedCode.includes('Main')) {
+          errors.push('Missing Main() method');
         }
-        // Check for printf without stdio.h
-        if (trimmedCode.includes('printf') && !trimmedCode.includes('#include <stdio.h>')) {
-          errors.push('Missing #include <stdio.h> for printf');
+        // Check for Console without using System
+        if (trimmedCode.includes('Console') && !trimmedCode.includes('using System')) {
+          errors.push('Missing using System; for Console');
         }
         // Check for missing semicolons
         if (!trimmedCode.includes(';') && trimmedCode.length > 20) {
           errors.push('Missing semicolons (;)');
         }
         // Check for unmatched braces
-        const cOpenBraces = (trimmedCode.match(/{/g) || []).length;
-        const cCloseBraces = (trimmedCode.match(/}/g) || []).length;
-        if (cOpenBraces !== cCloseBraces) {
-          errors.push(`Unmatched braces: ${cOpenBraces} opening, ${cCloseBraces} closing`);
+        const csOpenBraces = (trimmedCode.match(/{/g) || []).length;
+        const csCloseBraces = (trimmedCode.match(/}/g) || []).length;
+        if (csOpenBraces !== csCloseBraces) {
+          errors.push(`Unmatched braces: ${csOpenBraces} opening, ${csCloseBraces} closing`);
         }
         break;
 
@@ -152,14 +152,10 @@ export default function Playground() {
         }
         break;
 
-      case 'go':
-        // Check for package main
-        if (!trimmedCode.includes('package main')) {
-          errors.push('Missing package main declaration');
-        }
-        // Check for main function
-        if (!trimmedCode.includes('func main()')) {
-          errors.push('Missing func main() function');
+      case 'typescript':
+        // Check for common TS errors
+        if (trimmedCode.includes('console.log') && !trimmedCode.match(/console\.log\s*\(/)) {
+          errors.push('console.log requires parentheses');
         }
         break;
     }

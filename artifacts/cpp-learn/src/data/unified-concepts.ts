@@ -84,29 +84,29 @@ console.log(\`Age: \${age}\`);`,
         task: 'Create variables for your name, age, and favorite number',
         tips: ['Use const for values that won\'t change', 'Use let for variables that will change'],
       },
-      c: {
-        content: 'C requires explicit type declaration and uses printf for output.',
+      typescript: {
+        content: 'TypeScript adds static typing to JavaScript for better code safety.',
+        codeExample: `let age: number = 21;
+const name: string = "Phumeh";
+let price: number = 19.99;
+let isStudent: boolean = true;
+
+console.log(\`Name: \${name}\`);
+console.log(\`Age: \${age}\`);`,
+        task: 'Create variables for your name, age, and favorite number',
+        tips: ['Use type annotations for clarity', 'TypeScript prevents type errors'],
+      },
+      csharp: {
+        content: 'C# requires explicit type declaration and uses Console.WriteLine for output.',
         codeExample: `int age = 21;
 double price = 19.99;
-char name[] = "Phumeh";
-int is_student = 1; // 1 for true
+string name = "Phumeh";
+bool isStudent = true;
 
-printf("Name: %s\\n", name);
-printf("Age: %d\\n", age);`,
+Console.WriteLine($"Name: {name}");
+Console.WriteLine($"Age: {age}");`,
         task: 'Create variables for your name, age, and favorite number',
-        tips: ['Use descriptive names', 'Remember to include stdio.h'],
-      },
-      go: {
-        content: 'Go can infer types with := or use explicit type declaration.',
-        codeExample: `age := 21
-price := 19.99
-name := "Phumeh"
-isStudent := true
-
-fmt.Printf("Name: %s\\n", name)
-fmt.Printf("Age: %d\\n", age)`,
-        task: 'Create variables for your name, age, and favorite number',
-        tips: ['Use := for short variable declaration', 'Go automatically infers types'],
+        tips: ['Use PascalCase for public members', 'Use string interpolation with $'],
       },
     },
   },
@@ -181,36 +181,36 @@ for (let i = 1; i <= 10; i++) {
 console.log(\`Sum: \${sum}\`);`,
         task: 'Print numbers from 1 to 20',
       },
-      c: {
-        content: 'C for loops are fundamental and similar to C++.',
+      typescript: {
+        content: 'TypeScript for loops are identical to JavaScript with optional type annotations.',
+        codeExample: `// Print numbers 0 to 9
+for (let i: number = 0; i < 10; i++) {
+    process.stdout.write(i + " ");
+}
+console.log();
+
+// Sum of first 10 numbers
+let sum: number = 0;
+for (let i = 1; i <= 10; i++) {
+    sum += i;
+}
+console.log(\`Sum: \${sum}\`);`,
+        task: 'Print numbers from 1 to 20',
+      },
+      csharp: {
+        content: 'C# for loops are similar to C++ with type declaration.',
         codeExample: `// Print numbers 0 to 9
 for (int i = 0; i < 10; i++) {
-    printf("%d ", i);
+    Console.Write(i + " ");
 }
-printf("\\n");
+Console.WriteLine();
 
 // Sum of first 10 numbers
 int sum = 0;
 for (int i = 1; i <= 10; i++) {
     sum += i;
 }
-printf("Sum: %d\\n", sum);`,
-        task: 'Print numbers from 1 to 20',
-      },
-      go: {
-        content: 'Go has only for loops, but they are very flexible.',
-        codeExample: `// Print numbers 0 to 9
-for i := 0; i < 10; i++ {
-    fmt.Print(i, " ")
-}
-fmt.Println()
-
-// Sum of first 10 numbers
-sum := 0
-for i := 1; i <= 10; i++ {
-    sum += i
-}
-fmt.Printf("Sum: %d\\n", sum)`,
+Console.WriteLine($"Sum: {sum}");`,
         task: 'Print numbers from 1 to 20',
       },
     },
@@ -291,40 +291,40 @@ console.log(\`5 + 3 = \${result}\`);
 greet("Phumeh");`,
         task: 'Create a function that multiplies two numbers',
       },
-      c: {
-        content: 'C functions must be declared before use or have prototypes.',
-        codeExample: `int add(int a, int b) {
+      typescript: {
+        content: 'TypeScript adds type annotations to JavaScript functions.',
+        codeExample: `function add(a: number, b: number): number {
     return a + b;
 }
 
-void greet(char name[]) {
-    printf("Hello, %s!\\n", name);
-}
+const greet = (name: string): void => {
+    console.log(\`Hello, \${name}!\`);
+};
 
-int main() {
-    int result = add(5, 3);
-    printf("5 + 3 = %d\\n", result);
-    greet("Phumeh");
-    return 0;
-}`,
+// Using functions
+const result: number = add(5, 3);
+console.log(\`5 + 3 = \${result}\`);
+greet("Phumeh");`,
         task: 'Create a function that multiplies two numbers',
       },
-      go: {
-        content: 'Go functions can return multiple values.',
-        codeExample: `func add(a int, b int) int {
-    return a + b
-}
-
-func greet(name string) {
-    fmt.Printf("Hello, %s!\\n", name)
-}
-
-func main() {
-    result := add(5, 3)
-    fmt.Printf("5 + 3 = %d\\n", result)
-    greet("Phumeh")
+      csharp: {
+        content: 'C# methods are functions defined inside classes.',
+        codeExample: `class Program {
+    static int Add(int a, int b) {
+        return a + b;
+    }
+    
+    static void Greet(string name) {
+        Console.WriteLine($"Hello, {name}!");
+    }
+    
+    static void Main() {
+        int result = Add(5, 3);
+        Console.WriteLine($"5 + 3 = {result}");
+        Greet("Phumeh");
+    }
 }`,
-        task: 'Create a function that multiplies two numbers',
+        task: 'Create a method that multiplies two numbers',
       },
     },
   },
