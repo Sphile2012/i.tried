@@ -118,16 +118,16 @@ export interface LanguageProgress {
 export const getLanguagesByDifficulty = () => {
   return {
     easy: [LANGUAGES.python, LANGUAGES.javascript],
-    medium: [LANGUAGES.java, LANGUAGES.go],
-    hard: [LANGUAGES.cpp, LANGUAGES.c],
+    medium: [LANGUAGES.java, LANGUAGES.typescript],
+    hard: [LANGUAGES.cpp, LANGUAGES.csharp],
   };
 };
 
 // Recommended learning order
 export const RECOMMENDED_ORDER = {
-  beginner: ['python', 'javascript', 'java', 'cpp', 'go', 'c'],
-  intermediate: ['javascript', 'python', 'java', 'go', 'cpp', 'c'],
-  advanced: ['cpp', 'c', 'go', 'java', 'python', 'javascript'],
+  beginner: ['python', 'javascript', 'java', 'typescript', 'csharp', 'cpp'],
+  intermediate: ['javascript', 'python', 'java', 'typescript', 'cpp', 'csharp'],
+  advanced: ['cpp', 'csharp', 'typescript', 'java', 'python', 'javascript'],
 };
 
 // Language comparison for "show in all languages"
@@ -153,11 +153,11 @@ export const LOOP_COMPARISON: CodeComparison = {
     javascript: `for (let i = 0; i < 10; i++) {
     console.log(i);
 }`,
-    c: `for (int i = 0; i < 10; i++) {
-    printf("%d\\n", i);
+    typescript: `for (let i = 0; i < 10; i++) {
+    console.log(i);
 }`,
-    go: `for i := 0; i < 10; i++ {
-    fmt.Println(i)
+    csharp: `for (int i = 0; i < 10; i++) {
+    Console.WriteLine(i);
 }`,
   },
 };
