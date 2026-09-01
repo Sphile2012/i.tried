@@ -18,7 +18,7 @@ const languages: Record<LanguageId, { name: string; color: string; icon: string 
 };
 
 export default function LessonsPage() {
-  const [selectedLanguage, setSelectedLanguage] = useState<LanguageId>('python');
+  const [selectedLanguage, setSelectedLanguage] = useState<LanguageId>('cpp');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [hoveredTerm, setHoveredTerm] = useState<string | null>(null);
