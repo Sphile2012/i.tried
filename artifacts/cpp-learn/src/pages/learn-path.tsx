@@ -65,7 +65,7 @@ export default function LearnPath() {
 
   const handleLessonClick = (lesson: LessonNode) => {
     if (lesson.status === 'locked') return;
-    navigate(`/lesson/${lesson.id}?lang=${currentLanguage}`);
+    navigate(`/lessons/${lesson.id}?lang=${currentLanguage}`);
   };
 
   const currentLang = LANGUAGES[currentLanguage];
