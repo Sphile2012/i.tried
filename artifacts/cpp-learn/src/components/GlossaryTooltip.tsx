@@ -147,7 +147,7 @@ interface User {
   name: string;
   email: string;
 }
-let user: User = { name: "Charlie", email: "charlie@example.com" };`,
+let user: User = { name: "Charlie", email: "charlie@email.com" };`,
     commonMistakes: [
       'Forgetting that JavaScript object is different from OOP class instance',
       'Accessing properties that don\'t exist without checking',

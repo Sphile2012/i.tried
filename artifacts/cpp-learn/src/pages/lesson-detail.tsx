@@ -31,6 +31,21 @@ export default function LessonDetail() {
   const course = courseData[id as string] || courseData['1'];
   const totalLessons = course.modules.reduce((acc: number, m: any) => acc + m.lessons.length, 0);
   const progress = 0;
+  
+  const handleEnroll = () => {
+    // Mark as enrolled in localStorage
+    const enrolled = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+    if (!enrolled.includes(id)) {
+      enrolled.push(id);
+      localStorage.setItem('enrolledCourses', JSON.stringify(enrolled));
+    }
+    // Redirect to first lesson
+    const firstLesson = course.modules[0]?.lessons[0];
+    if (firstLesson) {
+      window.location.href = `/lessons/${firstLesson.id}`;
+    }
+  };
+  
   const iconForType = (type: string) => {
     switch(type) { case 'text': return <BookOpen className="h-4 w-4" />; case 'exercise': return <Code className="h-4 w-4" />; case 'quiz': return <Brain className="h-4 w-4" />; default: return <BookOpen className="h-4 w-4" />; }
   };
@@ -38,7 +53,7 @@ export default function LessonDetail() {
     <div className="space-y-6">
       <Link href="/lessons" className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"><ArrowLeft className="h-4 w-4" /> Back to Courses</Link>
       <Card><CardContent className="p-6">
-        <div className="flex items-start justify-between mb-4"><div><h1 className="text-2xl font-bold mb-2">{course.title}</h1><p className="text-slate-400 mb-4">{course.description}</p><div className="flex items-center gap-3"><Badge variant="secondary">{course.level}</Badge><span className="text-sm text-slate-400">{totalLessons} lessons</span></div></div><Button>Enroll Now</Button></div>
+        <div className="flex items-start justify-between mb-4"><div><h1 className="text-2xl font-bold mb-2">{course.title}</h1><p className="text-slate-400 mb-4">{course.description}</p><div className="flex items-center gap-3"><Badge variant="secondary">{course.level}</Badge><span className="text-sm text-slate-400">{totalLessons} lessons</span></div></div><Button onClick={handleEnroll}>Enroll Now</Button></div>
         <div className="space-y-2"><div className="flex justify-between text-sm"><span className="text-slate-400">Progress</span><span className="font-medium">{progress}%</span></div><Progress value={progress} /></div>
       </CardContent></Card>
       <div className="space-y-4">
