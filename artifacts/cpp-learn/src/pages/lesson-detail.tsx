@@ -8,19 +8,19 @@ import { Progress } from '@/components/ui/progress';
 const courseData: Record<string, any> = {
   '1': { title: 'C++ Fundamentals', level: 'Beginner', description: 'Master the basics of C++ programming.', modules: [
     { title: 'Getting Started', lessons: [
-      { id: '1-1', title: 'Introduction to C++', type: 'video', duration: '10 min', completed: false },
+      { id: '1-1', title: 'Introduction to C++', type: 'text', duration: '10 min', completed: false },
       { id: '1-2', title: 'Setting Up Environment', type: 'text', duration: '15 min', completed: false },
       { id: '1-3', title: 'Your First Program', type: 'exercise', duration: '20 min', completed: false },
     ]},
     { title: 'Variables & Data Types', lessons: [
-      { id: '2-1', title: 'Understanding Variables', type: 'video', duration: '12 min', completed: false },
+      { id: '2-1', title: 'Understanding Variables', type: 'text', duration: '12 min', completed: false },
       { id: '2-2', title: 'Data Types in C++', type: 'text', duration: '18 min', completed: false },
       { id: '2-3', title: 'Working with Variables', type: 'exercise', duration: '25 min', completed: false },
       { id: '2-4', title: 'Variables Quiz', type: 'quiz', duration: '10 min', completed: false },
     ]},
     { title: 'Control Flow', lessons: [
-      { id: '3-1', title: 'Conditional Statements', type: 'video', duration: '15 min', completed: false },
-      { id: '3-2', title: 'Loops', type: 'video', duration: '20 min', completed: false },
+      { id: '3-1', title: 'Conditional Statements', type: 'text', duration: '15 min', completed: false },
+      { id: '3-2', title: 'Loops', type: 'text', duration: '20 min', completed: false },
       { id: '3-3', title: 'Control Flow Exercises', type: 'exercise', duration: '30 min', completed: false },
     ]},
   ]},
@@ -32,7 +32,7 @@ export default function LessonDetail() {
   const totalLessons = course.modules.reduce((acc: number, m: any) => acc + m.lessons.length, 0);
   const progress = 0;
   const iconForType = (type: string) => {
-    switch(type) { case 'video': return <Play className="h-4 w-4" />; case 'text': return <BookOpen className="h-4 w-4" />; case 'exercise': return <Code className="h-4 w-4" />; case 'quiz': return <Brain className="h-4 w-4" />; default: return <BookOpen className="h-4 w-4" />; }
+    switch(type) { case 'text': return <BookOpen className="h-4 w-4" />; case 'exercise': return <Code className="h-4 w-4" />; case 'quiz': return <Brain className="h-4 w-4" />; default: return <BookOpen className="h-4 w-4" />; }
   };
   return (
     <div className="space-y-6">

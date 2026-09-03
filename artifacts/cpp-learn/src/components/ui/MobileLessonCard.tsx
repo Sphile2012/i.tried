@@ -13,7 +13,7 @@ export interface LessonCardProps {
   description: string;
   duration: string;
   progress?: number;
-  type?: 'video' | 'text' | 'exercise' | 'quiz' | 'project';
+  type?: 'text' | 'exercise' | 'quiz' | 'project';
   category?: string;
   isCompleted?: boolean;
   isLocked?: boolean;
@@ -21,7 +21,6 @@ export interface LessonCardProps {
 }
 
 const typeIcons = {
-  video: Play,
   text: BookOpen,
   exercise: Code,
   quiz: Award,
@@ -29,7 +28,6 @@ const typeIcons = {
 };
 
 const typeColors = {
-  video: 'from-red-500 to-orange-500',
   text: 'from-blue-500 to-cyan-500',
   exercise: 'from-green-500 to-emerald-500',
   quiz: 'from-purple-500 to-pink-500',

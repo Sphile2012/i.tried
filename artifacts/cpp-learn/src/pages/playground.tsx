@@ -122,6 +122,18 @@ export default function Playground() {
         if (trimmedCode.includes('\t') && trimmedCode.match(/^ +/m)) {
           errors.push('Mixed tabs and spaces (use consistent indentation)');
         }
+        // Check for missing colons after control structures
+        const lines = trimmedCode.split('\n');
+        lines.forEach((line, idx) => {
+          const trimmed = line.trim();
+          if (trimmed.startsWith('if ') || trimmed.startsWith('elif ') || trimmed.startsWith('else') || 
+              trimmed.startsWith('for ') || trimmed.startsWith('while ') || 
+              trimmed.startsWith('def ') || trimmed.startsWith('class ')) {
+            if (!trimmed.endsWith(':') && trimmed.length > 3) {
+              errors.push(`Line ${idx + 1}: Missing colon (:) after ${trimmed.split(' ')[0]} statement`);
+            }
+          }
+        });
         break;
 
       case 'java':
@@ -150,12 +162,28 @@ export default function Playground() {
         if (trimmedCode.includes('console.log') && !trimmedCode.match(/console\.log\s*\(/)) {
           errors.push('console.log requires parentheses');
         }
+        // Check for var usage
+        if (trimmedCode.match(/\bvar\s+/)) {
+          errors.push('Consider using let or const instead of var');
+        }
+        // Check for unmatched braces
+        const jsOpenBraces = (trimmedCode.match(/{/g) || []).length;
+        const jsCloseBraces = (trimmedCode.match(/}/g) || []).length;
+        if (jsOpenBraces !== jsCloseBraces) {
+          errors.push(`Unmatched braces: ${jsOpenBraces} opening, ${jsCloseBraces} closing`);
+        }
         break;
 
       case 'typescript':
         // Check for common TS errors
         if (trimmedCode.includes('console.log') && !trimmedCode.match(/console\.log\s*\(/)) {
           errors.push('console.log requires parentheses');
+        }
+        // Check for unmatched braces
+        const tsOpenBraces = (trimmedCode.match(/{/g) || []).length;
+        const tsCloseBraces = (trimmedCode.match(/}/g) || []).length;
+        if (tsOpenBraces !== tsCloseBraces) {
+          errors.push(`Unmatched braces: ${tsOpenBraces} opening, ${tsCloseBraces} closing`);
         }
         break;
     }

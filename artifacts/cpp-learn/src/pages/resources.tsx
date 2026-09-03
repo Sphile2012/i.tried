@@ -345,7 +345,7 @@ Accessibility Best Practices:
    - Technologies used
    - Live demo links
    - GitHub repository links
-   - Screenshots and videos
+   - Screenshots
 
 3. About Section
    - Your story and journey
