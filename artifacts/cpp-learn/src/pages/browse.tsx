@@ -86,7 +86,7 @@ export default function BrowsePage() {
       }
 
       // Use curriculum endpoint filtered by user level
-      const userLevel = user?.level || 'BEGINNER';
+      const userLevel = user?.proficiencyLevel || 'BEGINNER';
       const headers: HeadersInit = {
         'Content-Type': 'application/json',
       };
