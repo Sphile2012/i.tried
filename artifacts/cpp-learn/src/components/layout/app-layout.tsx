@@ -91,49 +91,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             </div>
 
-            {/* Center: Desktop Navigation - Organized menu */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {mainNavItems.map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.path);
-                return (
-                  <Link key={item.path} href={item.path}>
-                    <div
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
-                        active
-                          ? 'bg-[#38BDF8]/10 text-[#38BDF8]'
-                          : 'text-[#F5F7FF]/70 hover:text-[#F5F7FF] hover:bg-[#F5F7FF]/10'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </nav>
-
             {/* Right: Language Selector + Hamburger (ALWAYS VISIBLE) */}
             <div className="flex items-center gap-3">
               {/* Language Selector */}
               <LanguageSelector className="hidden md:block" />
-              
-              {/* Auth Button (only desktop) */}
-              {isAuthenticated ? (
-                <Link href="/profile">
-                  <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-[#F5F7FF]/70 hover:text-[#F5F7FF] hover:bg-[#F5F7FF]/10 transition-colors cursor-pointer">
-                    <UserIcon className="h-4 w-4" />
-                    <span className="hidden sm:inline">Profile</span>
-                  </div>
-                </Link>
-              ) : (
-                <Link href="/login">
-                  <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-[#38BDF8] text-[#0A1931] hover:bg-[#38BDF8]/90 transition-colors cursor-pointer">
-                    <LogIn className="h-4 w-4" />
-                    <span>Sign In</span>
-                  </div>
-                </Link>
-              )}
 
               {/* Hamburger Button - ALWAYS VISIBLE on ALL devices */}
               <button
