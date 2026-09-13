@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Param,
+  Query,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -18,11 +19,18 @@ export class CurriculumController {
   @Get(':level')
   @UseGuards(JwtAuthGuard, LevelGuard)
   @RequireLevel('BEGINNER') // Will be dynamically checked based on requested level
-  async getCurriculum(@Request() req: any, @Param('level') level: string) {
+  async getCurriculum(
+    @Request() req: any,
+    @Param('level') level: string,
+    @Query('language') language?: string,
+    @Query('difficulty') difficulty?: string,
+  ) {
     const userId = req.user.id;
     return await this.curriculumService.getCurriculumByLevel(
       userId,
       level.toUpperCase() as any,
+      language,
+      difficulty,
     );
   }
 

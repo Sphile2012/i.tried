@@ -14,6 +14,7 @@ export interface LessonSummary {
   duration: number;
   orderIndex: number;
   completed: boolean;
+  language?: string;
 }
 
 export interface ChallengeSummary {
@@ -22,6 +23,7 @@ export interface ChallengeSummary {
   difficulty: string;
   xpReward: number;
   completed: boolean;
+  language?: string;
 }
 
 @Injectable()
@@ -29,6 +31,8 @@ export class CurriculumService {
   async getCurriculumByLevel(
     userId: string,
     requestedLevel: ProficiencyLevel,
+    language?: string,
+    difficulty?: string,
   ): Promise<{
     lessons: LessonSummary[];
     challenges: ChallengeSummary[];
@@ -44,16 +48,29 @@ export class CurriculumService {
     }
 
     // Determine which difficulties to show based on level
-    const allowedDifficulties = this.getAllowedDifficulties(
+    let allowedDifficulties = this.getAllowedDifficulties(
       requestedLevel as ProficiencyLevel,
     );
 
+    // Override with specific difficulty if provided
+    if (difficulty && ['BEGINNER', 'INTERMEDIATE', 'EXPERT'].includes(difficulty.toUpperCase())) {
+      allowedDifficulties = [difficulty.toUpperCase()];
+    }
+
+    // Build lesson query filter
+    const lessonFilter: any = {
+      difficulty: { in: allowedDifficulties },
+      isPublished: true,
+    };
+
+    // Add language filter if provided
+    if (language && language !== 'all') {
+      lessonFilter.language = language;
+    }
+
     // Fetch lessons with completion status
     const lessons = await prisma.lesson.findMany({
-      where: {
-        difficulty: { in: allowedDifficulties },
-        isPublished: true,
-      },
+      where: lessonFilter,
       orderBy: [{ orderIndex: 'asc' }, { createdAt: 'asc' }],
       include: {
         module: {
@@ -87,14 +104,23 @@ export class CurriculumService {
       duration: lesson.estimatedMinutes,
       orderIndex: lesson.orderIndex,
       completed: progressMap.get(lesson.id) || false,
+      language: (lesson as any).language || 'cpp', // Add language field
     }));
+
+    // Build challenge query filter
+    const challengeFilter: any = {
+      proficiencyDifficulty: { in: allowedDifficulties },
+      isPublished: true,
+    };
+
+    // Add language filter if provided
+    if (language && language !== 'all') {
+      challengeFilter.language = language;
+    }
 
     // Fetch challenges with completion status
     const challenges = await prisma.challenge.findMany({
-      where: {
-        proficiencyDifficulty: { in: allowedDifficulties },
-        isPublished: true,
-      },
+      where: challengeFilter,
       orderBy: [{ orderIndex: 'asc' }],
     });
 
@@ -118,6 +144,7 @@ export class CurriculumService {
         difficulty: challenge.proficiencyDifficulty || 'BEGINNER',
         xpReward: challenge.xpReward,
         completed: challengeProgressMap.get(challenge.id) || false,
+        language: (challenge as any).language || 'cpp', // Add language field
       }),
     );
 
