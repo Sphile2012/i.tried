@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { ChevronDown, Check } from 'lucide-react';
 
 export type ProgrammingLanguage = 'python' | 'cpp' | 'javascript' | 'typescript' | 'java' | 'csharp';
@@ -27,6 +28,7 @@ interface LanguageSelectorProps {
 }
 
 export default function LanguageSelector({ onLanguageChange, className = '' }: LanguageSelectorProps) {
+  const [, navigate] = useLocation();
   const [selectedLanguage, setSelectedLanguage] = useState<ProgrammingLanguage>('python');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,6 +51,9 @@ export default function LanguageSelector({ onLanguageChange, className = '' }: L
     setSelectedLanguage(languageId);
     localStorage.setItem(STORAGE_KEY, languageId);
     setIsOpen(false);
+    
+    // Navigate to browse page with selected language
+    navigate(`/browse?language=${languageId}`);
   };
 
   const selected = languages.find(lang => lang.id === selectedLanguage) || languages[0];

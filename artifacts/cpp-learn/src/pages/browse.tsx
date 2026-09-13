@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { Search, Filter, BookOpen, Code2, Award, Clock } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { cleanMarkdown } from '@/utils/cleanMarkdown';
@@ -36,19 +37,36 @@ const DIFFICULTIES: Record<Difficulty, string> = {
 
 export default function BrowsePage() {
   const { user } = useUser();
+  const [, navigate] = useLocation();
+  
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [filteredLessons, setFilteredLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Filter state
-  const [selectedLanguage, setSelectedLanguage] = useState<Language>('all');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('all');
+  // Get language from URL params or default to 'all'
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlLanguage = (urlParams.get('language') || 'all') as Language;
+  const urlDifficulty = (urlParams.get('difficulty') || 'all') as Difficulty;
+
+  // Filter state - initialize from URL
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>(urlLanguage);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>(urlDifficulty);
   const [searchQuery, setSearchQuery] = useState('');
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(12);
+
+  // Sync state with URL params on mount and URL changes
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const lang = (params.get('language') || 'all') as Language;
+    const diff = (params.get('difficulty') || 'all') as Difficulty;
+    
+    setSelectedLanguage(lang);
+    setSelectedDifficulty(diff);
+  }, [window.location.search]);
 
   // Fetch lessons from backend with language filter
   const fetchLessons = async (language?: Language, difficulty?: Difficulty) => {
@@ -121,28 +139,44 @@ export default function BrowsePage() {
     }
   };
 
-  // Initial load
+  // Initial load based on URL params
   useEffect(() => {
     fetchLessons(selectedLanguage, selectedDifficulty);
-  }, []);
+  }, [selectedLanguage, selectedDifficulty]);
 
-  // Handle language filter change
+  // Handle language filter change - update URL
   const handleLanguageChange = (language: Language) => {
     setSelectedLanguage(language);
     setCurrentPage(1); // Reset pagination
     setSearchQuery(''); // Clear search
     
-    // Fetch from backend with new language filter
-    fetchLessons(language, selectedDifficulty);
+    // Update URL with new language
+    const params = new URLSearchParams();
+    if (language !== 'all') {
+      params.append('language', language);
+    }
+    if (selectedDifficulty !== 'all') {
+      params.append('difficulty', selectedDifficulty);
+    }
+    
+    navigate(`/browse${params.toString() ? '?' + params.toString() : ''}`);
   };
 
-  // Handle difficulty filter change
+  // Handle difficulty filter change - update URL
   const handleDifficultyChange = (difficulty: Difficulty) => {
     setSelectedDifficulty(difficulty);
     setCurrentPage(1); // Reset pagination
     
-    // Fetch from backend with new difficulty filter
-    fetchLessons(selectedLanguage, difficulty);
+    // Update URL with new difficulty
+    const params = new URLSearchParams();
+    if (selectedLanguage !== 'all') {
+      params.append('language', selectedLanguage);
+    }
+    if (difficulty !== 'all') {
+      params.append('difficulty', difficulty);
+    }
+    
+    navigate(`/browse${params.toString() ? '?' + params.toString() : ''}`);
   };
 
   // Handle search (frontend filtering)

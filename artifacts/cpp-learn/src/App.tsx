@@ -12,6 +12,7 @@ import AboutPage from '@/pages/about';
 import Dashboard from '@/pages/dashboard';
 import LessonBrowser from '@/pages/lessons';
 import LearnPath from '@/pages/learn-path';
+import LearnPage from '@/pages/learn';
 import LessonDetail from '@/pages/lesson-detail';
 import LessonReader from '@/pages/lesson-reader';
 import QuizPage from '@/pages/quiz';
@@ -50,8 +51,8 @@ function Router() {
   return (
     <AppLayout>
       <Switch>
-        <Route path="/" component={HomeNew} />
-        <Route path="/home-old" component={HomePage} />
+        <Route path="/" component={HomePage} />
+        <Route path="/home-new" component={HomeNew} />
         <Route path="/about" component={AboutPage} />
         <Route path="/topics" component={TopicsPage} />
         <Route path="/invite/:username" component={InvitePage} />
@@ -60,7 +61,8 @@ function Router() {
         <Route path="/onboarding/quiz" component={OnboardingQuiz} />
         <Route path="/admin/dashboard" component={AdminDashboard} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/learn" component={LearnPath} />
+        <Route path="/learn" component={LearnPage} />
+        <Route path="/learn-path" component={LearnPath} />
         <Route path="/lessons" component={LessonBrowser} />
         <Route path="/lessons/:id" component={LessonDetail} />
         <Route path="/lesson-reader" component={LessonReader} />
