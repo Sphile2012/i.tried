@@ -1,6 +1,8 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Lightbulb, CheckCircle } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
+import CodeEditor from '../CodeEditor';
+import { compilerService, CompilerError } from '@/services/compilerService';
 
 interface BeginnerLayoutProps {
   children: ReactNode;
@@ -11,6 +13,11 @@ interface BeginnerLayoutProps {
   progressPercent?: number;
   lessonTitle?: string;
   showCelebration?: boolean;
+  codeEditor?: {
+    initialCode: string;
+    language?: 'cpp' | 'javascript' | 'typescript' | 'python';
+    onCodeChange?: (code: string) => void;
+  };
 }
 
 export default function BeginnerLayout({
@@ -22,9 +29,14 @@ export default function BeginnerLayout({
   progressPercent = 0,
   lessonTitle,
   showCelebration = false,
+  codeEditor,
 }: BeginnerLayoutProps) {
   const { user } = useUser();
   const [celebrate, setCelebrate] = useState(false);
+  const [code, setCode] = useState(codeEditor?.initialCode || '');
+  const [output, setOutput] = useState('');
+  const [errors, setErrors] = useState<CompilerError[]>([]);
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     if (showCelebration) {
@@ -32,6 +44,32 @@ export default function BeginnerLayout({
       setTimeout(() => setCelebrate(false), 2000);
     }
   }, [showCelebration]);
+
+  const handleRunCode = async () => {
+    if (!codeEditor) return;
+    
+    setIsRunning(true);
+    setOutput('Running...');
+    setErrors([]);
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    const result = await compilerService.compile(code, codeEditor.language || 'cpp');
+
+    if (result.success) {
+      setOutput(result.output || 'Success!');
+    } else {
+      setOutput('Check the problems below');
+      setErrors(result.errors || []);
+    }
+
+    setIsRunning(false);
+  };
+
+  const handleCodeChange = (newCode: string) => {
+    setCode(newCode);
+    codeEditor?.onCodeChange?.(newCode);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-6">
@@ -71,18 +109,81 @@ export default function BeginnerLayout({
 
           {/* Content Area - Big Friendly Fonts, Lots of White Space */}
           <div className="p-12 min-h-[600px]">
-            <div className="prose prose-xl max-w-none leading-relaxed">
-              <style>{`
-                .prose h1 { font-size: 2.5rem; font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; }
-                .prose h2 { font-size: 2rem; font-weight: 700; color: #334155; margin-top: 2rem; margin-bottom: 1rem; }
-                .prose p { font-size: 1.25rem; line-height: 2; color: #475569; margin-bottom: 1.5rem; }
-                .prose code { background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 1.125rem; color: #6366f1; font-weight: 600; }
-                .prose pre { background: #1e293b; padding: 2rem; border-radius: 1rem; font-size: 1.125rem; line-height: 1.75; }
-                .prose ul, .prose ol { font-size: 1.25rem; line-height: 2; margin-top: 1rem; margin-bottom: 1rem; }
-                .prose li { margin-bottom: 0.75rem; }
-              `}</style>
-              {children}
-            </div>
+            {codeEditor ? (
+              <div className="space-y-4">
+                <div className="prose prose-xl max-w-none leading-relaxed mb-6">
+                  <style>{`
+                    .prose h1 { font-size: 2.5rem; font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; }
+                    .prose h2 { font-size: 2rem; font-weight: 700; color: #334155; margin-top: 2rem; margin-bottom: 1rem; }
+                    .prose p { font-size: 1.25rem; line-height: 2; color: #475569; margin-bottom: 1.5rem; }
+                  `}</style>
+                  {children}
+                </div>
+
+                {/* Code Editor */}
+                <div className="bg-gray-50 rounded-2xl p-6 border-4 border-indigo-100">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold text-gray-800">Try It Yourself</h3>
+                    <button
+                      onClick={handleRunCode}
+                      disabled={isRunning}
+                      className="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all"
+                    >
+                      {isRunning ? 'Running...' : 'Run Code'}
+                    </button>
+                  </div>
+
+                  <CodeEditor
+                    value={code}
+                    onChange={handleCodeChange}
+                    language={codeEditor.language || 'cpp'}
+                    height="300px"
+                    darkMode={false}
+                  />
+
+                  {/* Output Display */}
+                  {output && (
+                    <div className="mt-4">
+                      <div className="bg-gray-900 rounded-xl p-4 font-mono text-sm text-green-400">
+                        {output}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Friendly Error Messages */}
+                  {errors.length > 0 && (
+                    <div className="mt-4 space-y-3">
+                      {errors.map((error, index) => (
+                        <div key={index} className="bg-red-50 border-2 border-red-200 rounded-xl p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                              !
+                            </div>
+                            <div>
+                              <p className="text-lg font-bold text-red-800 mb-1">Line {error.line}</p>
+                              <p className="text-base text-red-700 leading-relaxed">{error.message}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="prose prose-xl max-w-none leading-relaxed">
+                <style>{`
+                  .prose h1 { font-size: 2.5rem; font-weight: 800; color: #1e293b; margin-bottom: 1.5rem; }
+                  .prose h2 { font-size: 2rem; font-weight: 700; color: #334155; margin-top: 2rem; margin-bottom: 1rem; }
+                  .prose p { font-size: 1.25rem; line-height: 2; color: #475569; margin-bottom: 1.5rem; }
+                  .prose code { background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 1.125rem; color: #6366f1; font-weight: 600; }
+                  .prose pre { background: #1e293b; padding: 2rem; border-radius: 1rem; font-size: 1.125rem; line-height: 1.75; }
+                  .prose ul, .prose ol { font-size: 1.25rem; line-height: 2; margin-top: 1rem; margin-bottom: 1rem; }
+                  .prose li { margin-bottom: 0.75rem; }
+                `}</style>
+                {children}
+              </div>
+            )}
           </div>
 
           {/* Always-Visible Hint Button at Bottom */}

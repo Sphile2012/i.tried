@@ -1,6 +1,8 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { Play, RotateCcw, Settings, ChevronRight, Terminal, Flame, Sun, Moon, Command } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
+import CodeEditor from '../CodeEditor';
+import { compilerService, CompilerError } from '@/services/compilerService';
 
 interface IntermediateLayoutProps {
   children: ReactNode;
@@ -10,6 +12,11 @@ interface IntermediateLayoutProps {
   onRunCode?: () => void;
   onResetCode?: () => void;
   consoleOutput?: string;
+  codeEditor?: {
+    initialCode: string;
+    language?: 'cpp' | 'javascript' | 'typescript' | 'python';
+    onCodeChange?: (code: string) => void;
+  };
 }
 
 export default function IntermediateLayout({
@@ -20,6 +27,7 @@ export default function IntermediateLayout({
   onRunCode,
   onResetCode,
   consoleOutput = '',
+  codeEditor,
 }: IntermediateLayoutProps) {
   const { user } = useUser();
   const [consoleExpanded, setConsoleExpanded] = useState(true);
@@ -27,6 +35,10 @@ export default function IntermediateLayout({
   const [docsCollapsed, setDocsCollapsed] = useState(false);
   const [streak, setStreak] = useState(0);
   const [showKeyboardHint, setShowKeyboardHint] = useState(false);
+  const [code, setCode] = useState(codeEditor?.initialCode || '');
+  const [output, setOutput] = useState(consoleOutput);
+  const [errors, setErrors] = useState<CompilerError[]>([]);
+  const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     // Load dark mode preference
@@ -46,7 +58,7 @@ export default function IntermediateLayout({
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'Enter') {
           e.preventDefault();
-          onRunCode?.();
+          handleRunCode();
         } else if (e.key === 'k') {
           e.preventDefault();
           setShowKeyboardHint(true);
@@ -57,7 +69,35 @@ export default function IntermediateLayout({
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [onRunCode]);
+  }, []);
+
+  const handleRunCode = async () => {
+    if (codeEditor) {
+      setIsRunning(true);
+      setOutput('Compiling...');
+      setErrors([]);
+
+      await new Promise((resolve) => setTimeout(resolve, 200));
+
+      const result = await compilerService.compile(code, codeEditor.language || 'cpp');
+
+      if (result.success) {
+        setOutput(result.output || 'Execution completed');
+      } else {
+        setOutput('Compilation failed');
+        setErrors(result.errors || []);
+      }
+
+      setIsRunning(false);
+    } else {
+      onRunCode?.();
+    }
+  };
+
+  const handleCodeChange = (newCode: string) => {
+    setCode(newCode);
+    codeEditor?.onCodeChange?.(newCode);
+  };
 
   const toggleDarkMode = () => {
     const newMode = !darkMode;
@@ -163,12 +203,13 @@ export default function IntermediateLayout({
         <div className={`${cardBg} border-b ${borderColor} px-6 py-3 flex items-center justify-between`}>
           <div className="flex items-center gap-3">
             <button
-              onClick={onRunCode}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg"
+              onClick={handleRunCode}
+              disabled={isRunning}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg"
               title="Ctrl/Cmd + Enter"
             >
               <Play className="w-4 h-4" />
-              Run
+              {isRunning ? 'Running...' : 'Run'}
               <span className="text-xs opacity-75">⌘↵</span>
             </button>
             <button
@@ -228,17 +269,29 @@ export default function IntermediateLayout({
           }`}
         >
           <div className="p-6">
-            <style>{`
-              ${darkMode ? `
-                .prose { color: #e5e7eb; }
-                .prose h1, .prose h2, .prose h3 { color: #f3f4f6; }
-                .prose code { background: #374151; color: #60a5fa; }
-                .prose pre { background: #1f2937; }
-              ` : ''}
-            `}</style>
-            <div className={`prose max-w-none ${darkMode ? 'prose-invert' : ''}`}>
-              {children}
-            </div>
+            {codeEditor ? (
+              <CodeEditor
+                value={code}
+                onChange={handleCodeChange}
+                language={codeEditor.language || 'cpp'}
+                height="100%"
+                darkMode={darkMode}
+              />
+            ) : (
+              <>
+                <style>{`
+                  ${darkMode ? `
+                    .prose { color: #e5e7eb; }
+                    .prose h1, .prose h2, .prose h3 { color: #f3f4f6; }
+                    .prose code { background: #374151; color: #60a5fa; }
+                    .prose pre { background: #1f2937; }
+                  ` : ''}
+                `}</style>
+                <div className={`prose max-w-none ${darkMode ? 'prose-invert' : ''}`}>
+                  {children}
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -252,7 +305,7 @@ export default function IntermediateLayout({
             <div className="flex items-center gap-2">
               <Terminal className="w-4 h-4 text-green-400" />
               <span className="text-sm font-semibold">Output</span>
-              {consoleOutput && (
+              {output && !isRunning && (
                 <span className="text-xs text-gray-500">Ready</span>
               )}
             </div>
@@ -268,10 +321,26 @@ export default function IntermediateLayout({
             </button>
           </div>
           {consoleExpanded && (
-            <div className="p-4 overflow-auto h-[calc(100%-40px)] font-mono text-sm">
-              <pre className="text-green-400">
-                {consoleOutput || '// Press Ctrl+Enter to run your code...'}
-              </pre>
+            <div className="overflow-auto h-[calc(100%-40px)]">
+              <div className="p-4 font-mono text-sm">
+                <pre className="text-green-400 whitespace-pre-wrap">
+                  {output || consoleOutput || '// Press Ctrl+Enter to run your code...'}
+                </pre>
+              </div>
+              
+              {/* Error Display */}
+              {errors.length > 0 && (
+                <div className="border-t border-gray-800 p-4 space-y-2">
+                  {errors.map((error, index) => (
+                    <div key={index} className="bg-red-900/20 border border-red-800 rounded p-3">
+                      <div className="flex items-start gap-2">
+                        <span className="text-red-400 font-bold">Line {error.line}:</span>
+                        <span className="text-red-300">{error.message}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
