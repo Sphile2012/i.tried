@@ -24,6 +24,7 @@ import { CurriculumModule } from './curriculum/curriculum.module';
 import { AdminModule } from './admin/admin.module';
 import { FriendsModule } from './friends/friends.module';
 import { UsersModule } from './users/users.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { UsersModule } from './users/users.module';
     AIModule,
     FriendsModule,
     UsersModule,
+    MessagesModule,
   ],
 })
 export class AppModule {}

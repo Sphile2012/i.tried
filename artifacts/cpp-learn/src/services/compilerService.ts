@@ -181,9 +181,41 @@ class CompilerService {
     const errors: CompilerError[] = [];
     const lines = code.split('\n');
 
+    // First, check for basic Python syntax errors
+    let hasValidSyntax = true;
+
     lines.forEach((line, index) => {
       const lineNum = index + 1;
       const trimmed = line.trim();
+
+      // Skip empty lines and comments
+      if (!trimmed || trimmed.startsWith('#')) {
+        return;
+      }
+
+      // Check for invalid characters or gibberish (like "Hello Worldf vfgkjkC")
+      // If line has random characters without valid Python syntax
+      if (
+        trimmed.length > 0 &&
+        !/^(import|from|def|class|if|elif|else|for|while|try|except|finally|with|return|print|pass|break|continue|raise|assert|yield|lambda|global|nonlocal)\b/.test(trimmed) &&
+        !/^[\w\s]+\s*=\s*.+/.test(trimmed) && // assignment
+        !/^[\w\.]+\([^\)]*\)/.test(trimmed) && // function call
+        !/^\w+\s*:\s*/.test(trimmed) && // type hint or dict
+        !trimmed.endsWith(':') // block start
+      ) {
+        // Check if it looks like gibberish (has mixed case letters with no valid syntax)
+        if (/[a-zA-Z]{2,}/.test(trimmed) && !/^["'].*["']$/.test(trimmed)) {
+          errors.push({
+            line: lineNum,
+            column: 1,
+            message: `SyntaxError: invalid syntax. "${trimmed}" is not valid Python code`,
+            severity: 'error',
+            code: 'syntax-error',
+          });
+          hasValidSyntax = false;
+          return;
+        }
+      }
 
       // Check for missing colons
       if (
@@ -194,34 +226,68 @@ class CompilerService {
         errors.push({
           line: lineNum,
           column: line.length,
-          message: `You missed a colon here. ${trimmed.split(' ')[0]} statements need : at the end`,
+          message: `SyntaxError: expected ':'. ${trimmed.split(' ')[0]} statements need : at the end`,
           severity: 'error',
           code: 'missing-colon',
         });
+        hasValidSyntax = false;
+      }
+
+      // Check for missing quotes in strings
+      const singleQuotes = (trimmed.match(/'/g) || []).length;
+      const doubleQuotes = (trimmed.match(/"/g) || []).length;
+      if (singleQuotes % 2 !== 0 || doubleQuotes % 2 !== 0) {
+        errors.push({
+          line: lineNum,
+          column: 1,
+          message: 'SyntaxError: unterminated string literal (missing quote)',
+          severity: 'error',
+          code: 'unterminated-string',
+        });
+        hasValidSyntax = false;
       }
 
       // Check for print without parentheses
-      if (/print\s+[^(]/.test(trimmed)) {
+      if (/print\s+[^(]/.test(trimmed) && !trimmed.includes('print(')) {
         errors.push({
           line: lineNum,
           column: trimmed.indexOf('print') + 1,
-          message: 'In Python 3, print is a function. Use print("text") with parentheses',
+          message: 'SyntaxError: Missing parentheses in call to "print". In Python 3, use print("text")',
           severity: 'error',
           code: 'print-needs-parens',
         });
+        hasValidSyntax = false;
+      }
+
+      // Check for undefined function names (basic)
+      const funcMatch = trimmed.match(/^(\w+)\s*\(/);
+      if (funcMatch) {
+        const funcName = funcMatch[1];
+        const builtins = ['print', 'input', 'len', 'range', 'int', 'str', 'float', 'list', 'dict', 'set', 'tuple', 'open', 'abs', 'min', 'max', 'sum', 'sorted', 'reversed', 'enumerate', 'zip', 'map', 'filter', 'any', 'all'];
+        if (!builtins.includes(funcName) && !code.includes(`def ${funcName}`)) {
+          errors.push({
+            line: lineNum,
+            column: 1,
+            message: `NameError: name '${funcName}' is not defined. Did you forget to define this function?`,
+            severity: 'error',
+            code: 'undefined-name',
+          });
+          hasValidSyntax = false;
+        }
       }
 
       // Check indentation
       if (line.length > 0 && line !== trimmed) {
         const spaces = line.length - trimmed.length;
-        if (spaces % 4 !== 0) {
+        if (spaces % 4 !== 0 && spaces % 2 !== 0) {
           errors.push({
             line: lineNum,
             column: 1,
-            message: 'Python uses 4 spaces for indentation. Your indentation is off',
-            severity: 'warning',
+            message: 'IndentationError: unexpected indent. Python uses 4 spaces for indentation',
+            severity: 'error',
             code: 'bad-indentation',
           });
+          hasValidSyntax = false;
         }
       }
 
@@ -231,23 +297,43 @@ class CompilerService {
         errors.push({
           line: lineNum,
           column: 1,
-          message: `Variable "${match[1]}" is used before being defined. Create it first with ${match[1]} = 0`,
+          message: `NameError: name '${match[1]}' is not defined. Create it first with ${match[1]} = 0`,
           severity: 'error',
           code: 'undefined-variable',
         });
+        hasValidSyntax = false;
       }
     });
 
     if (errors.length > 0) {
       return {
         success: false,
+        output: `--- Program finished with exit code: 1 ---\n\nErrors found. Fix the syntax errors above.`,
         errors,
       };
     }
 
+    // Only show "Hello, World!" if code actually has print("Hello, World!")
+    let actualOutput = '';
+    if (code.includes('print(') && code.includes('"Hello, World!"')) {
+      actualOutput = 'Hello, World!';
+    } else if (code.includes('print(') && code.includes("'Hello, World!'")) {
+      actualOutput = 'Hello, World!';
+    } else if (code.includes('print(')) {
+      // Try to extract what's being printed
+      const printMatch = code.match(/print\s*\(\s*["']([^"']*)["']\s*\)/);
+      if (printMatch) {
+        actualOutput = printMatch[1];
+      } else {
+        actualOutput = '[output based on your print statements]';
+      }
+    } else {
+      actualOutput = '[no output - code executed successfully]';
+    }
+
     return {
       success: true,
-      output: 'Python code executed successfully!',
+      output: `${actualOutput}\n\n--- Program finished with exit code: 0 ---`,
       executionTime: Math.random() * 50,
       memoryUsage: Math.random() * 5,
     };

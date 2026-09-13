@@ -64,7 +64,7 @@ export default function LanguageSelector({ onLanguageChange, className = '' }: L
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border border-slate-700 rounded-lg hover:bg-slate-800 transition-colors"
+        className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border-2 border-slate-700 rounded-lg hover:bg-slate-800 hover:border-[#38BDF8] transition-all focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/20"
       >
         <div
           className="w-8 h-8 rounded flex items-center justify-center text-xs font-bold text-white"
@@ -73,7 +73,7 @@ export default function LanguageSelector({ onLanguageChange, className = '' }: L
           {selected.icon}
         </div>
         <span className="text-sm font-medium text-slate-200">{selected.name}</span>
-        <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`h-5 w-5 text-[#38BDF8] transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {/* Dropdown Menu */}
@@ -98,7 +98,7 @@ export default function LanguageSelector({ onLanguageChange, className = '' }: L
                   onClick={() => handleSelect(language.id)}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
                     selectedLanguage === language.id
-                      ? 'bg-blue-500/10 text-blue-400'
+                      ? 'bg-[#38BDF8]/10 text-[#38BDF8] border-l-2 border-[#38BDF8]'
                       : 'text-slate-300 hover:bg-slate-800'
                   }`}
                 >

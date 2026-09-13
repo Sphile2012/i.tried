@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { Search } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -19,6 +19,7 @@ const terms = [
 export default function Glossary() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const filtered = terms.filter(t => t.term.toLowerCase().includes(search.toLowerCase()) && (category === 'all' || t.category === category));
   const categories = ['all', ...new Set(terms.map(t => t.category))];
   return (
@@ -26,7 +27,21 @@ export default function Glossary() {
       <div><h1 className="text-2xl font-bold mb-2">Glossary</h1><p className="text-slate-400">Programming terms and definitions</p></div>
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1"><Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search terms..." className="pl-10" /></div>
-        <select value={category} onChange={(e) => setCategory(e.target.value)} className="h-10 rounded-md border border-slate-700 bg-slate-950 px-3 text-sm text-white">{categories.map(c => <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>)}</select>
+        <div className="relative">
+          <select 
+            value={category} 
+            onChange={(e) => setCategory(e.target.value)} 
+            onFocus={() => setIsCategoryDropdownOpen(true)}
+            onBlur={() => setIsCategoryDropdownOpen(false)}
+            className="h-10 w-full sm:w-48 rounded-lg border-2 border-slate-700 bg-[#0A1931] px-3 pr-10 text-sm text-[#F5F7FF] focus:outline-none focus:border-[#38BDF8] transition appearance-none"
+            style={{ backgroundImage: 'none' }}
+          >
+            {categories.map(c => <option key={c} value={c}>{c === 'all' ? 'All Categories' : c}</option>)}
+          </select>
+          <ChevronDown 
+            className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#38BDF8] pointer-events-none transition-transform duration-200 ${isCategoryDropdownOpen ? 'rotate-180' : ''}`}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((t, i) => (

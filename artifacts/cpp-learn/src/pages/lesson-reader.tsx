@@ -1,10 +1,10 @@
 /**
- * Book-Style Lesson Reader
- * Lessons displayed as physical book pages
+ * Modern Lesson Reader
+ * Lessons displayed with modern navy/light/sky blue theme
  */
 
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, BookOpen, Code2, Lightbulb, CheckCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, BookOpen, Code2, Lightbulb, CheckCircle, Clock, Award } from 'lucide-react';
 import { getAllLessons } from '@/data/comprehensive-curriculum';
 import type { LanguageId } from '@/data/languages';
 import { cleanMarkdown, cleanMarkdownPreserveStructure } from '@/utils/cleanMarkdown';
@@ -27,6 +27,7 @@ export default function LessonReaderPage() {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [isFlipping, setIsFlipping] = useState(false);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
 
   const currentLesson = lessons[currentLessonIndex];
   const canGoPrev = currentLessonIndex > 0;
@@ -65,50 +66,73 @@ export default function LessonReaderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 py-8">
-      {/* Book Container */}
+    <div className="min-h-screen bg-[#0A1931] py-8 pt-20">
+      {/* Modern Container */}
       <div className="max-w-5xl mx-auto px-4">
-        {/* Book with Page Flip Effect */}
-        <div className={`relative bg-white shadow-2xl rounded-r-2xl transition-transform duration-300 ${isFlipping ? 'scale-95 opacity-90' : 'scale-100'}`}
-             style={{
-               boxShadow: '-5px 5px 20px rgba(0,0,0,0.3), inset 2px 0 5px rgba(0,0,0,0.1)',
-               background: 'linear-gradient(to right, #fefefe 0%, #ffffff 3%, #ffffff 97%, #f5f5f5 100%)'
-             }}>
+        {/* Main Content Card */}
+        <div className={`bg-[#F5F7FF] rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${isFlipping ? 'scale-95 opacity-90' : 'scale-100'}`}>
           
-          {/* Page Binding Effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-amber-100/50 to-transparent pointer-events-none" />
-          
-          {/* Left Page Number */}
-          <div className="absolute left-8 top-8 text-amber-800/40 text-sm font-serif">
-            Page {currentLesson.order * 2 - 1}
-          </div>
-          
-          {/* Right Page Number */}
-          <div className="absolute right-8 top-8 text-amber-800/40 text-sm font-serif">
-            Page {currentLesson.order * 2}
-          </div>
-
-          {/* Page Content */}
-          <div className="p-12 sm:p-16 min-h-[600px]">
-            {/* Chapter Header */}
-            <div className="mb-8 pb-6 border-b-2 border-amber-200">
-              <div className="text-xs uppercase tracking-widest text-amber-700/60 mb-2 font-serif">
-                Lesson {currentLesson.order} of {lessons.length}
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mb-3">
-                {currentLesson.title}
-              </h1>
-              <div className="flex items-center gap-4 text-xs text-amber-700/70">
-                <span className="italic">{currentLesson.duration}</span>
-                <span>•</span>
-                <span className="capitalize">{currentLesson.category}</span>
+          {/* Page Navigation Header */}
+          <div className="flex items-center justify-between px-6 py-4 bg-[#0A1931] border-b-2 border-[#38BDF8]">
+            <button
+              onClick={handlePrev}
+              disabled={!canGoPrev || isFlipping}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                canGoPrev && !isFlipping
+                  ? 'text-[#38BDF8] hover:bg-[#38BDF8]/10'
+                  : 'text-gray-600 cursor-not-allowed opacity-50'
+              }`}
+            >
+              <ChevronLeft className="w-5 h-5" />
+              <span className="hidden sm:inline">Page {currentLesson.order > 1 ? currentLesson.order - 1 : 1}</span>
+            </button>
+            
+            <div className="text-center">
+              <div className="text-xs text-[#F5F7FF]/60 uppercase tracking-wider">
+                Page {currentLesson.order}
               </div>
             </div>
 
-            {/* Main Text - Book Paragraphs */}
-            <div className="font-serif text-gray-800 leading-relaxed text-base sm:text-lg space-y-6">
+            <button
+              onClick={handleNext}
+              disabled={!canGoNext || isFlipping}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                canGoNext && !isFlipping
+                  ? 'text-[#38BDF8] hover:bg-[#38BDF8]/10'
+                  : 'text-gray-600 cursor-not-allowed opacity-50'
+              }`}
+            >
+              <span className="hidden sm:inline">Page {currentLesson.order < lessons.length ? currentLesson.order + 1 : lessons.length}</span>
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Lesson Content */}
+          <div className="p-8 sm:p-12">
+            {/* Lesson Header */}
+            <div className="mb-8">
+              <div className="flex items-center gap-3 mb-4 flex-wrap">
+                <span className="text-xs font-bold uppercase tracking-wider px-3 py-1.5 bg-[#38BDF8] text-[#0A1931] rounded-full">
+                  Lesson {currentLesson.order} of {lessons.length}
+                </span>
+                <span className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 bg-[#38BDF8]/10 text-[#38BDF8] rounded-full">
+                  <Clock className="w-3 h-3" />
+                  {currentLesson.duration}
+                </span>
+                <span className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 bg-[#38BDF8]/10 text-[#38BDF8] rounded-full capitalize">
+                  <Award className="w-3 h-3" />
+                  {currentLesson.category}
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-bold text-[#0A1931] mb-4">
+                {currentLesson.title}
+              </h1>
+            </div>
+
+            {/* Main Text */}
+            <div className="text-[#0A1931] leading-relaxed text-base sm:text-lg space-y-6 mb-8">
               {cleanMarkdownPreserveStructure(currentLesson.conceptText).split('\n\n').map((paragraph, index) => (
-                <p key={index} className="text-justify first-letter:text-5xl first-letter:font-bold first-letter:text-amber-800 first-letter:mr-2 first-letter:float-left first-letter:leading-none">
+                <p key={index} className="text-justify">
                   {paragraph}
                 </p>
               ))}
@@ -116,47 +140,55 @@ export default function LessonReaderPage() {
           </div>
         </div>
 
-        {/* Code Examples Page */}
-        <div className="mt-6 bg-white shadow-2xl rounded-r-2xl overflow-hidden"
-             style={{
-               boxShadow: '-5px 5px 20px rgba(0,0,0,0.3), inset 2px 0 5px rgba(0,0,0,0.1)',
-               background: 'linear-gradient(to right, #fefefe 0%, #ffffff 3%, #ffffff 97%, #f5f5f5 100%)'
-             }}>
-          
-          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-amber-100/50 to-transparent pointer-events-none" />
-          
-          <div className="p-12 sm:p-16">
-            <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6 border-b-2 border-amber-200 pb-3">
+        {/* Code Examples Card */}
+        <div className="mt-6 bg-[#F5F7FF] rounded-2xl shadow-lg overflow-hidden">
+          <div className="p-8 sm:p-12">
+            <h2 className="text-2xl font-bold text-[#0A1931] mb-6 flex items-center gap-3">
+              <Code2 className="w-6 h-6 text-[#38BDF8]" />
               Code Examples
             </h2>
 
-            {/* Language Tabs */}
-            <div className="flex gap-2 flex-wrap mb-6">
-              {languages.map((lang) => (
-                <button
-                  key={lang.id}
-                  onClick={() => setSelectedLanguage(lang.id)}
-                  className={`px-4 py-2 text-sm font-medium rounded transition ${
-                    selectedLanguage === lang.id
-                      ? 'bg-amber-700 text-white shadow'
-                      : 'bg-amber-100 text-amber-900 hover:bg-amber-200'
-                  }`}
+            {/* Language Selector with Dropdown Arrow */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-[#0A1931]/70 mb-3">
+                Select Programming Language
+              </label>
+              <div className="relative">
+                <select
+                  value={selectedLanguage}
+                  onChange={(e) => setSelectedLanguage(e.target.value as LanguageId)}
+                  onFocus={() => setIsLanguageDropdownOpen(true)}
+                  onBlur={() => setIsLanguageDropdownOpen(false)}
+                  className="w-full sm:w-64 px-4 py-3 pr-10 bg-[#0A1931] border-2 border-[#0A1931] rounded-lg text-[#F5F7FF] focus:outline-none focus:border-[#38BDF8] transition appearance-none font-medium"
+                  style={{ backgroundImage: 'none' }}
                 >
-                  {lang.name}
-                </button>
-              ))}
+                  {languages.map((lang) => (
+                    <option key={lang.id} value={lang.id}>
+                      {lang.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown 
+                  className={`absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#38BDF8] pointer-events-none transition-transform duration-200 ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
+                />
+              </div>
             </div>
 
-            {/* Code Block */}
-            <div className="bg-gray-50 border-2 border-amber-200 rounded p-6 font-mono text-sm overflow-x-auto">
-              <pre className="text-gray-800 whitespace-pre-wrap">{currentLesson.codeExamples[selectedLanguage]}</pre>
+            {/* Code Block - Dark Theme with Sky Blue Syntax */}
+            <div className="bg-[#0A1931] border-2 border-[#38BDF8]/20 rounded-2xl p-6 overflow-x-auto shadow-inner">
+              <pre className="text-[#F5F7FF] font-mono text-sm leading-relaxed whitespace-pre-wrap">
+                <code className="text-[#38BDF8]">{currentLesson.codeExamples[selectedLanguage]}</code>
+              </pre>
             </div>
 
             {/* Try It Section */}
             {currentLesson.tryIt && (
-              <div className="mt-6 bg-amber-50 border-l-4 border-amber-600 p-6 rounded">
-                <h3 className="text-lg font-serif font-bold text-amber-900 mb-2">Try It Yourself</h3>
-                <p className="font-serif text-gray-800 leading-relaxed">{cleanMarkdown(currentLesson.tryIt)}</p>
+              <div className="mt-6 bg-[#38BDF8]/10 border-l-4 border-[#38BDF8] p-6 rounded-lg">
+                <h3 className="text-lg font-bold text-[#0A1931] mb-3 flex items-center gap-2">
+                  <Code2 className="w-5 h-5 text-[#38BDF8]" />
+                  Try It Yourself
+                </h3>
+                <p className="text-[#0A1931] leading-relaxed">{cleanMarkdown(currentLesson.tryIt)}</p>
               </div>
             )}
 
@@ -165,16 +197,17 @@ export default function LessonReaderPage() {
               <div className="mt-6">
                 <button
                   onClick={() => setShowHints(!showHints)}
-                  className="flex items-center gap-2 text-amber-800 hover:text-amber-900 font-serif font-medium mb-3"
+                  className="flex items-center gap-2 px-4 py-2 bg-[#38BDF8]/10 hover:bg-[#38BDF8]/20 text-[#0A1931] rounded-lg font-medium transition-all"
                 >
-                  <Lightbulb className="w-5 h-5" />
+                  <Lightbulb className="w-5 h-5 text-[#38BDF8]" />
                   <span>{showHints ? 'Hide Hints' : 'Show Hints'}</span>
+                  <ChevronDown className={`w-4 h-4 text-[#38BDF8] transition-transform duration-200 ${showHints ? 'rotate-180' : ''}`} />
                 </button>
                 
                 {showHints && (
-                  <div className="bg-yellow-50 border border-yellow-300 rounded p-4 space-y-2">
+                  <div className="mt-4 bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 space-y-2">
                     {currentLesson.hints.map((hint, index) => (
-                      <p key={index} className="font-serif text-gray-800 leading-relaxed">
+                      <p key={index} className="text-[#0A1931] leading-relaxed">
                         {cleanMarkdown(hint)}
                       </p>
                     ))}
@@ -188,33 +221,34 @@ export default function LessonReaderPage() {
               <div className="mt-8">
                 <button
                   onClick={() => setShowQuiz(!showQuiz)}
-                  className="flex items-center gap-2 text-amber-800 hover:text-amber-900 font-serif font-medium mb-4"
+                  className="flex items-center gap-2 px-4 py-2 bg-[#38BDF8]/10 hover:bg-[#38BDF8]/20 text-[#0A1931] rounded-lg font-medium transition-all"
                 >
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="w-5 h-5 text-[#38BDF8]" />
                   <span>{showQuiz ? 'Hide Quiz' : 'Test Your Knowledge'}</span>
+                  <ChevronDown className={`w-4 h-4 text-[#38BDF8] transition-transform duration-200 ${showQuiz ? 'rotate-180' : ''}`} />
                 </button>
 
                 {showQuiz && (
-                  <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 space-y-6">
+                  <div className="mt-4 bg-[#0A1931]/5 border-2 border-[#38BDF8]/30 rounded-2xl p-6 space-y-6">
                     {currentLesson.quiz.map((q, qIndex) => (
                       <div key={qIndex}>
-                        <p className="font-serif text-gray-900 font-semibold mb-4">{cleanMarkdown(q.question)}</p>
+                        <p className="text-[#0A1931] font-semibold mb-4">{cleanMarkdown(q.question)}</p>
                         <div className="space-y-2">
                           {q.options.map((option, oIndex) => (
                             <button
                               key={oIndex}
                               onClick={() => !quizSubmitted && setSelectedAnswer(oIndex)}
                               disabled={quizSubmitted}
-                              className={`w-full text-left p-3 rounded border-2 font-serif transition ${
+                              className={`w-full text-left p-4 rounded-lg border-2 font-medium transition-all ${
                                 quizSubmitted
                                   ? oIndex === q.correctAnswer
-                                    ? 'bg-green-100 border-green-500 text-green-900 font-medium'
+                                    ? 'bg-green-100 border-green-500 text-green-900'
                                     : oIndex === selectedAnswer
                                     ? 'bg-red-100 border-red-500 text-red-900'
-                                    : 'bg-white border-gray-200 text-gray-500'
+                                    : 'bg-white border-gray-300 text-gray-500'
                                   : selectedAnswer === oIndex
-                                  ? 'bg-amber-100 border-amber-500 text-amber-900'
-                                  : 'bg-white border-gray-300 text-gray-800 hover:bg-amber-50'
+                                  ? 'bg-[#38BDF8]/20 border-[#38BDF8] text-[#0A1931]'
+                                  : 'bg-white border-gray-300 text-[#0A1931] hover:bg-[#38BDF8]/10 hover:border-[#38BDF8]/50'
                               }`}
                             >
                               {cleanMarkdown(option)}
@@ -223,8 +257,8 @@ export default function LessonReaderPage() {
                         </div>
                         
                         {quizSubmitted && (
-                          <div className="mt-4 p-4 bg-blue-100 border-l-4 border-blue-600 rounded">
-                            <p className="font-serif text-gray-800 leading-relaxed">{cleanMarkdown(q.explanation)}</p>
+                          <div className="mt-4 p-4 bg-[#38BDF8]/10 border-l-4 border-[#38BDF8] rounded-lg">
+                            <p className="text-[#0A1931] leading-relaxed">{cleanMarkdown(q.explanation)}</p>
                           </div>
                         )}
                       </div>
@@ -233,7 +267,7 @@ export default function LessonReaderPage() {
                     {!quizSubmitted && selectedAnswer !== null && (
                       <button
                         onClick={handleSubmitQuiz}
-                        className="w-full px-6 py-3 bg-amber-700 text-white rounded-lg font-serif font-semibold hover:bg-amber-800 transition shadow-md"
+                        className="w-full px-6 py-3 bg-[#38BDF8] text-[#0A1931] rounded-lg font-bold hover:bg-[#38BDF8]/90 transition-all shadow-md"
                       >
                         Submit Answer
                       </button>
@@ -245,53 +279,53 @@ export default function LessonReaderPage() {
           </div>
         </div>
 
-        {/* Page Navigation - Book Style */}
-        <div className="mt-8 flex items-center justify-between gap-6">
+        {/* Bottom Navigation */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-6 bg-[#F5F7FF] rounded-2xl p-6 shadow-lg">
           <button
             onClick={handlePrev}
             disabled={!canGoPrev || isFlipping}
-            className={`flex items-center gap-2 px-8 py-4 rounded-lg font-serif font-semibold transition-all shadow-md ${
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all ${
               canGoPrev && !isFlipping
-                ? 'bg-amber-700 text-white hover:bg-amber-800 active:scale-95'
+                ? 'bg-[#38BDF8] text-[#0A1931] hover:bg-[#38BDF8]/90 shadow-md'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
             <ChevronLeft className="w-5 h-5" />
-            Previous Page
+            Previous
           </button>
 
-          {/* Page Counter */}
+          {/* Progress Indicator */}
           <div className="text-center">
-            <div className="text-sm text-amber-800/60 font-serif">
+            <div className="text-sm text-[#0A1931]/60 font-medium mb-3">
               Lesson {currentLesson.order} of {lessons.length}
             </div>
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-2">
               {lessons.slice(0, 10).map((_, index) => (
                 <div
                   key={index}
-                  className={`w-2 h-6 rounded-sm transition-all ${
+                  className={`h-2 rounded-full transition-all ${
                     index === currentLessonIndex
-                      ? 'bg-amber-700 w-3'
+                      ? 'bg-[#38BDF8] w-8'
                       : index < currentLessonIndex
-                      ? 'bg-green-600'
-                      : 'bg-amber-300'
+                      ? 'bg-green-500 w-2'
+                      : 'bg-gray-300 w-2'
                   }`}
                 />
               ))}
-              {lessons.length > 10 && <span className="text-amber-800/40">...</span>}
+              {lessons.length > 10 && <span className="text-[#0A1931]/40 text-xs">+{lessons.length - 10}</span>}
             </div>
           </div>
 
           <button
             onClick={handleNext}
             disabled={!canGoNext || isFlipping}
-            className={`flex items-center gap-2 px-8 py-4 rounded-lg font-serif font-semibold transition-all shadow-md ${
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all ${
               canGoNext && !isFlipping
-                ? 'bg-amber-700 text-white hover:bg-amber-800 active:scale-95'
+                ? 'bg-[#38BDF8] text-[#0A1931] hover:bg-[#38BDF8]/90 shadow-md'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
-            Next Page
+            Next
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>

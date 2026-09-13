@@ -14,7 +14,8 @@ import {
   AlertCircle,
   Target,
   Globe,
-  Trash2
+  Trash2,
+  ChevronDown
 } from 'lucide-react';
 
 const LEARNING_GOALS = [
@@ -46,6 +47,7 @@ export default function ProfilePage() {
   const [message, setMessage] = useState<string | null>(null);
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isGoalDropdownOpen, setIsGoalDropdownOpen] = useState(false);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -194,17 +196,25 @@ export default function ProfilePage() {
               <label className="block text-sm font-medium text-slate-300 mb-2">
                 Current Goal
               </label>
-              <select
-                value={learningGoal}
-                onChange={(e) => setLearningGoal(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-              >
-                {LEARNING_GOALS.map((goal) => (
-                  <option key={goal.value} value={goal.value}>
-                    {goal.label}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={learningGoal}
+                  onChange={(e) => setLearningGoal(e.target.value)}
+                  onFocus={() => setIsGoalDropdownOpen(true)}
+                  onBlur={() => setIsGoalDropdownOpen(false)}
+                  className="w-full px-4 py-3 pr-10 bg-[#0A1931] border-2 border-slate-700 rounded-lg text-[#F5F7FF] focus:outline-none focus:border-[#38BDF8] transition appearance-none"
+                  style={{ backgroundImage: 'none' }}
+                >
+                  {LEARNING_GOALS.map((goal) => (
+                    <option key={goal.value} value={goal.value}>
+                      {goal.label}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown 
+                  className={`absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#38BDF8] pointer-events-none transition-transform duration-200 ${isGoalDropdownOpen ? 'rotate-180' : ''}`}
+                />
+              </div>
             </div>
           </div>
 

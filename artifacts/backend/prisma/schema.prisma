@@ -51,6 +51,8 @@ model User {
   receivedFriendRequests FriendRequest[] @relation("ReceivedRequests")
   friendshipsAsUser1     Friendship[]    @relation("FriendshipsAsUser1")
   friendshipsAsUser2     Friendship[]    @relation("FriendshipsAsUser2")
+  sentMessages           Message[]       @relation("SentMessages")
+  receivedMessages       Message[]       @relation("ReceivedMessages")
   username              String          @unique
   displayName           String?
   lastSeenAt            DateTime?
@@ -368,4 +370,22 @@ model Friendship {
   @@index([user1Id])
   @@index([user2Id])
   @@map("Friendship")
+}
+
+// Direct Messages between friends
+model Message {
+  id          String   @id @default(uuid())
+  senderId    String
+  receiverId  String
+  content     String
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([senderId, receiverId])
+  @@index([receiverId, read])
+  @@map("Message")
 }

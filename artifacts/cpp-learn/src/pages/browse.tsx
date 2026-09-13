@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { Search, Filter, BookOpen, Code2, Award, Clock } from 'lucide-react';
+import { Search, Filter, BookOpen, Code2, Award, Clock, ChevronDown } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
@@ -240,17 +240,20 @@ export default function BrowsePage() {
                 <Code2 className="inline w-4 h-4 mr-1" />
                 Language
               </label>
-              <select
-                value={selectedLanguage}
-                onChange={(e) => handleLanguageChange(e.target.value as Language)}
-                className="w-full px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {(Object.keys(LANGUAGES) as Language[]).map((lang) => (
-                  <option key={lang} value={lang}>
-                    {LANGUAGES[lang]}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={selectedLanguage}
+                  onChange={(e) => handleLanguageChange(e.target.value as Language)}
+                  className="w-full appearance-none px-4 py-2.5 pr-10 bg-slate-800/50 border-2 border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#38BDF8] focus:border-[#38BDF8] transition-all cursor-pointer"
+                >
+                  {(Object.keys(LANGUAGES) as Language[]).map((lang) => (
+                    <option key={lang} value={lang}>
+                      {LANGUAGES[lang]}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#38BDF8] pointer-events-none" />
+              </div>
             </div>
 
             {/* Difficulty Filter */}
@@ -259,17 +262,20 @@ export default function BrowsePage() {
                 <Filter className="inline w-4 h-4 mr-1" />
                 Difficulty
               </label>
-              <select
-                value={selectedDifficulty}
-                onChange={(e) => handleDifficultyChange(e.target.value as Difficulty)}
-                className="w-full px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {(Object.keys(DIFFICULTIES) as Difficulty[]).map((diff) => (
-                  <option key={diff} value={diff}>
-                    {DIFFICULTIES[diff]}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={selectedDifficulty}
+                  onChange={(e) => handleDifficultyChange(e.target.value as Difficulty)}
+                  className="w-full appearance-none px-4 py-2.5 pr-10 bg-slate-800/50 border-2 border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#38BDF8] focus:border-[#38BDF8] transition-all cursor-pointer"
+                >
+                  {(Object.keys(DIFFICULTIES) as Difficulty[]).map((diff) => (
+                    <option key={diff} value={diff}>
+                      {DIFFICULTIES[diff]}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#38BDF8] pointer-events-none" />
+              </div>
             </div>
 
             {/* Results Count */}

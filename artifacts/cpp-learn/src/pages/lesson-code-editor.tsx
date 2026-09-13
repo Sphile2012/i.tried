@@ -138,7 +138,15 @@ int main() {
                   )}
                 </div>
               </div>
-              <div className={`p-4 min-h-[200px] font-mono text-sm ${darkMode ? 'bg-gray-950 text-green-400' : 'bg-gray-900 text-green-300'}`}>
+              <div 
+                className={`p-4 min-h-[200px] font-mono text-sm ${
+                  errors.length > 0
+                    ? 'bg-red-950 text-red-300 border-2 border-[#38BDF8]'
+                    : darkMode 
+                      ? 'bg-gray-950 text-green-400' 
+                      : 'bg-gray-900 text-green-300'
+                }`}
+              >
                 <pre className="whitespace-pre-wrap">{output || '// Output will appear here...'}</pre>
               </div>
             </div>

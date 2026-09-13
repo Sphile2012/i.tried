@@ -108,11 +108,11 @@ export default function LessonsPage() {
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-3 px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg hover:bg-slate-800 transition-colors w-full sm:w-auto"
+                className="flex items-center gap-3 px-4 py-2.5 bg-slate-800/50 border-2 border-slate-700 rounded-lg hover:bg-slate-800 hover:border-[#38BDF8] transition-all w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/20"
               >
                 <span className="text-2xl">{currentLang.icon}</span>
                 <span className="font-semibold text-white">{currentLang.name}</span>
-                <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-5 w-5 text-[#38BDF8] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {dropdownOpen && (
@@ -137,7 +137,7 @@ export default function LessonsPage() {
                           }}
                           className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
                             langId === selectedLanguage
-                              ? 'bg-blue-500/20 text-white'
+                              ? 'bg-[#38BDF8]/20 text-white border-l-2 border-[#38BDF8]'
                               : 'hover:bg-slate-800 text-slate-300'
                           }`}
                         >

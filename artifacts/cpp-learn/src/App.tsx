@@ -41,6 +41,7 @@ import AdminDashboard from '@/pages/admin/admin-dashboard';
 import NotFound from '@/pages/not-found';
 import FriendsPage from '@/pages/friends';
 import InvitePage from '@/pages/invite';
+import InboxPage from '@/pages/inbox';
 import TopicsPage from '@/pages/topics';
 
 const queryClient = new QueryClient({
@@ -57,6 +58,7 @@ function Router() {
         <Route path="/topics" component={TopicsPage} />
         <Route path="/invite/:username" component={InvitePage} />
         <Route path="/friends" component={FriendsPage} />
+        <Route path="/inbox" component={InboxPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/onboarding/quiz" component={OnboardingQuiz} />
         <Route path="/admin/dashboard" component={AdminDashboard} />

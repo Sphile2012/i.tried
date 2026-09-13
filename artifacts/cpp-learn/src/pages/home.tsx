@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { Menu, X, Trophy, Flame, Target, CheckCircle, Play } from 'lucide-react';
+import { Menu, X, Trophy, Flame, Target, CheckCircle, Play, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 
 // ============================================
@@ -96,6 +96,16 @@ function HamburgerDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                 Challenges
               </a>
             </Link>
+            <Link href="/friends" onClick={onClose}>
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
+                Friends
+              </a>
+            </Link>
+            <Link href="/inbox" onClick={onClose}>
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
+                Inbox
+              </a>
+            </Link>
           </nav>
 
           {/* Auth Links */}
@@ -143,19 +153,25 @@ function Nav() {
             Infinity Code
           </Link>
           
-          {/* Right side: Language Dropdown + Sign In + Hamburger */}
+          {/* Right side: Language Dropdown + Get Started + Hamburger */}
           <div className="flex items-center gap-3">
-            {/* Language Dropdown - placeholder for now */}
-            <select className="px-3 py-1.5 bg-[#F5F7FF]/10 border border-[#F5F7FF]/20 rounded-lg text-[#F5F7FF] text-sm focus:outline-none focus:ring-2 focus:ring-[#38BDF8]">
-              <option>JavaScript</option>
-              <option>Python</option>
-              <option>C++</option>
-            </select>
+            {/* Language Dropdown with Chevron */}
+            <div className="relative">
+              <select className="appearance-none px-4 py-2 pr-10 bg-[#F5F7FF]/10 border-2 border-[#F5F7FF]/20 rounded-lg text-[#F5F7FF] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#38BDF8] focus:border-[#38BDF8] transition-all cursor-pointer">
+                <option>JavaScript</option>
+                <option>Python</option>
+                <option>C++</option>
+                <option>Java</option>
+                <option>TypeScript</option>
+                <option>Go</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#38BDF8] pointer-events-none" />
+            </div>
             
-            {/* Sign In Button */}
-            <Link href="/login">
-              <a className="hidden sm:block px-4 py-1.5 text-[#F5F7FF] hover:text-[#38BDF8] transition text-sm font-medium">
-                Sign In
+            {/* Get Started Button */}
+            <Link href="/signup">
+              <a className="px-5 py-2 bg-[#38BDF8] text-white rounded-lg text-sm font-semibold hover:bg-[#0EA5E9] transition shadow-sm">
+                Get Started
               </a>
             </Link>
             
@@ -475,23 +491,12 @@ add_item("oat milk")`;
           <p className="text-[18px] text-[#F5F7FF]/70 max-w-[46ch] mb-9 leading-relaxed">
             Infinity Code drops you straight into a working editor. No slides, no quizzes about syntax — you build small real projects and we tell you exactly what to fix, line by line.
           </p>
-          <div className="flex items-center gap-[14px] mb-[44px]">
+          <div className="flex items-center gap-[14px]">
             <Link href="/signup">
               <a className="inline-block px-[26px] py-[14px] bg-[#38BDF8] text-white rounded-lg font-semibold text-[15.5px] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(56,189,248,0.4)] transition-all shadow-[0_1px_0_rgba(0,0,0,0.08)]">
                 Start your first project
               </a>
             </Link>
-          </div>
-          <div className="flex items-center gap-7 flex-wrap">
-            <div className="font-mono text-[13px] text-[#F5F7FF]/60">
-              <span className="text-[#F5F7FF] font-bold">[X]</span> projects shipped
-            </div>
-            <div className="font-mono text-[13px] text-[#F5F7FF]/60">
-              <span className="text-[#F5F7FF] font-bold">[X]</span> from learners
-            </div>
-            <div className="font-mono text-[13px] text-[#F5F7FF]/60">
-              <span className="text-[#F5F7FF] font-bold">0</span> lecture videos
-            </div>
           </div>
         </div>
 
@@ -563,7 +568,7 @@ add_item("oat milk")`;
 // LANGUAGE STRIP
 // ============================================
 function LanguageStrip() {
-  const languages = ['Python', 'JavaScript', 'SQL', 'Go', 'Rust'];
+  const languages = ['Python', 'JavaScript', 'C++', 'Java', 'TypeScript', 'Go'];
 
   return (
     <div className="border-y border-[#F5F7FF]/10 bg-[#0D2447] py-[26px]">
@@ -578,59 +583,6 @@ function LanguageStrip() {
         </div>
       </div>
     </div>
-  );
-}
-
-// ============================================
-// HOW IT WORKS
-// ============================================
-function HowItWorks() {
-  const steps = [
-    {
-      num: '01',
-      title: 'You get a broken project',
-      desc: 'A small, real thing — a to-do list, a scraper, an API — that almost works. Your job is to finish it.',
-    },
-    {
-      num: '02',
-      title: 'You write the fix',
-      desc: 'Right in the browser editor. Run it, break it, run it again. No setup, no environment to configure.',
-    },
-    {
-      num: '03',
-      title: 'We review the diff',
-      desc: 'Not just pass/fail — we point at the exact line and explain why it works, so the next bug is faster to find.',
-    },
-  ];
-
-  return (
-    <section id="how" className="py-[104px] bg-[#0A1931]">
-      <div className="max-w-[1160px] mx-auto px-8">
-        <div className="max-w-[56ch] mb-16">
-          <h2 className="font-mono text-[34px] font-bold tracking-tight text-[#F5F7FF] mb-4">
-            How a lesson actually works
-          </h2>
-          <p className="text-[16.5px] text-[#F5F7FF]/70">
-            Every lesson follows the same structure. No new interface to learn, just deeper problems.
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-3 gap-0 border-t border-[#F5F7FF]/10">
-          {steps.map((step, idx) => (
-            <div
-              key={step.num}
-              className={`p-8 pr-7 border-b border-[#F5F7FF]/10 ${
-                idx !== steps.length - 1 ? 'lg:border-r lg:border-[#F5F7FF]/10' : ''
-              }`}
-            >
-              <div className="font-mono text-[13px] text-[#38BDF8] font-bold mb-[14px]">{step.num}</div>
-              <h3 className="text-[19px] font-bold text-[#F5F7FF] mb-2.5">{step.title}</h3>
-              <p className="text-[15px] text-[#F5F7FF]/70 leading-relaxed">{step.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -717,7 +669,6 @@ export default function HomePage() {
         <>
           <HeroSection />
           <LanguageStrip />
-          <HowItWorks />
           <CTASection />
         </>
       )}

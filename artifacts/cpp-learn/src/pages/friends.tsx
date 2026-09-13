@@ -18,11 +18,13 @@ import {
   Mail,
   Clock,
   Circle,
+  MessageCircle,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { useLocation } from 'wouter';
 
 interface Friend {
   id: string;
@@ -38,6 +40,7 @@ interface Friend {
 export default function FriendsPage() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [friends, setFriends] = useState<Friend[]>([]);
@@ -353,14 +356,24 @@ export default function FriendsPage() {
                           {getOnlineStatus(friend)}
                         </div>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeFriend(friend.id)}
-                        className="text-slate-400 hover:text-red-400"
-                      >
-                        <UserMinus className="w-4 h-4" />
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setLocation('/inbox')}
+                          className="text-[#00d4ff] hover:text-[#00d4ff]/80 hover:bg-[#00d4ff]/10"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeFriend(friend.id)}
+                          className="text-slate-400 hover:text-red-400"
+                        >
+                          <UserMinus className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                     {friend.level && (
                       <div className="mt-3 pt-3 border-t border-slate-800">
