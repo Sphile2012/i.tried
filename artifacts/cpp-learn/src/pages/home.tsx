@@ -5,32 +5,403 @@
 
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { Code, ArrowRight, CheckCircle } from 'lucide-react';
+import { Menu, X, Trophy, Flame, Target, CheckCircle, Play } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
+
+// ============================================
+// HAMBURGER DRAWER
+// ============================================
+function HamburgerDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { user, isAuthenticated } = useAuth();
+
+  return (
+    <>
+      {/* Dark Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-[340px] max-w-[85vw] bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-out ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 text-gray-600 hover:text-gray-900 transition"
+        >
+          <X className="w-6 h-6" />
+        </button>
+
+        {/* Drawer Content */}
+        <div className="p-8 pt-20 h-full overflow-y-auto">
+          {/* User Info */}
+          {isAuthenticated && user && (
+            <div className="mb-8 pb-6 border-b border-gray-200">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#2D5BFF] to-[#5B8FFF] rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  {user.name?.charAt(0).toUpperCase() || 'U'}
+                </div>
+                <div>
+                  <div className="font-semibold text-gray-900">{user.name}</div>
+                  <div className="text-sm text-gray-600">{user.proficiencyLevel || 'Beginner'}</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600">Total XP</span>
+                <span className="font-mono font-bold text-[#2D5BFF]">{user.totalXp || 0}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Links */}
+          <nav className="space-y-1">
+            <Link href="/" onClick={onClose}>
+              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                Home
+              </a>
+            </Link>
+            <Link href="/lessons" onClick={onClose}>
+              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                Learn
+              </a>
+            </Link>
+            <Link href="/topics" onClick={onClose}>
+              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                Book
+              </a>
+            </Link>
+            <Link href="/browse" onClick={onClose}>
+              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                Browse
+              </a>
+            </Link>
+            <Link href="/lesson-code-editor" onClick={onClose}>
+              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                Playground
+              </a>
+            </Link>
+            <Link href="/learn-path" onClick={onClose}>
+              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                Compare
+              </a>
+            </Link>
+            <Link href="/coding-challenges" onClick={onClose}>
+              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                Challenges
+              </a>
+            </Link>
+          </nav>
+
+          {/* Auth Links */}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            {isAuthenticated ? (
+              <Link href="/profile" onClick={onClose}>
+                <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                  Profile
+                </a>
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" onClick={onClose}>
+                  <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                    Sign In
+                  </a>
+                </Link>
+                <Link href="/signup" onClick={onClose}>
+                  <a className="block px-4 py-3 bg-[#2D5BFF] text-white hover:bg-[#2347CC] rounded-lg font-semibold transition text-center mt-2">
+                    Start Free
+                  </a>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
 
 // ============================================
 // NAV COMPONENT
 // ============================================
 function Nav() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   return (
-    <nav className="sticky top-0 z-50 bg-[#F7F6F1]/90 backdrop-blur-md border-b border-[#DEDBD0]">
-      <div className="max-w-[1160px] mx-auto px-8 h-[68px] flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-mono text-[19px] font-bold text-[#1B1D24]">
-          <span className="w-2 h-2 bg-[#2D5BFF] rounded-full" />
-          Infinity Code
-        </Link>
-        <div className="hidden md:flex items-center gap-9">
-          <Link href="#how" className="text-[14.5px] font-medium text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
-            How it works
+    <>
+      <nav className="sticky top-0 z-30 bg-[#F7F6F1]/90 backdrop-blur-md border-b border-[#DEDBD0]">
+        <div className="max-w-[1160px] mx-auto px-8 h-[68px] flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 font-mono text-[19px] font-bold text-[#1B1D24]">
+            <span className="w-2 h-2 bg-[#2D5BFF] rounded-full" />
+            Infinity Code
           </Link>
-          <Link
-            href="/signup"
-            className="px-[18px] py-[9px] bg-[#1B1D24] text-[#F7F6F1] rounded-md text-sm font-semibold hover:-translate-y-0.5 transition-transform"
+          
+          {/* Hamburger Button - Always Visible */}
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className="p-2 text-[#1B1D24] hover:bg-[#DEDBD0]/50 rounded-md transition"
+            aria-label="Open menu"
           >
-            Start free
-          </Link>
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
+      </nav>
+
+      <HamburgerDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+    </>
+  );
+}
+
+// ============================================
+// WELCOME BANNER (Authenticated Users)
+// ============================================
+function WelcomeBanner() {
+  const { user } = useAuth();
+  const streak = 3; // This would come from user data
+
+  return (
+    <div className="bg-gradient-to-r from-[#2D5BFF] to-[#5B8FFF] text-white py-8">
+      <div className="max-w-[1160px] mx-auto px-8">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h2 className="text-2xl font-bold mb-1">Welcome back, {user?.name?.split(' ')[0] || 'there'}!</h2>
+            <p className="flex items-center gap-2 text-white/90">
+              <Flame className="w-5 h-5 text-orange-300" />
+              Keep learning, you're on a {streak}-day streak
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <Link href="/lessons">
+              <a className="px-5 py-2.5 bg-white text-[#2D5BFF] rounded-lg font-semibold hover:shadow-lg transition">
+                Continue Learning
+              </a>
+            </Link>
+            <Link href="/browse">
+              <a className="px-5 py-2.5 bg-white/10 backdrop-blur text-white border border-white/30 rounded-lg font-semibold hover:bg-white/20 transition">
+                Browse All Courses
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
-    </nav>
+    </div>
+  );
+}
+
+// ============================================
+// LEARNING TRACKS
+// ============================================
+function LearningTracks() {
+  const tracks = [
+    { level: 'Beginner', progress: 35, color: 'from-green-500 to-emerald-600', lessons: '12/35', xp: 450 },
+    { level: 'Intermediate', progress: 60, color: 'from-blue-500 to-indigo-600', lessons: '15/25', xp: 1200 },
+    { level: 'Expert', progress: 10, color: 'from-purple-500 to-pink-600', lessons: '3/30', xp: 1500 },
+  ];
+
+  return (
+    <section className="py-12 bg-[#F7F6F1]">
+      <div className="max-w-[1160px] mx-auto px-8">
+        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Learning Tracks</h3>
+        <div className="grid md:grid-cols-3 gap-5">
+          {tracks.map((track) => (
+            <div key={track.level} className="bg-white rounded-2xl p-6 border border-[#DEDBD0] hover:border-[#2D5BFF] transition-all hover:shadow-lg">
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${track.color} mb-4`} />
+              <h4 className="font-bold text-lg mb-3">{track.level}</h4>
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Progress</span>
+                  <span className="font-mono font-bold">{track.lessons}</span>
+                </div>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className={`h-full bg-gradient-to-r ${track.color}`} style={{ width: `${track.progress}%` }} />
+                </div>
+                <div className="text-right text-xs font-bold text-[#2D5BFF]">{track.progress}%</div>
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="font-mono font-bold text-[#1B1D24]">{track.xp} XP</span> earned
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// YOUR LANGUAGES SECTION
+// ============================================
+function YourLanguages() {
+  const languages = [
+    {
+      name: 'C++',
+      icon: '++',
+      totalXp: 1200,
+      level: 5,
+      lessonsCompleted: 15,
+      totalLessons: 25,
+      isPrimary: true,
+      color: 'from-[#00599C] to-[#004482]',
+    },
+    {
+      name: 'Python',
+      icon: 'Py',
+      totalXp: 1500,
+      level: 6,
+      lessonsCompleted: 3,
+      totalLessons: 30,
+      isPrimary: false,
+      color: 'from-[#3776AB] to-[#FFD43B]',
+    },
+  ];
+
+  return (
+    <section className="py-12 bg-[#EFEDE5]">
+      <div className="max-w-[1160px] mx-auto px-8">
+        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Your Languages</h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          {languages.map((lang) => {
+            const progressPercent = Math.round((lang.lessonsCompleted / lang.totalLessons) * 100);
+            
+            return (
+              <div
+                key={lang.name}
+                className="relative bg-[#F7F6F1] rounded-2xl p-7 border border-[#DEDBD0] hover:border-[#2D5BFF] transition-all hover:shadow-lg"
+              >
+                {lang.isPrimary && (
+                  <div className="absolute top-5 right-5">
+                    <span className="px-3 py-1 bg-[#2D5BFF] text-white text-[11px] font-bold rounded-full">
+                      PRIMARY
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${lang.color} flex items-center justify-center text-white font-mono font-bold text-lg shadow-md`}>
+                    {lang.icon}
+                  </div>
+                  <div>
+                    <h3 className="font-mono text-[22px] font-bold text-[#1B1D24]">{lang.name}</h3>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6 mb-5">
+                  <div>
+                    <div className="text-[12px] font-medium text-[#5B5E6B] mb-1">TOTAL XP</div>
+                    <div className="font-mono text-[18px] font-bold text-[#1B1D24]">
+                      {lang.totalXp.toLocaleString()}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[12px] font-medium text-[#5B5E6B] mb-1">LEVEL</div>
+                    <div className="font-mono text-[18px] font-bold text-[#2D5BFF]">
+                      Lv {lang.level}
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-[13px]">
+                    <span className="font-medium text-[#5B5E6B]">Lessons Progress</span>
+                    <span className="font-mono font-bold text-[#1B1D24]">
+                      {lang.lessonsCompleted}/{lang.totalLessons}
+                    </span>
+                  </div>
+                  <div className="h-2.5 bg-[#DEDBD0] rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-[#2D5BFF] to-[#5B8FFF] rounded-full transition-all duration-500"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[12px] font-bold text-[#2D5BFF]">{progressPercent}%</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// COURSE PROGRESS
+// ============================================
+function CourseProgress() {
+  const courses = [
+    { name: 'React Fundamentals', progress: 75, lesson: 'Lesson 9: Hooks Deep Dive', time: '12 min left' },
+    { name: 'Python Basics', progress: 40, lesson: 'Lesson 4: Lists and Loops', time: '8 min left' },
+  ];
+
+  return (
+    <section className="py-12 bg-[#F7F6F1]">
+      <div className="max-w-[1160px] mx-auto px-8">
+        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Course Progress</h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          {courses.map((course) => (
+            <div key={course.name} className="bg-white rounded-2xl p-6 border border-[#DEDBD0] hover:shadow-lg transition">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h4 className="font-bold text-lg mb-1">{course.name}</h4>
+                  <p className="text-sm text-gray-600">{course.lesson}</p>
+                </div>
+                <span className="text-xs text-gray-500">{course.time}</span>
+              </div>
+              <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
+                <div className="h-full bg-gradient-to-r from-[#2D5BFF] to-[#5B8FFF]" style={{ width: `${course.progress}%` }} />
+              </div>
+              <button className="w-full py-2.5 bg-[#2D5BFF] text-white rounded-lg font-semibold hover:bg-[#2347CC] transition flex items-center justify-center gap-2">
+                <Play className="w-4 h-4" />
+                Resume
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// ACHIEVEMENTS
+// ============================================
+function Achievements() {
+  const achievements = [
+    { name: 'First Project', icon: Trophy, unlocked: true, color: 'text-yellow-500' },
+    { name: '3-Day Streak', icon: Flame, unlocked: true, color: 'text-orange-500' },
+    { name: '10 Lessons', icon: Target, unlocked: false, color: 'text-gray-400' },
+    { name: '100% Complete', icon: CheckCircle, unlocked: false, color: 'text-gray-400' },
+  ];
+
+  return (
+    <section className="py-12 bg-[#EFEDE5]">
+      <div className="max-w-[1160px] mx-auto px-8">
+        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Achievements</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {achievements.map((achievement) => {
+            const Icon = achievement.icon;
+            return (
+              <div
+                key={achievement.name}
+                className={`bg-white rounded-xl p-5 border-2 text-center transition ${
+                  achievement.unlocked
+                    ? 'border-[#2D5BFF] shadow-md'
+                    : 'border-gray-200 opacity-60'
+                }`}
+              >
+                <Icon className={`w-10 h-10 mx-auto mb-2 ${achievement.color}`} />
+                <p className="text-sm font-semibold">{achievement.name}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -74,7 +445,6 @@ add_item("oat milk")`;
   return (
     <section className="py-[88px] pb-[96px] bg-[#F7F6F1]">
       <div className="max-w-[1160px] mx-auto px-8 grid lg:grid-cols-[1.05fr_1fr] gap-16 items-center">
-        {/* Left Side */}
         <div>
           <div className="font-mono text-[13.5px] text-[#2D5BFF] font-semibold mb-[22px] tracking-tight">
             // learn by shipping, not by watching
@@ -88,19 +458,18 @@ add_item("oat milk")`;
             Infinity Code drops you straight into a working editor. No slides, no quizzes about syntax — you build small real projects and we tell you exactly what to fix, line by line.
           </p>
           <div className="flex items-center gap-[14px] mb-[44px]">
-            <Link
-              href="/signup"
-              className="inline-block px-[26px] py-[14px] bg-[#2D5BFF] text-white rounded-lg font-semibold text-[15.5px] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(45,91,255,0.25)] transition-all shadow-[0_1px_0_rgba(0,0,0,0.08)]"
-            >
-              Start your first project
+            <Link href="/signup">
+              <a className="inline-block px-[26px] py-[14px] bg-[#2D5BFF] text-white rounded-lg font-semibold text-[15.5px] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(45,91,255,0.25)] transition-all shadow-[0_1px_0_rgba(0,0,0,0.08)]">
+                Start your first project
+              </a>
             </Link>
           </div>
           <div className="flex items-center gap-7 flex-wrap">
             <div className="font-mono text-[13px] text-[#5B5E6B]">
-              <span className="text-[#1B1D24] font-bold">900+</span> projects shipped
+              <span className="text-[#1B1D24] font-bold">[X]</span> projects shipped
             </div>
             <div className="font-mono text-[13px] text-[#5B5E6B]">
-              <span className="text-[#1B1D24] font-bold">4.8/5</span> from learners
+              <span className="text-[#1B1D24] font-bold">[X]</span> from learners
             </div>
             <div className="font-mono text-[13px] text-[#5B5E6B]">
               <span className="text-[#1B1D24] font-bold">0</span> lecture videos
@@ -108,17 +477,13 @@ add_item("oat milk")`;
           </div>
         </div>
 
-        {/* Right Side - Editor */}
         <div className="bg-[#181A22] rounded-xl shadow-[0_30px_60px_-20px_rgba(20,20,30,0.35)] overflow-hidden transform rotate-[0.4deg]">
-          {/* Editor Top Bar */}
           <div className="flex items-center gap-2 px-4 py-3 border-b border-[#2A2D3A]">
             <span className="w-[11px] h-[11px] rounded-full bg-[#FF5F57]" />
             <span className="w-[11px] h-[11px] rounded-full bg-[#FEBC2E]" />
             <span className="w-[11px] h-[11px] rounded-full bg-[#28C840]" />
             <span className="ml-2.5 font-mono text-[12.5px] text-[#8B8E9F]">shopping_list.py</span>
           </div>
-
-          {/* Code Editor */}
           <div className="p-[22px_20px_26px] font-mono text-[14px] leading-[1.85]">
             {code.split('\n').map((line, i) => (
               <div key={i}>
@@ -162,8 +527,6 @@ add_item("oat milk")`;
               </div>
             ))}
           </div>
-
-          {/* Console */}
           <div className="bg-[#12141C] border-t border-[#2A2D3A] px-5 py-[14px] font-mono text-[12.5px] text-[#14B87F]">
             {code.includes('oat milk') && (
               <>
@@ -182,7 +545,7 @@ add_item("oat milk")`;
 // LANGUAGE STRIP
 // ============================================
 function LanguageStrip() {
-  const languages = ['Python', 'JavaScript', 'SQL', 'TypeScript', 'C++', 'Java'];
+  const languages = ['Python', 'JavaScript', 'SQL', 'Go', 'Rust'];
 
   return (
     <div className="border-y border-[#DEDBD0] bg-[#EFEDE5] py-[26px]">
@@ -197,116 +560,6 @@ function LanguageStrip() {
         </div>
       </div>
     </div>
-  );
-}
-
-// ============================================
-// YOUR LANGUAGES SECTION
-// ============================================
-function YourLanguages() {
-  const languages = [
-    {
-      name: 'C++',
-      icon: '++',
-      totalXp: 1200,
-      level: 5,
-      lessonsCompleted: 15,
-      totalLessons: 25,
-      isPrimary: true,
-      color: 'from-[#00599C] to-[#004482]',
-    },
-    {
-      name: 'Python',
-      icon: 'Py',
-      totalXp: 1500,
-      level: 6,
-      lessonsCompleted: 3,
-      totalLessons: 30,
-      isPrimary: false,
-      color: 'from-[#3776AB] to-[#FFD43B]',
-    },
-  ];
-
-  return (
-    <section className="py-[88px] bg-[#EFEDE5]">
-      <div className="max-w-[1160px] mx-auto px-8">
-        <div className="mb-10">
-          <h2 className="font-mono text-[34px] font-bold tracking-tight text-[#1B1D24] mb-3">
-            Your Languages
-          </h2>
-          <p className="text-[16.5px] text-[#5B5E6B]">
-            Track your progress across different languages
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {languages.map((lang) => {
-            const progressPercent = Math.round((lang.lessonsCompleted / lang.totalLessons) * 100);
-            
-            return (
-              <div
-                key={lang.name}
-                className="relative bg-[#F7F6F1] rounded-2xl p-7 border border-[#DEDBD0] hover:border-[#2D5BFF] transition-all hover:shadow-[0_4px_20px_rgba(45,91,255,0.08)]"
-              >
-                {/* Primary Badge */}
-                {lang.isPrimary && (
-                  <div className="absolute top-5 right-5">
-                    <span className="px-3 py-1 bg-[#2D5BFF] text-white text-[11px] font-bold rounded-full">
-                      PRIMARY
-                    </span>
-                  </div>
-                )}
-
-                {/* Header with Icon and Name */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${lang.color} flex items-center justify-center text-white font-mono font-bold text-lg shadow-md`}>
-                    {lang.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-mono text-[22px] font-bold text-[#1B1D24]">{lang.name}</h3>
-                  </div>
-                </div>
-
-                {/* XP and Level - Same Row */}
-                <div className="flex items-center gap-6 mb-5">
-                  <div>
-                    <div className="text-[12px] font-medium text-[#5B5E6B] mb-1">TOTAL XP</div>
-                    <div className="font-mono text-[18px] font-bold text-[#1B1D24]">
-                      {lang.totalXp.toLocaleString()}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-[12px] font-medium text-[#5B5E6B] mb-1">LEVEL</div>
-                    <div className="font-mono text-[18px] font-bold text-[#2D5BFF]">
-                      Lv {lang.level}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-[13px]">
-                    <span className="font-medium text-[#5B5E6B]">Lessons Progress</span>
-                    <span className="font-mono font-bold text-[#1B1D24]">
-                      {lang.lessonsCompleted}/{lang.totalLessons}
-                    </span>
-                  </div>
-                  <div className="h-2.5 bg-[#DEDBD0] rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-[#2D5BFF] to-[#5B8FFF] rounded-full transition-all duration-500"
-                      style={{ width: `${progressPercent}%` }}
-                    />
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[12px] font-bold text-[#2D5BFF]">{progressPercent}%</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -380,11 +633,10 @@ function CTASection() {
             </p>
           </div>
           <div className="flex-shrink-0">
-            <Link
-              href="/signup"
-              className="inline-block px-7 py-[15px] bg-[#FF5C35] text-white rounded-lg font-bold text-[15.5px] hover:-translate-y-0.5 transition-transform whitespace-nowrap"
-            >
-              Start your first project
+            <Link href="/signup">
+              <a className="inline-block px-7 py-[15px] bg-[#FF5C35] text-white rounded-lg font-bold text-[15.5px] hover:-translate-y-0.5 transition-transform whitespace-nowrap">
+                Start your first project
+              </a>
             </Link>
           </div>
         </div>
@@ -405,14 +657,20 @@ function Footer() {
           Infinity Code
         </div>
         <div className="flex gap-[26px]">
-          <Link href="/about" className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
-            Pricing
+          <Link href="/about">
+            <a className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
+              Pricing
+            </a>
           </Link>
-          <Link href="/about" className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
-            For teams
+          <Link href="/about">
+            <a className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
+              For teams
+            </a>
           </Link>
-          <Link href="/about" className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
-            Support
+          <Link href="/about">
+            <a className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
+              Support
+            </a>
           </Link>
         </div>
       </div>
@@ -424,14 +682,27 @@ function Footer() {
 // MAIN HOMEPAGE
 // ============================================
 export default function HomePage() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="min-h-screen bg-[#F7F6F1]">
       <Nav />
-      <HeroSection />
-      <LanguageStrip />
-      <YourLanguages />
-      <HowItWorks />
-      <CTASection />
+      {isAuthenticated ? (
+        <>
+          <WelcomeBanner />
+          <LearningTracks />
+          <YourLanguages />
+          <CourseProgress />
+          <Achievements />
+        </>
+      ) : (
+        <>
+          <HeroSection />
+          <LanguageStrip />
+          <HowItWorks />
+          <CTASection />
+        </>
+      )}
       <Footer />
     </div>
   );
