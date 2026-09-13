@@ -5,192 +5,8 @@
 
 import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
-import { Menu, X, Trophy, Flame, Target, CheckCircle, Play, ChevronDown } from 'lucide-react';
+import { Trophy, Flame, Target, CheckCircle, Play } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
-
-// ============================================
-// HAMBURGER DRAWER
-// ============================================
-function HamburgerDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const { user, isAuthenticated } = useAuth();
-
-  return (
-    <>
-      {/* Dark Overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300"
-          onClick={onClose}
-        />
-      )}
-
-      {/* Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-[340px] max-w-[85vw] bg-[#F5F7FF] z-50 shadow-2xl transform transition-transform duration-300 ease-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 text-[#0A1931] hover:text-[#38BDF8] transition"
-        >
-          <X className="w-6 h-6" />
-        </button>
-
-        {/* Drawer Content */}
-        <div className="p-8 pt-20 h-full overflow-y-auto">
-          {/* User Info */}
-          {isAuthenticated && user && (
-            <div className="mb-8 pb-6 border-b border-[#0A1931]/10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#38BDF8] to-[#0EA5E9] rounded-full flex items-center justify-center text-white font-bold text-lg">
-                  {user.name?.charAt(0).toUpperCase() || 'U'}
-                </div>
-                <div>
-                  <div className="font-semibold text-[#0A1931]">{user.name}</div>
-                  <div className="text-sm text-[#0A1931]/60">{user.proficiencyLevel || 'Beginner'}</div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-[#0A1931]/60">Total XP</span>
-                <span className="font-mono font-bold text-[#38BDF8]">{user.totalXp || 0}</span>
-              </div>
-            </div>
-          )}
-
-          {/* Navigation Links */}
-          <nav className="space-y-1">
-            <Link href="/" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Home
-              </a>
-            </Link>
-            <Link href="/learn" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Learn
-              </a>
-            </Link>
-            <Link href="/topics" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Book
-              </a>
-            </Link>
-            <Link href="/browse" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Browse
-              </a>
-            </Link>
-            <Link href="/lesson-code-editor" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Playground
-              </a>
-            </Link>
-            <Link href="/learn-path" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Compare
-              </a>
-            </Link>
-            <Link href="/coding-challenges" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Challenges
-              </a>
-            </Link>
-            <Link href="/friends" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Friends
-              </a>
-            </Link>
-            <Link href="/inbox" onClick={onClose}>
-              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                Inbox
-              </a>
-            </Link>
-          </nav>
-
-          {/* Auth Links */}
-          <div className="mt-8 pt-6 border-t border-[#0A1931]/10">
-            {isAuthenticated ? (
-              <Link href="/profile" onClick={onClose}>
-                <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                  Profile
-                </a>
-              </Link>
-            ) : (
-              <>
-                <Link href="/login" onClick={onClose}>
-                  <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
-                    Sign In
-                  </a>
-                </Link>
-                <Link href="/signup" onClick={onClose}>
-                  <a className="block px-4 py-3 bg-[#38BDF8] text-white hover:bg-[#0EA5E9] rounded-lg font-semibold transition text-center mt-2">
-                    Start Free
-                  </a>
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-// ============================================
-// NAV COMPONENT
-// ============================================
-function Nav() {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  return (
-    <>
-      <nav className="sticky top-0 z-30 bg-[#0A1931]/95 backdrop-blur-md border-b border-[#F5F7FF]/10">
-        <div className="max-w-[1160px] mx-auto px-8 h-[68px] flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-mono text-[19px] font-bold text-[#F5F7FF]">
-            <span className="w-2 h-2 bg-[#38BDF8] rounded-full" />
-            Infinity Code
-          </Link>
-          
-          {/* Right side: Language Dropdown + Get Started + Hamburger */}
-          <div className="flex items-center gap-3">
-            {/* Language Dropdown with Chevron */}
-            <div className="relative">
-              <select className="appearance-none px-4 py-2 pr-10 bg-[#F5F7FF]/10 border-2 border-[#F5F7FF]/20 rounded-lg text-[#F5F7FF] text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#38BDF8] focus:border-[#38BDF8] transition-all cursor-pointer">
-                <option>JavaScript</option>
-                <option>Python</option>
-                <option>C++</option>
-                <option>Java</option>
-                <option>TypeScript</option>
-                <option>Go</option>
-              </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#38BDF8] pointer-events-none" />
-            </div>
-            
-            {/* Get Started Button */}
-            <Link href="/signup">
-              <a className="px-5 py-2 bg-[#38BDF8] text-white rounded-lg text-sm font-semibold hover:bg-[#0EA5E9] transition shadow-sm">
-                Get Started
-              </a>
-            </Link>
-            
-            {/* Hamburger Button - Always Visible */}
-            <button
-              onClick={() => setDrawerOpen(true)}
-              className="p-2 text-[#F5F7FF] hover:bg-[#F5F7FF]/10 rounded-md transition"
-              aria-label="Open menu"
-            >
-              <Menu className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      <HamburgerDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
-    </>
-  );
-}
 
 // ============================================
 // WELCOME BANNER (Authenticated Users)
@@ -616,39 +432,6 @@ function CTASection() {
 }
 
 // ============================================
-// FOOTER
-// ============================================
-function Footer() {
-  return (
-    <footer className="border-t border-[#F5F7FF]/10 py-11 bg-[#0A1931]">
-      <div className="max-w-[1160px] mx-auto px-8 flex justify-between items-center flex-wrap gap-4">
-        <div className="flex items-center gap-2 font-mono text-[15px] font-bold text-[#F5F7FF]">
-          <span className="w-2 h-2 bg-[#38BDF8] rounded-full" />
-          Infinity Code
-        </div>
-        <div className="flex gap-[26px]">
-          <Link href="/about">
-            <a className="text-[13.5px] text-[#F5F7FF]/60 hover:text-[#F5F7FF] transition-colors">
-              Pricing
-            </a>
-          </Link>
-          <Link href="/about">
-            <a className="text-[13.5px] text-[#F5F7FF]/60 hover:text-[#F5F7FF] transition-colors">
-              For teams
-            </a>
-          </Link>
-          <Link href="/about">
-            <a className="text-[13.5px] text-[#F5F7FF]/60 hover:text-[#F5F7FF] transition-colors">
-              Support
-            </a>
-          </Link>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-// ============================================
 // MAIN HOMEPAGE
 // ============================================
 export default function HomePage() {
@@ -656,7 +439,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#0A1931]">
-      <Nav />
       {isAuthenticated ? (
         <>
           <WelcomeBanner />
@@ -672,7 +454,6 @@ export default function HomePage() {
           <CTASection />
         </>
       )}
-      <Footer />
     </div>
   );
 }
