@@ -63,7 +63,10 @@ export default function LanguageSelector({ onLanguageChange, className = '' }: L
       {/* Trigger Button */}
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        }}
         className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 border-2 border-slate-700 rounded-lg hover:bg-slate-800 hover:border-[#38BDF8] transition-all focus:outline-none focus:ring-2 focus:ring-[#38BDF8]/20"
       >
         <div
@@ -95,7 +98,10 @@ export default function LanguageSelector({ onLanguageChange, className = '' }: L
                 <button
                   key={language.id}
                   type="button"
-                  onClick={() => handleSelect(language.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelect(language.id);
+                  }}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
                     selectedLanguage === language.id
                       ? 'bg-[#38BDF8]/10 text-[#38BDF8] border-l-2 border-[#38BDF8]'

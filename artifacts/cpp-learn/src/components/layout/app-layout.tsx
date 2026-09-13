@@ -99,7 +99,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               {/* Hamburger Button - ALWAYS VISIBLE on ALL devices */}
               <button
                 type="button"
-                onClick={() => setMobileOpen(!mobileOpen)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMobileOpen(!mobileOpen);
+                }}
                 className="p-2 rounded-lg text-[#F5F7FF] hover:text-[#38BDF8] hover:bg-[#F5F7FF]/10 transition-colors"
                 aria-label="Toggle menu"
               >
