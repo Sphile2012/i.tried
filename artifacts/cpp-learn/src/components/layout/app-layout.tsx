@@ -39,6 +39,8 @@ const mainNavItems: NavItem[] = [
   { path: '/playground', label: 'Playground', icon: Terminal, description: 'Code editor' },
   { path: '/code-comparison', label: 'Compare', icon: Code2, description: 'Compare languages' },
   { path: '/challenges', label: 'Challenges', icon: Target, description: 'Practice problems' },
+  { path: '/friends', label: 'Friends', icon: Users, description: 'Connect with friends' },
+  { path: '/inbox', label: 'Inbox', icon: MessageSquare, description: 'Messages' },
 ];
 
 const userNavItems: NavItem[] = [
@@ -69,30 +71,20 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#0A1931] text-[#F5F7FF]">
       {/* Top Navigation */}
-      <header className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-[#38BDF8]/20 bg-[#0A1931]/95 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex h-16 items-center justify-between">
-            {/* Left: Logo + Mobile Menu Button */}
+            {/* Left: Logo */}
             <div className="flex items-center gap-3">
-              {/* Mobile Hamburger */}
-              <button
-                type="button"
-                onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
-                aria-label="Toggle menu"
-              >
-                {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-
               {/* Logo */}
               <Link href="/">
                 <div className="flex items-center gap-2 cursor-pointer">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-                    <Code2 className="h-5 w-5 text-white" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#38BDF8]">
+                    <Code2 className="h-5 w-5 text-[#0A1931]" />
                   </div>
-                  <span className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent hidden sm:block">
+                  <span className="text-lg font-bold text-[#F5F7FF] hidden sm:block">
                     Infinity Code
                   </span>
                 </div>
@@ -109,8 +101,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                     <div
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                         active
-                          ? 'bg-blue-500/10 text-blue-400'
-                          : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
+                          ? 'bg-[#38BDF8]/10 text-[#38BDF8]'
+                          : 'text-[#F5F7FF]/70 hover:text-[#F5F7FF] hover:bg-[#F5F7FF]/10'
                       }`}
                     >
                       <Icon className="h-4 w-4" />
@@ -121,27 +113,37 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               })}
             </nav>
 
-            {/* Right: Language Selector + Auth */}
+            {/* Right: Language Selector + Hamburger (ALWAYS VISIBLE) */}
             <div className="flex items-center gap-3">
               {/* Language Selector */}
               <LanguageSelector className="hidden md:block" />
               
-              {/* Auth Button */}
+              {/* Auth Button (only desktop) */}
               {isAuthenticated ? (
                 <Link href="/profile">
-                  <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors cursor-pointer">
+                  <div className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-[#F5F7FF]/70 hover:text-[#F5F7FF] hover:bg-[#F5F7FF]/10 transition-colors cursor-pointer">
                     <UserIcon className="h-4 w-4" />
                     <span className="hidden sm:inline">Profile</span>
                   </div>
                 </Link>
               ) : (
                 <Link href="/login">
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors cursor-pointer">
+                  <div className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-[#38BDF8] text-[#0A1931] hover:bg-[#38BDF8]/90 transition-colors cursor-pointer">
                     <LogIn className="h-4 w-4" />
                     <span>Sign In</span>
                   </div>
                 </Link>
               )}
+
+              {/* Hamburger Button - ALWAYS VISIBLE on ALL devices */}
+              <button
+                type="button"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="p-2 rounded-lg text-[#F5F7FF] hover:text-[#38BDF8] hover:bg-[#F5F7FF]/10 transition-colors"
+                aria-label="Toggle menu"
+              >
+                {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              </button>
             </div>
           </div>
         </div>
@@ -149,73 +151,135 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         {/* Mobile Navigation Drawer */}
         <AnimatePresence>
           {mobileOpen && (
-            <motion.div
-              key="mobile-menu"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden border-t border-slate-800 bg-slate-950"
-            >
-              <nav className="px-4 py-3 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
-                {/* Main Navigation */}
-                <div className="mb-4">
-                  <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    Main
-                  </div>
-                  {mainNavItems.map((item) => {
-                    const Icon = item.icon;
-                    const active = isActive(item.path);
-                    return (
-                      <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
-                        <div
-                          className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
-                            active
-                              ? 'bg-blue-500/10 text-blue-400'
-                              : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                          }`}
-                        >
-                          <Icon className="h-5 w-5" />
-                          <div>
-                            <div>{item.label}</div>
-                            {item.description && (
-                              <div className="text-xs text-slate-500">{item.description}</div>
-                            )}
+            <>
+              {/* Dark Overlay */}
+              <motion.div
+                key="overlay"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 bg-black/60 z-40"
+                onClick={() => setMobileOpen(false)}
+              />
+
+              {/* Drawer from Right */}
+              <motion.div
+                key="drawer"
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="fixed top-0 right-0 h-full w-[340px] max-w-[85vw] bg-[#F5F7FF] z-50 shadow-2xl overflow-y-auto"
+              >
+                {/* Close Button */}
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="absolute top-6 right-6 text-[#0A1931] hover:text-[#38BDF8] transition"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+
+                {/* Drawer Content */}
+                <div className="p-8 pt-20">
+                  {/* User Info */}
+                  {isAuthenticated && userEmail && (
+                    <div className="mb-8 pb-6 border-b border-[#0A1931]/10">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 bg-[#38BDF8] rounded-full flex items-center justify-center text-[#0A1931] font-bold text-lg">
+                          {userEmail.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-[#0A1931]">{userEmail.split('@')[0]}</div>
+                          <div className="text-sm text-[#0A1931]/60">Learner</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Main Navigation */}
+                  <nav className="space-y-1 mb-6">
+                    <div className="px-3 py-2 text-xs font-bold text-[#0A1931]/50 uppercase tracking-wider">
+                      Main
+                    </div>
+                    {mainNavItems.map((item) => {
+                      const Icon = item.icon;
+                      const active = isActive(item.path);
+                      return (
+                        <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
+                          <div
+                            className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors cursor-pointer ${
+                              active
+                                ? 'bg-[#38BDF8] text-[#0A1931]'
+                                : 'text-[#0A1931] hover:bg-[#38BDF8]/10'
+                            }`}
+                          >
+                            <Icon className="h-5 w-5" />
+                            <div>
+                              <div>{item.label}</div>
+                              {item.description && (
+                                <div className="text-xs text-[#0A1931]/50">{item.description}</div>
+                              )}
+                            </div>
                           </div>
+                        </Link>
+                      );
+                    })}
+                  </nav>
+
+                  {/* More Section */}
+                  <nav className="space-y-1">
+                    <div className="px-3 py-2 text-xs font-bold text-[#0A1931]/50 uppercase tracking-wider">
+                      More
+                    </div>
+                    {moreNavItems.map((item) => {
+                      const Icon = item.icon;
+                      const active = isActive(item.path);
+                      return (
+                        <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
+                          <div
+                            className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors cursor-pointer ${
+                              active
+                                ? 'bg-[#38BDF8] text-[#0A1931]'
+                                : 'text-[#0A1931] hover:bg-[#38BDF8]/10'
+                            }`}
+                          >
+                            <Icon className="h-5 w-5" />
+                            {item.label}
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </nav>
+
+                  {/* Auth Section */}
+                  <div className="mt-8 pt-6 border-t border-[#0A1931]/10">
+                    {isAuthenticated ? (
+                      <Link href="/profile" onClick={() => setMobileOpen(false)}>
+                        <div className="flex items-center gap-2 px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition cursor-pointer">
+                          <UserIcon className="h-5 w-5" />
+                          Profile
                         </div>
                       </Link>
-                    );
-                  })}
-                </div>
-
-
-
-                {/* More Section */}
-                <div>
-                  <div className="px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    More
+                    ) : (
+                      <>
+                        <Link href="/login" onClick={() => setMobileOpen(false)}>
+                          <div className="flex items-center gap-2 px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition cursor-pointer mb-2">
+                            <LogIn className="h-5 w-5" />
+                            Sign In
+                          </div>
+                        </Link>
+                        <Link href="/signup" onClick={() => setMobileOpen(false)}>
+                          <div className="block px-4 py-3 bg-[#38BDF8] text-[#0A1931] hover:bg-[#38BDF8]/90 rounded-lg font-bold transition text-center cursor-pointer">
+                            Get Started Free
+                          </div>
+                        </Link>
+                      </>
+                    )}
                   </div>
-                  {moreNavItems.map((item) => {
-                    const Icon = item.icon;
-                    const active = isActive(item.path);
-                    return (
-                      <Link key={item.path} href={item.path} onClick={() => setMobileOpen(false)}>
-                        <div
-                          className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors cursor-pointer ${
-                            active
-                              ? 'bg-blue-500/10 text-blue-400'
-                              : 'text-slate-400 hover:text-white hover:bg-slate-800/50'
-                          }`}
-                        >
-                          <Icon className="h-5 w-5" />
-                          {item.label}
-                        </div>
-                      </Link>
-                    );
-                  })}
                 </div>
-              </nav>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
@@ -226,38 +290,38 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 mt-16">
+      <footer className="border-t border-[#38BDF8]/20 mt-16">
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
-                <Code2 className="h-4 w-4 text-white" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#38BDF8]">
+                <Code2 className="h-4 w-4 text-[#0A1931]" />
               </div>
-              <span className="text-sm text-slate-400">
+              <span className="text-sm text-[#F5F7FF]/60">
                 Infinity Code &copy; {new Date().getFullYear()}
               </span>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-slate-400">
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-[#F5F7FF]/60">
               <Link href="/lessons">
-                <span className="hover:text-white transition-colors cursor-pointer">Learn</span>
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Learn</span>
               </Link>
               <Link href="/challenges">
-                <span className="hover:text-white transition-colors cursor-pointer">Challenges</span>
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Challenges</span>
               </Link>
               <Link href="/playground">
-                <span className="hover:text-white transition-colors cursor-pointer">Playground</span>
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Playground</span>
               </Link>
               <Link href="/community">
-                <span className="hover:text-white transition-colors cursor-pointer">Community</span>
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Community</span>
               </Link>
               <Link href="/resources">
-                <span className="hover:text-white transition-colors cursor-pointer">Resources</span>
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Resources</span>
               </Link>
               <Link href="/about">
-                <span className="hover:text-white transition-colors cursor-pointer">About</span>
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">About</span>
               </Link>
               <Link href="/download">
-                <span className="hover:text-white transition-colors cursor-pointer">Download Content</span>
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Download Content</span>
               </Link>
             </div>
           </div>
