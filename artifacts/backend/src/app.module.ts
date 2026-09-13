@@ -22,6 +22,8 @@ import { LessonModule } from './lesson/lesson.module';
 import { ProgressionModule } from './progression/progression.module';
 import { CurriculumModule } from './curriculum/curriculum.module';
 import { AdminModule } from './admin/admin.module';
+import { FriendsModule } from './friends/friends.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -58,6 +60,8 @@ import { AdminModule } from './admin/admin.module';
     NotificationModule,
     EmailModule,
     AIModule,
+    FriendsModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

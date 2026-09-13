@@ -15,7 +15,7 @@ export class AuthService {
    * Register a new user
    */
   async register(registerDto: RegisterDto) {
-    const { password, fullName } = registerDto;
+    const { password, fullName, username: providedUsername, inviteUsername } = registerDto;
     const email = registerDto.email.trim().toLowerCase();
 
     // Check if user already exists
@@ -27,6 +27,34 @@ export class AuthService {
       throw new ConflictException('Email already registered');
     }
 
+    // Generate username if not provided
+    let username = providedUsername;
+    if (!username) {
+      // Generate from email prefix
+      const emailPrefix = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      username = emailPrefix;
+      
+      // Check if username exists, if so append random number
+      const existingUsername = await this.prisma.user.findUnique({
+        where: { username },
+      });
+      
+      if (existingUsername) {
+        username = `${emailPrefix}${Math.floor(Math.random() * 10000)}`;
+      }
+    } else {
+      // Validate provided username
+      username = username.toLowerCase().replace(/[^a-z0-9_]/g, '');
+      
+      const existingUsername = await this.prisma.user.findUnique({
+        where: { username },
+      });
+      
+      if (existingUsername) {
+        throw new ConflictException('Username already taken');
+      }
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -36,9 +64,36 @@ export class AuthService {
         email,
         password: hashedPassword,
         name: fullName || email.split('@')[0] || 'User',
+        username,
+        displayName: fullName,
         role: 'STUDENT',
+        isOnline: true,
+        lastSeenAt: new Date(),
       },
     });
+
+    // If invited by someone, send them a friend request automatically
+    if (inviteUsername) {
+      try {
+        const inviter = await this.prisma.user.findUnique({
+          where: { username: inviteUsername },
+        });
+
+        if (inviter) {
+          // Create friend request from new user to inviter
+          await this.prisma.friendRequest.create({
+            data: {
+              senderId: user.id,
+              receiverId: inviter.id,
+              status: 'PENDING',
+            },
+          });
+        }
+      } catch (error) {
+        // Don't fail registration if friend request fails
+        console.error('Failed to create friend request:', error);
+      }
+    }
 
     // Generate JWT token with level data
     const token = this.generateToken(user);
@@ -80,10 +135,14 @@ export class AuthService {
     // Generate JWT token with level data
     const token = this.generateToken(user);
 
-    // Update last activity
+    // Update last activity and online status
     await this.prisma.user.update({
       where: { id: user.id },
-      data: { lastActiveAt: new Date() },
+      data: { 
+        lastActiveAt: new Date(),
+        isOnline: true,
+        lastSeenAt: new Date(),
+      },
     });
 
     return {

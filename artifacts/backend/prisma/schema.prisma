@@ -46,7 +46,19 @@ model User {
   progressionHistory ProgressionHistory[]
   userProgresses    UserProgress[]
 
+  // Friends System
+  sentFriendRequests     FriendRequest[] @relation("SentRequests")
+  receivedFriendRequests FriendRequest[] @relation("ReceivedRequests")
+  friendshipsAsUser1     Friendship[]    @relation("FriendshipsAsUser1")
+  friendshipsAsUser2     Friendship[]    @relation("FriendshipsAsUser2")
+  username              String          @unique
+  displayName           String?
+  lastSeenAt            DateTime?
+  isOnline              Boolean         @default(false)
+
   @@index([proficiencyLevel])
+  @@index([username])
+  @@index([isOnline])
   @@map("User")
 }
 
@@ -322,4 +334,38 @@ model UserProgress {
   @@index([userId])
   @@index([status])
   @@map("UserProgress")
+}
+
+// Friends System Models
+
+model FriendRequest {
+  id            String   @id @default(uuid())
+  senderId      String
+  receiverId    String
+  status        String   @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sender        User     @relation("SentRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver      User     @relation("ReceivedRequests", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@index([receiverId, status])
+  @@index([senderId])
+  @@map("FriendRequest")
+}
+
+model Friendship {
+  id            String   @id @default(uuid())
+  user1Id       String
+  user2Id       String
+  createdAt     DateTime @default(now())
+
+  user1         User     @relation("FriendshipsAsUser1", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2         User     @relation("FriendshipsAsUser2", fields: [user2Id], references: [id], onDelete: Cascade)
+
+  @@unique([user1Id, user2Id])
+  @@index([user1Id])
+  @@index([user2Id])
+  @@map("Friendship")
 }

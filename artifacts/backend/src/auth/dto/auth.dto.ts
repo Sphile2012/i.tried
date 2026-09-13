@@ -15,6 +15,10 @@ export class RegisterDto {
   @IsString()
   @IsOptional()
   username?: string;
+
+  @IsString()
+  @IsOptional()
+  inviteUsername?: string; // Username of person who invited them
 }
 
 export class LoginDto {
