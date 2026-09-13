@@ -11,10 +11,12 @@ import HomeNew from '@/pages/home-new';
 import AboutPage from '@/pages/about';
 import Dashboard from '@/pages/dashboard';
 import LessonBrowser from '@/pages/lessons';
+import BrowsePage from '@/pages/browse';
 import LearnPath from '@/pages/learn-path';
 import LearnPage from '@/pages/learn';
 import LessonDetail from '@/pages/lesson-detail';
 import LessonReader from '@/pages/lesson-reader';
+import LessonCodeEditor from '@/pages/lesson-code-editor';
 import QuizPage from '@/pages/quiz';
 import GlossaryList from '@/pages/glossary';
 import GlossaryTerm from '@/pages/glossary-term';
@@ -31,11 +33,13 @@ import ProfileMultiLang from '@/pages/profile-multilang';
 import PortfolioPage from '@/pages/portfolio';
 import DownloadPage from '@/pages/download';
 import ChallengesPage from '@/pages/challenges';
+import CodingChallengesPage from '@/pages/coding-challenges';
 import CommunityPage from '@/pages/community';
 import ResourcesPage from '@/pages/resources';
 import SettingsPage from '@/pages/settings';
 import LeaderboardPage from '@/pages/leaderboard';
 import LoginPage from '@/pages/auth/login';
+import SignupPage from '@/pages/signup';
 import OnboardingQuiz from '@/pages/onboarding-quiz';
 import AdminDashboard from '@/pages/admin/admin-dashboard';
 import NotFound from '@/pages/not-found';
@@ -60,14 +64,17 @@ function Router() {
         <Route path="/friends" component={FriendsPage} />
         <Route path="/inbox" component={InboxPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/signup" component={SignupPage} />
         <Route path="/onboarding/quiz" component={OnboardingQuiz} />
         <Route path="/admin/dashboard" component={AdminDashboard} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/learn" component={LearnPage} />
         <Route path="/learn-path" component={LearnPath} />
+        <Route path="/browse" component={BrowsePage} />
         <Route path="/lessons" component={LessonBrowser} />
         <Route path="/lessons/:id" component={LessonDetail} />
         <Route path="/lesson-reader" component={LessonReader} />
+        <Route path="/lesson-code-editor" component={LessonCodeEditor} />
         <Route path="/quiz/:lessonId" component={QuizPage} />
         <Route path="/glossary" component={GlossaryList} />
         <Route path="/glossary/:slug" component={GlossaryTerm} />
@@ -80,6 +87,7 @@ function Router() {
         <Route path="/achievements" component={AchievementsPage} />
         <Route path="/flashcards" component={FlashcardsPage} />
         <Route path="/challenges" component={ChallengesPage} />
+        <Route path="/coding-challenges" component={CodingChallengesPage} />
         <Route path="/community" component={CommunityPage} />
         <Route path="/resources" component={ResourcesPage} />
         <Route path="/leaderboard" component={LeaderboardPage} />
