@@ -18,7 +18,7 @@ interface SubmitQuizDto {
   answers: QuizAnswerDto[];
 }
 
-@Controller('api/onboarding')
+@Controller('onboarding')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 

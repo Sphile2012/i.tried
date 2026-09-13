@@ -12,7 +12,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { LevelGuard } from '../auth/guards/level.guard';
 import { RequireLevel } from '../auth/decorators/require-level.decorator';
 
-@Controller('api/curriculum')
+@Controller('curriculum')
 export class CurriculumController {
   constructor(private readonly curriculumService: CurriculumService) {}
 

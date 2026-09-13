@@ -8,7 +8,7 @@ import {
 import { ProgressionService } from './progression.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-@Controller('api')
+@Controller('')
 export class ProgressionController {
   constructor(private readonly progressionService: ProgressionService) {}
 

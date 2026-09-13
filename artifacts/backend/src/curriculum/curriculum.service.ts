@@ -64,14 +64,21 @@ export class CurriculumService {
 
     // Build lesson query filter
     const lessonFilter: any = {
-      difficulty: { in: allowedDifficulties },
       isPublished: true,
     };
 
-    // Add language filter if provided
-    if (language && language !== 'all') {
-      lessonFilter.language = language;
+    // Only filter by difficulty if lessons have difficulty set
+    // For now, since lessons don't have difficulty, we'll get all published lessons
+    if (allowedDifficulties.length > 0 && allowedDifficulties[0] !== 'BEGINNER') {
+      // If filtering beyond BEGINNER, check if difficulty is set
+      lessonFilter.OR = [
+        { difficulty: { in: allowedDifficulties } },
+        { difficulty: null }, // Include lessons without difficulty set
+      ];
     }
+
+    // Note: Language filtering will be done post-query since lessons don't have language field
+    // We'll identify language from the topic through module relationship
 
     // Fetch lessons with completion status
     const lessons = await prisma.lesson.findMany({
@@ -103,17 +110,38 @@ export class CurriculumService {
       );
     }
 
-    const lessonSummaries: LessonSummary[] = lessons.map((lesson) => ({
-      id: lesson.id,
-      title: lesson.title,
-      description: lesson.content.substring(0, 200) + '...',
-      difficulty: lesson.difficulty || 'BEGINNER',
-      xpReward: lesson.xpReward,
-      duration: lesson.estimatedMinutes,
-      orderIndex: lesson.orderIndex,
-      completed: progressMap.get(lesson.id) || false,
-      language: (lesson as any).language || 'cpp', // Add language field
-    }));
+    const lessonSummaries: LessonSummary[] = lessons
+      .map((lesson) => {
+        // Extract language from topic slug (e.g., 'python-mastery' -> 'python')
+        const topicSlug = lesson.module?.topic?.slug || '';
+        let languageCode = 'cpp'; // default
+        
+        if (topicSlug.includes('python')) languageCode = 'python';
+        else if (topicSlug.includes('cpp')) languageCode = 'cpp';
+        else if (topicSlug.includes('java')) languageCode = 'java';
+        else if (topicSlug.includes('csharp')) languageCode = 'csharp';
+        else if (topicSlug.includes('js')) languageCode = 'javascript';
+        else if (topicSlug.includes('ts')) languageCode = 'typescript';
+        
+        return {
+          id: lesson.id,
+          title: lesson.title,
+          description: lesson.content.substring(0, 200) + '...',
+          difficulty: lesson.difficulty || lesson.module?.topic?.difficulty || 'BEGINNER',
+          xpReward: lesson.xpReward || 50,
+          duration: lesson.estimatedMinutes,
+          orderIndex: lesson.orderIndex,
+          completed: progressMap.get(lesson.id) || false,
+          language: languageCode,
+        };
+      })
+      .filter((lesson) => {
+        // Filter by language if specified
+        if (language && language !== 'all') {
+          return lesson.language === language;
+        }
+        return true;
+      });
 
     // Build challenge query filter
     const challengeFilter: any = {
@@ -121,10 +149,7 @@ export class CurriculumService {
       isPublished: true,
     };
 
-    // Add language filter if provided
-    if (language && language !== 'all') {
-      challengeFilter.language = language;
-    }
+    // Note: Language filtering for challenges will be done post-query
 
     // Fetch challenges with completion status
     const challenges = await prisma.challenge.findMany({
