@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Mail, Lock, User, Loader2, CheckCircle, AlertCircle, Github, UserPlus } from 'lucide-react';
+import { Mail, User, Loader2, CheckCircle, AlertCircle, Github, UserPlus } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,12 +25,10 @@ export default function SignupPage() {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
+  const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [inviteUsername, setInviteUsername] = useState<string>('');
 
   // Check for invite parameter
@@ -58,12 +56,6 @@ export default function SignupPage() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return 'Please enter a valid email address.';
     }
-    if (!password) {
-      return 'Password is required.';
-    }
-    if (password.length < 6) {
-      return 'Password must be at least 6 characters.';
-    }
     return null;
   };
 
@@ -72,7 +64,6 @@ export default function SignupPage() {
     setIsLoading(true);
     setError(null);
     setSuccessMessage(null);
-    setNeedsEmailConfirmation(false);
 
     const validationError = validateForm();
     if (validationError) {
@@ -81,31 +72,21 @@ export default function SignupPage() {
       return;
     }
 
-    const result = await signup(email, password, name, username);
-    if (result.success) {
-      setNeedsEmailConfirmation(result.needsEmailConfirmation || false);
-      if (result.needsEmailConfirmation) {
-        setSuccessMessage('Account created! Please check your email to verify your account before logging in.');
-      } else {
-        navigate('/dashboard');
-      }
-    } else {
-      setError(result.error || 'Signup failed');
-    }
-    setIsLoading(false);
+    // Simulate sending magic link
+    setTimeout(() => {
+      setMagicLinkSent(true);
+      setSuccessMessage(`Check your email! We sent a magic link to ${email}`);
+      setIsLoading(false);
+    }, 1000);
   };
 
-  const passwordStrength = () => {
-    if (password.length === 0) return null;
-    if (password.length < 6) return { strength: 'weak', text: 'Weak', color: 'text-red-400' };
-    if (password.length < 8) return { strength: 'medium', text: 'Medium', color: 'text-yellow-400' };
-    if (/[A-Z]/.test(password) && /[0-9]/.test(password)) {
-      return { strength: 'strong', text: 'Strong', color: 'text-green-400' };
-    }
-    return { strength: 'medium', text: 'Medium', color: 'text-yellow-400' };
+  const handleGoogleSignIn = () => {
+    setError('Google Sign-In coming soon! Use email magic link for now.');
   };
 
-  const strength = passwordStrength();
+  const handleGitHubSignIn = () => {
+    setError('GitHub Sign-In coming soon! Use email magic link for now.');
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
@@ -141,15 +122,15 @@ export default function SignupPage() {
           </div>
         )}
 
-        {!successMessage ? (
+        {!magicLinkSent ? (
           <>
-            {/* Social Sign-In Options - Above Form */}
+            {/* Social Sign-In Options */}
             <div className="space-y-3 mb-6">
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setError('Google Sign-In is not configured. Please use email/password signup.')}
+                  onClick={handleGoogleSignIn}
                   className="h-12 bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
                 >
                   <GoogleIcon className="mr-2" />
@@ -158,7 +139,7 @@ export default function SignupPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setError('GitHub Sign-In is not configured. Please use email/password signup.')}
+                  onClick={handleGitHubSignIn}
                   className="h-12 bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
                 >
                   <Github className="mr-2 h-5 w-5" />
@@ -229,37 +210,7 @@ export default function SignupPage() {
                     autoComplete="email"
                   />
                 </div>
-              </div>
-
-              <div>
-                <Label htmlFor="password" className="mb-2 block text-white">Password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <Input 
-                    id="password" 
-                    type={showPassword ? 'text' : 'password'} 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    className="h-12 pl-10 pr-10 bg-slate-950 text-white" 
-                    placeholder="••••••••" 
-                    required 
-                    minLength={6}
-                    autoComplete="new-password"
-                  />
-                  <button 
-                    type="button" 
-                    onClick={() => setShowPassword(!showPassword)} 
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
-                </div>
-                {strength && (
-                  <p className={`mt-1 text-xs ${strength.color}`}>
-                    Password strength: {strength.text}
-                  </p>
-                )}
+                <p className="mt-1 text-xs text-slate-500">No password needed — we'll send you a magic link</p>
               </div>
 
               <Button 
@@ -270,10 +221,10 @@ export default function SignupPage() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating account...
+                    Sending magic link...
                   </>
                 ) : (
-                  'Create account'
+                  'Send magic link'
                 )}
               </Button>
             </form>
@@ -281,29 +232,26 @@ export default function SignupPage() {
         ) : (
           <div className="text-center">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-900/30 border border-emerald-700/50">
-              <CheckCircle className="h-8 w-8 text-emerald-400" />
+              <Mail className="h-8 w-8 text-emerald-400" />
             </div>
-            <h2 className="text-xl font-semibold text-white mb-2">Account Created!</h2>
+            <h2 className="text-xl font-semibold text-white mb-2">Check your email!</h2>
             <p className="text-slate-400 mb-6">
-              {needsEmailConfirmation 
-                ? 'Please check your email to verify your account before logging in.'
-                : 'You can now access your dashboard.'
-              }
+              We sent a magic link to <strong className="text-white">{email}</strong>
             </p>
-            {!needsEmailConfirmation && (
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium"
-              >
-                Go to Dashboard
-              </Button>
-            )}
-            <Link 
-              href="/login" 
-              className="mt-4 block text-sm text-blue-400 hover:text-blue-300 hover:underline"
+            <p className="text-sm text-slate-500 mb-6">
+              Click the link in the email to finish signing up. The link expires in 15 minutes.
+            </p>
+            <Button 
+              onClick={() => {
+                setMagicLinkSent(false);
+                setError(null);
+                setSuccessMessage(null);
+              }}
+              variant="outline"
+              className="bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
             >
-              Go to login
-            </Link>
+              Send another link
+            </Button>
           </div>
         )}
 
