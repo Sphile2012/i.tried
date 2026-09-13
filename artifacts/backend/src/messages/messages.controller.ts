@@ -17,20 +17,20 @@ export class MessagesController {
 
   // Get all conversations for current user
   @Get('conversations')
-  async getConversations(@Request() req) {
+  async getConversations(@Request() req: any) {
     return this.messagesService.getConversations(req.user.id);
   }
 
   // Get messages with a specific friend
   @Get(':friendId')
-  async getMessages(@Request() req, @Param('friendId') friendId: string) {
+  async getMessages(@Request() req: any, @Param('friendId') friendId: string) {
     return this.messagesService.getMessages(req.user.id, friendId);
   }
 
   // Send a message
   @Post('send')
   async sendMessage(
-    @Request() req,
+    @Request() req: any,
     @Body() body: { receiverId: string; content: string },
   ) {
     return this.messagesService.sendMessage(
@@ -42,7 +42,7 @@ export class MessagesController {
 
   // Mark messages as read
   @Post('read/:friendId')
-  async markAsRead(@Request() req, @Param('friendId') friendId: string) {
+  async markAsRead(@Request() req: any, @Param('friendId') friendId: string) {
     return this.messagesService.markAsRead(req.user.id, friendId);
   }
 }

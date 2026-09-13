@@ -17,15 +17,14 @@ export class CurriculumController {
   constructor(private readonly curriculumService: CurriculumService) {}
 
   @Get(':level')
-  @UseGuards(JwtAuthGuard, LevelGuard)
-  @RequireLevel('BEGINNER') // Will be dynamically checked based on requested level
   async getCurriculum(
     @Request() req: any,
     @Param('level') level: string,
     @Query('language') language?: string,
     @Query('difficulty') difficulty?: string,
   ) {
-    const userId = req.user.id;
+    // Allow both authenticated and guest users
+    const userId = req.user?.id || null;
     return await this.curriculumService.getCurriculumByLevel(
       userId,
       level.toUpperCase() as any,

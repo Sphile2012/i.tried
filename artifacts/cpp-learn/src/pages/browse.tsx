@@ -75,9 +75,6 @@ export default function BrowsePage() {
       setError(null);
 
       const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Not authenticated');
-      }
 
       // Build query parameters for backend
       const params = new URLSearchParams();
@@ -90,11 +87,17 @@ export default function BrowsePage() {
 
       // Use curriculum endpoint filtered by user level
       const userLevel = user?.level || 'BEGINNER';
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      
+      // Add auth header only if token exists
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      
       const response = await fetch(`/api/curriculum/${userLevel}?${params.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
+        headers,
       });
 
       if (!response.ok) {

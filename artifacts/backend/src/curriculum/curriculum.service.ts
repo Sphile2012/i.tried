@@ -29,7 +29,7 @@ export interface ChallengeSummary {
 @Injectable()
 export class CurriculumService {
   async getCurriculumByLevel(
-    userId: string,
+    userId: string | null,
     requestedLevel: ProficiencyLevel,
     language?: string,
     difficulty?: string,
@@ -37,14 +37,19 @@ export class CurriculumService {
     lessons: LessonSummary[];
     challenges: ChallengeSummary[];
   }> {
-    // Get user to verify their level
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { proficiencyLevel: true },
-    });
+    // For guest users, default to BEGINNER level
+    let userLevel: ProficiencyLevel = 'BEGINNER';
+    
+    if (userId) {
+      // Get user to verify their level
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { proficiencyLevel: true },
+      });
 
-    if (!user || !user.proficiencyLevel) {
-      throw new NotFoundException('User level not set');
+      if (user && user.proficiencyLevel) {
+        userLevel = user.proficiencyLevel as ProficiencyLevel;
+      }
     }
 
     // Determine which difficulties to show based on level
@@ -81,19 +86,22 @@ export class CurriculumService {
       },
     });
 
-    // Get user progress for these lessons
+    // Get user progress for these lessons (only if userId exists)
     const lessonIds = lessons.map((l) => l.id);
-    const userProgress = await prisma.userProgress.findMany({
-      where: {
-        userId,
-        contentId: { in: lessonIds },
-        contentType: 'LESSON',
-      },
-    });
-
-    const progressMap = new Map(
-      userProgress.map((p) => [p.contentId, p.status === 'COMPLETED']),
-    );
+    let progressMap = new Map<string, boolean>();
+    
+    if (userId) {
+      const userProgress = await prisma.userProgress.findMany({
+        where: {
+          userId,
+          contentId: { in: lessonIds },
+          contentType: 'LESSON',
+        },
+      });
+      progressMap = new Map(
+        userProgress.map((p) => [p.contentId, p.status === 'COMPLETED']),
+      );
+    }
 
     const lessonSummaries: LessonSummary[] = lessons.map((lesson) => ({
       id: lesson.id,
@@ -125,17 +133,20 @@ export class CurriculumService {
     });
 
     const challengeIds = challenges.map((c) => c.id);
-    const challengeProgress = await prisma.userProgress.findMany({
-      where: {
-        userId,
-        contentId: { in: challengeIds },
-        contentType: 'CHALLENGE',
-      },
-    });
-
-    const challengeProgressMap = new Map(
-      challengeProgress.map((p) => [p.contentId, p.status === 'COMPLETED']),
-    );
+    let challengeProgressMap = new Map<string, boolean>();
+    
+    if (userId) {
+      const challengeProgress = await prisma.userProgress.findMany({
+        where: {
+          userId,
+          contentId: { in: challengeIds },
+          contentType: 'CHALLENGE',
+        },
+      });
+      challengeProgressMap = new Map(
+        challengeProgress.map((p) => [p.contentId, p.status === 'COMPLETED']),
+      );
+    }
 
     const challengeSummaries: ChallengeSummary[] = challenges.map(
       (challenge) => ({

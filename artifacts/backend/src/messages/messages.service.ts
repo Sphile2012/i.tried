@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class MessagesService {
@@ -20,7 +20,7 @@ export class MessagesService {
 
     // For each friend, get the last message and unread count
     const conversations = await Promise.all(
-      friendships.map(async (friendship) => {
+      friendships.map(async (friendship: any) => {
         const friendId = friendship.user1Id === userId ? friendship.user2Id : friendship.user1Id;
         const friend = friendship.user1Id === userId ? friendship.user2 : friendship.user1;
 
@@ -57,7 +57,7 @@ export class MessagesService {
     );
 
     // Sort by last message time
-    conversations.sort((a, b) => {
+    conversations.sort((a: any, b: any) => {
       if (!a.lastMessageTime) return 1;
       if (!b.lastMessageTime) return -1;
       return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
