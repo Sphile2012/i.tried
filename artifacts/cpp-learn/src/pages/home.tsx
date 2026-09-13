@@ -19,21 +19,21 @@ function HamburgerDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
       {/* Dark Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+          className="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300"
           onClick={onClose}
         />
       )}
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-[340px] max-w-[85vw] bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-out ${
+        className={`fixed top-0 right-0 h-full w-[340px] max-w-[85vw] bg-[#F5F7FF] z-50 shadow-2xl transform transition-transform duration-300 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 text-gray-600 hover:text-gray-900 transition"
+          className="absolute top-6 right-6 text-[#0A1931] hover:text-[#38BDF8] transition"
         >
           <X className="w-6 h-6" />
         </button>
@@ -42,19 +42,19 @@ function HamburgerDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
         <div className="p-8 pt-20 h-full overflow-y-auto">
           {/* User Info */}
           {isAuthenticated && user && (
-            <div className="mb-8 pb-6 border-b border-gray-200">
+            <div className="mb-8 pb-6 border-b border-[#0A1931]/10">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-[#2D5BFF] to-[#5B8FFF] rounded-full flex items-center justify-center text-white font-bold text-lg">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#38BDF8] to-[#0EA5E9] rounded-full flex items-center justify-center text-white font-bold text-lg">
                   {user.name?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900">{user.name}</div>
-                  <div className="text-sm text-gray-600">{user.proficiencyLevel || 'Beginner'}</div>
+                  <div className="font-semibold text-[#0A1931]">{user.name}</div>
+                  <div className="text-sm text-[#0A1931]/60">{user.proficiencyLevel || 'Beginner'}</div>
                 </div>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Total XP</span>
-                <span className="font-mono font-bold text-[#2D5BFF]">{user.totalXp || 0}</span>
+                <span className="text-[#0A1931]/60">Total XP</span>
+                <span className="font-mono font-bold text-[#38BDF8]">{user.totalXp || 0}</span>
               </div>
             </div>
           )}
@@ -62,59 +62,59 @@ function HamburgerDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
           {/* Navigation Links */}
           <nav className="space-y-1">
             <Link href="/" onClick={onClose}>
-              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                 Home
               </a>
             </Link>
-            <Link href="/lessons" onClick={onClose}>
-              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+            <Link href="/learn" onClick={onClose}>
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                 Learn
               </a>
             </Link>
             <Link href="/topics" onClick={onClose}>
-              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                 Book
               </a>
             </Link>
             <Link href="/browse" onClick={onClose}>
-              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                 Browse
               </a>
             </Link>
             <Link href="/lesson-code-editor" onClick={onClose}>
-              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                 Playground
               </a>
             </Link>
             <Link href="/learn-path" onClick={onClose}>
-              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                 Compare
               </a>
             </Link>
             <Link href="/coding-challenges" onClick={onClose}>
-              <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+              <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                 Challenges
               </a>
             </Link>
           </nav>
 
           {/* Auth Links */}
-          <div className="mt-8 pt-6 border-t border-gray-200">
+          <div className="mt-8 pt-6 border-t border-[#0A1931]/10">
             {isAuthenticated ? (
               <Link href="/profile" onClick={onClose}>
-                <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                   Profile
                 </a>
               </Link>
             ) : (
               <>
                 <Link href="/login" onClick={onClose}>
-                  <a className="block px-4 py-3 text-gray-900 hover:bg-gray-50 rounded-lg font-medium transition">
+                  <a className="block px-4 py-3 text-[#0A1931] hover:bg-[#38BDF8]/10 rounded-lg font-medium transition">
                     Sign In
                   </a>
                 </Link>
                 <Link href="/signup" onClick={onClose}>
-                  <a className="block px-4 py-3 bg-[#2D5BFF] text-white hover:bg-[#2347CC] rounded-lg font-semibold transition text-center mt-2">
+                  <a className="block px-4 py-3 bg-[#38BDF8] text-white hover:bg-[#0EA5E9] rounded-lg font-semibold transition text-center mt-2">
                     Start Free
                   </a>
                 </Link>
@@ -135,21 +135,39 @@ function Nav() {
 
   return (
     <>
-      <nav className="sticky top-0 z-30 bg-[#F7F6F1]/90 backdrop-blur-md border-b border-[#DEDBD0]">
+      <nav className="sticky top-0 z-30 bg-[#0A1931]/95 backdrop-blur-md border-b border-[#F5F7FF]/10">
         <div className="max-w-[1160px] mx-auto px-8 h-[68px] flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 font-mono text-[19px] font-bold text-[#1B1D24]">
-            <span className="w-2 h-2 bg-[#2D5BFF] rounded-full" />
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 font-mono text-[19px] font-bold text-[#F5F7FF]">
+            <span className="w-2 h-2 bg-[#38BDF8] rounded-full" />
             Infinity Code
           </Link>
           
-          {/* Hamburger Button - Always Visible */}
-          <button
-            onClick={() => setDrawerOpen(true)}
-            className="p-2 text-[#1B1D24] hover:bg-[#DEDBD0]/50 rounded-md transition"
-            aria-label="Open menu"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
+          {/* Right side: Language Dropdown + Sign In + Hamburger */}
+          <div className="flex items-center gap-3">
+            {/* Language Dropdown - placeholder for now */}
+            <select className="px-3 py-1.5 bg-[#F5F7FF]/10 border border-[#F5F7FF]/20 rounded-lg text-[#F5F7FF] text-sm focus:outline-none focus:ring-2 focus:ring-[#38BDF8]">
+              <option>JavaScript</option>
+              <option>Python</option>
+              <option>C++</option>
+            </select>
+            
+            {/* Sign In Button */}
+            <Link href="/login">
+              <a className="hidden sm:block px-4 py-1.5 text-[#F5F7FF] hover:text-[#38BDF8] transition text-sm font-medium">
+                Sign In
+              </a>
+            </Link>
+            
+            {/* Hamburger Button - Always Visible */}
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="p-2 text-[#F5F7FF] hover:bg-[#F5F7FF]/10 rounded-md transition"
+              aria-label="Open menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -166,24 +184,24 @@ function WelcomeBanner() {
   const streak = 3; // This would come from user data
 
   return (
-    <div className="bg-gradient-to-r from-[#2D5BFF] to-[#5B8FFF] text-white py-8">
+    <div className="bg-gradient-to-r from-[#0A1931] to-[#0D2447] text-[#F5F7FF] py-8 border-b border-[#F5F7FF]/10">
       <div className="max-w-[1160px] mx-auto px-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <h2 className="text-2xl font-bold mb-1">Welcome back, {user?.name?.split(' ')[0] || 'there'}!</h2>
-            <p className="flex items-center gap-2 text-white/90">
-              <Flame className="w-5 h-5 text-orange-300" />
+            <p className="flex items-center gap-2 text-[#F5F7FF]/90">
+              <Flame className="w-5 h-5 text-orange-400" />
               Keep learning, you're on a {streak}-day streak
             </p>
           </div>
           <div className="flex gap-3">
             <Link href="/lessons">
-              <a className="px-5 py-2.5 bg-white text-[#2D5BFF] rounded-lg font-semibold hover:shadow-lg transition">
+              <a className="px-5 py-2.5 bg-[#38BDF8] text-white rounded-lg font-semibold hover:bg-[#0EA5E9] hover:shadow-lg transition">
                 Continue Learning
               </a>
             </Link>
             <Link href="/browse">
-              <a className="px-5 py-2.5 bg-white/10 backdrop-blur text-white border border-white/30 rounded-lg font-semibold hover:bg-white/20 transition">
+              <a className="px-5 py-2.5 bg-[#F5F7FF]/10 backdrop-blur text-[#F5F7FF] border border-[#F5F7FF]/30 rounded-lg font-semibold hover:bg-[#F5F7FF]/20 transition">
                 Browse All Courses
               </a>
             </Link>
@@ -205,26 +223,26 @@ function LearningTracks() {
   ];
 
   return (
-    <section className="py-12 bg-[#F7F6F1]">
+    <section className="py-12 bg-[#0A1931]">
       <div className="max-w-[1160px] mx-auto px-8">
-        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Learning Tracks</h3>
+        <h3 className="text-2xl font-bold text-[#F5F7FF] mb-6">Learning Tracks</h3>
         <div className="grid md:grid-cols-3 gap-5">
           {tracks.map((track) => (
-            <div key={track.level} className="bg-white rounded-2xl p-6 border border-[#DEDBD0] hover:border-[#2D5BFF] transition-all hover:shadow-lg">
+            <div key={track.level} className="bg-[#F5F7FF] rounded-xl p-6 border border-[#F5F7FF]/20 hover:border-[#38BDF8] transition-all hover:shadow-[0_4px_20px_rgba(56,189,248,0.15)]">
               <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${track.color} mb-4`} />
-              <h4 className="font-bold text-lg mb-3">{track.level}</h4>
+              <h4 className="font-bold text-lg mb-3 text-[#0A1931]">{track.level}</h4>
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Progress</span>
-                  <span className="font-mono font-bold">{track.lessons}</span>
+                  <span className="text-[#0A1931]/60">Progress</span>
+                  <span className="font-mono font-bold text-[#0A1931]">{track.lessons}</span>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className={`h-full bg-gradient-to-r ${track.color}`} style={{ width: `${track.progress}%` }} />
+                <div className="h-2 bg-[#0A1931]/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-[#38BDF8]" style={{ width: `${track.progress}%` }} />
                 </div>
-                <div className="text-right text-xs font-bold text-[#2D5BFF]">{track.progress}%</div>
+                <div className="text-right text-xs font-bold text-[#38BDF8]">{track.progress}%</div>
               </div>
-              <div className="text-sm text-gray-600">
-                <span className="font-mono font-bold text-[#1B1D24]">{track.xp} XP</span> earned
+              <div className="text-sm text-[#0A1931]/60">
+                <span className="font-mono font-bold text-[#0A1931]">{track.xp} XP</span> earned
               </div>
             </div>
           ))}
@@ -262,9 +280,9 @@ function YourLanguages() {
   ];
 
   return (
-    <section className="py-12 bg-[#EFEDE5]">
+    <section className="py-12 bg-[#0D2447]">
       <div className="max-w-[1160px] mx-auto px-8">
-        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Your Languages</h3>
+        <h3 className="text-2xl font-bold text-[#F5F7FF] mb-6">Your Languages</h3>
         <div className="grid md:grid-cols-2 gap-6">
           {languages.map((lang) => {
             const progressPercent = Math.round((lang.lessonsCompleted / lang.totalLessons) * 100);
@@ -272,11 +290,11 @@ function YourLanguages() {
             return (
               <div
                 key={lang.name}
-                className="relative bg-[#F7F6F1] rounded-2xl p-7 border border-[#DEDBD0] hover:border-[#2D5BFF] transition-all hover:shadow-lg"
+                className="relative bg-[#F5F7FF] rounded-xl p-7 border border-[#F5F7FF]/20 hover:border-[#38BDF8] transition-all hover:shadow-[0_4px_20px_rgba(56,189,248,0.2)]"
               >
                 {lang.isPrimary && (
                   <div className="absolute top-5 right-5">
-                    <span className="px-3 py-1 bg-[#2D5BFF] text-white text-[11px] font-bold rounded-full">
+                    <span className="px-3 py-1 bg-[#38BDF8] text-white text-[11px] font-bold rounded-full">
                       PRIMARY
                     </span>
                   </div>
@@ -286,38 +304,38 @@ function YourLanguages() {
                     {lang.icon}
                   </div>
                   <div>
-                    <h3 className="font-mono text-[22px] font-bold text-[#1B1D24]">{lang.name}</h3>
+                    <h3 className="font-mono text-[22px] font-bold text-[#0A1931]">{lang.name}</h3>
                   </div>
                 </div>
                 <div className="flex items-center gap-6 mb-5">
                   <div>
-                    <div className="text-[12px] font-medium text-[#5B5E6B] mb-1">TOTAL XP</div>
-                    <div className="font-mono text-[18px] font-bold text-[#1B1D24]">
+                    <div className="text-[12px] font-medium text-[#0A1931]/60 mb-1">TOTAL XP</div>
+                    <div className="font-mono text-[18px] font-bold text-[#0A1931]">
                       {lang.totalXp.toLocaleString()}
                     </div>
                   </div>
                   <div>
-                    <div className="text-[12px] font-medium text-[#5B5E6B] mb-1">LEVEL</div>
-                    <div className="font-mono text-[18px] font-bold text-[#2D5BFF]">
+                    <div className="text-[12px] font-medium text-[#0A1931]/60 mb-1">LEVEL</div>
+                    <div className="font-mono text-[18px] font-bold text-[#38BDF8]">
                       Lv {lang.level}
                     </div>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-[13px]">
-                    <span className="font-medium text-[#5B5E6B]">Lessons Progress</span>
-                    <span className="font-mono font-bold text-[#1B1D24]">
+                    <span className="font-medium text-[#0A1931]/60">Lessons Progress</span>
+                    <span className="font-mono font-bold text-[#0A1931]">
                       {lang.lessonsCompleted}/{lang.totalLessons}
                     </span>
                   </div>
-                  <div className="h-2.5 bg-[#DEDBD0] rounded-full overflow-hidden">
+                  <div className="h-2.5 bg-[#0A1931]/10 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-[#2D5BFF] to-[#5B8FFF] rounded-full transition-all duration-500"
+                      className="h-full bg-[#38BDF8] rounded-full transition-all duration-500"
                       style={{ width: `${progressPercent}%` }}
                     />
                   </div>
                   <div className="text-right">
-                    <span className="text-[12px] font-bold text-[#2D5BFF]">{progressPercent}%</span>
+                    <span className="text-[12px] font-bold text-[#38BDF8]">{progressPercent}%</span>
                   </div>
                 </div>
               </div>
@@ -339,23 +357,23 @@ function CourseProgress() {
   ];
 
   return (
-    <section className="py-12 bg-[#F7F6F1]">
+    <section className="py-12 bg-[#0A1931]">
       <div className="max-w-[1160px] mx-auto px-8">
-        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Course Progress</h3>
+        <h3 className="text-2xl font-bold text-[#F5F7FF] mb-6">Course Progress</h3>
         <div className="grid md:grid-cols-2 gap-6">
           {courses.map((course) => (
-            <div key={course.name} className="bg-white rounded-2xl p-6 border border-[#DEDBD0] hover:shadow-lg transition">
+            <div key={course.name} className="bg-[#F5F7FF] rounded-xl p-6 border border-[#F5F7FF]/20 hover:shadow-[0_4px_20px_rgba(56,189,248,0.15)] transition">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h4 className="font-bold text-lg mb-1">{course.name}</h4>
-                  <p className="text-sm text-gray-600">{course.lesson}</p>
+                  <h4 className="font-bold text-lg mb-1 text-[#0A1931]">{course.name}</h4>
+                  <p className="text-sm text-[#0A1931]/60">{course.lesson}</p>
                 </div>
-                <span className="text-xs text-gray-500">{course.time}</span>
+                <span className="text-xs text-[#0A1931]/50">{course.time}</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
-                <div className="h-full bg-gradient-to-r from-[#2D5BFF] to-[#5B8FFF]" style={{ width: `${course.progress}%` }} />
+              <div className="h-2 bg-[#0A1931]/10 rounded-full overflow-hidden mb-4">
+                <div className="h-full bg-[#38BDF8]" style={{ width: `${course.progress}%` }} />
               </div>
-              <button className="w-full py-2.5 bg-[#2D5BFF] text-white rounded-lg font-semibold hover:bg-[#2347CC] transition flex items-center justify-center gap-2">
+              <button className="w-full py-2.5 bg-[#38BDF8] text-white rounded-lg font-semibold hover:bg-[#0EA5E9] transition flex items-center justify-center gap-2">
                 <Play className="w-4 h-4" />
                 Resume
               </button>
@@ -374,28 +392,28 @@ function Achievements() {
   const achievements = [
     { name: 'First Project', icon: Trophy, unlocked: true, color: 'text-yellow-500' },
     { name: '3-Day Streak', icon: Flame, unlocked: true, color: 'text-orange-500' },
-    { name: '10 Lessons', icon: Target, unlocked: false, color: 'text-gray-400' },
-    { name: '100% Complete', icon: CheckCircle, unlocked: false, color: 'text-gray-400' },
+    { name: '10 Lessons', icon: Target, unlocked: false, color: 'text-[#F5F7FF]/30' },
+    { name: '100% Complete', icon: CheckCircle, unlocked: false, color: 'text-[#F5F7FF]/30' },
   ];
 
   return (
-    <section className="py-12 bg-[#EFEDE5]">
+    <section className="py-12 bg-[#0D2447]">
       <div className="max-w-[1160px] mx-auto px-8">
-        <h3 className="text-2xl font-bold text-[#1B1D24] mb-6">Achievements</h3>
+        <h3 className="text-2xl font-bold text-[#F5F7FF] mb-6">Achievements</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {achievements.map((achievement) => {
             const Icon = achievement.icon;
             return (
               <div
                 key={achievement.name}
-                className={`bg-white rounded-xl p-5 border-2 text-center transition ${
+                className={`bg-[#F5F7FF] rounded-xl p-5 border-2 text-center transition ${
                   achievement.unlocked
-                    ? 'border-[#2D5BFF] shadow-md'
-                    : 'border-gray-200 opacity-60'
+                    ? 'border-[#38BDF8] shadow-md'
+                    : 'border-[#F5F7FF]/20 opacity-60'
                 }`}
               >
                 <Icon className={`w-10 h-10 mx-auto mb-2 ${achievement.color}`} />
-                <p className="text-sm font-semibold">{achievement.name}</p>
+                <p className="text-sm font-semibold text-[#0A1931]">{achievement.name}</p>
               </div>
             );
           })}
@@ -443,91 +461,91 @@ add_item("oat milk")`;
   }, []);
 
   return (
-    <section className="py-[88px] pb-[96px] bg-[#F7F6F1]">
+    <section className="py-[88px] pb-[96px] bg-[#0A1931]">
       <div className="max-w-[1160px] mx-auto px-8 grid lg:grid-cols-[1.05fr_1fr] gap-16 items-center">
         <div>
-          <div className="font-mono text-[13.5px] text-[#2D5BFF] font-semibold mb-[22px] tracking-tight">
+          <div className="font-mono text-[13.5px] text-[#38BDF8] font-semibold mb-[22px] tracking-tight">
             // learn by shipping, not by watching
           </div>
-          <h1 className="font-mono text-[52px] leading-[1.08] font-extrabold tracking-tight text-[#1B1D24] mb-6">
+          <h1 className="font-mono text-[52px] leading-[1.08] font-extrabold tracking-tight text-[#F5F7FF] mb-6">
             Write real code
             <br />
-            on your <span className="text-[#2D5BFF]">first day.</span>
+            on your <span className="text-[#38BDF8]">first day.</span>
           </h1>
-          <p className="text-[18px] text-[#5B5E6B] max-w-[46ch] mb-9 leading-relaxed">
+          <p className="text-[18px] text-[#F5F7FF]/70 max-w-[46ch] mb-9 leading-relaxed">
             Infinity Code drops you straight into a working editor. No slides, no quizzes about syntax — you build small real projects and we tell you exactly what to fix, line by line.
           </p>
           <div className="flex items-center gap-[14px] mb-[44px]">
             <Link href="/signup">
-              <a className="inline-block px-[26px] py-[14px] bg-[#2D5BFF] text-white rounded-lg font-semibold text-[15.5px] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(45,91,255,0.25)] transition-all shadow-[0_1px_0_rgba(0,0,0,0.08)]">
+              <a className="inline-block px-[26px] py-[14px] bg-[#38BDF8] text-white rounded-lg font-semibold text-[15.5px] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(56,189,248,0.4)] transition-all shadow-[0_1px_0_rgba(0,0,0,0.08)]">
                 Start your first project
               </a>
             </Link>
           </div>
           <div className="flex items-center gap-7 flex-wrap">
-            <div className="font-mono text-[13px] text-[#5B5E6B]">
-              <span className="text-[#1B1D24] font-bold">[X]</span> projects shipped
+            <div className="font-mono text-[13px] text-[#F5F7FF]/60">
+              <span className="text-[#F5F7FF] font-bold">[X]</span> projects shipped
             </div>
-            <div className="font-mono text-[13px] text-[#5B5E6B]">
-              <span className="text-[#1B1D24] font-bold">[X]</span> from learners
+            <div className="font-mono text-[13px] text-[#F5F7FF]/60">
+              <span className="text-[#F5F7FF] font-bold">[X]</span> from learners
             </div>
-            <div className="font-mono text-[13px] text-[#5B5E6B]">
-              <span className="text-[#1B1D24] font-bold">0</span> lecture videos
+            <div className="font-mono text-[13px] text-[#F5F7FF]/60">
+              <span className="text-[#F5F7FF] font-bold">0</span> lecture videos
             </div>
           </div>
         </div>
 
-        <div className="bg-[#181A22] rounded-xl shadow-[0_30px_60px_-20px_rgba(20,20,30,0.35)] overflow-hidden transform rotate-[0.4deg]">
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-[#2A2D3A]">
+        <div className="bg-[#0D1B2A] rounded-xl shadow-[0_30px_60px_-20px_rgba(0,0,0,0.5)] overflow-hidden transform rotate-[0.4deg] border border-[#F5F7FF]/10">
+          <div className="flex items-center gap-2 px-4 py-3 border-b border-[#F5F7FF]/10 bg-[#0A1931]">
             <span className="w-[11px] h-[11px] rounded-full bg-[#FF5F57]" />
             <span className="w-[11px] h-[11px] rounded-full bg-[#FEBC2E]" />
             <span className="w-[11px] h-[11px] rounded-full bg-[#28C840]" />
-            <span className="ml-2.5 font-mono text-[12.5px] text-[#8B8E9F]">shopping_list.py</span>
+            <span className="ml-2.5 font-mono text-[12.5px] text-[#F5F7FF]/50">shopping_list.py</span>
           </div>
-          <div className="p-[22px_20px_26px] font-mono text-[14px] leading-[1.85]">
+          <div className="p-[22px_20px_26px] font-mono text-[14px] leading-[1.85] bg-[#0D1B2A]">
             {code.split('\n').map((line, i) => (
               <div key={i}>
-                <span className="inline-block w-[22px] text-[#5A5D70] select-none">{i + 1}</span>
-                <span className="text-[#EEFFFF]">
+                <span className="inline-block w-[22px] text-[#F5F7FF]/30 select-none">{i + 1}</span>
+                <span className="text-[#F5F7FF]">
                   {line.startsWith('#') ? (
-                    <span className="text-[#5A5D70]">{line}</span>
+                    <span className="text-[#F5F7FF]/40">{line}</span>
                   ) : line.includes('def ') ? (
                     <>
-                      <span className="text-[#C792EA]">def</span>
-                      <span className="text-[#82AAFF]">{line.substring(4)}</span>
+                      <span className="text-[#38BDF8]">def</span>
+                      <span className="text-[#F5F7FF]">{line.substring(4)}</span>
                     </>
                   ) : line.includes('print(') ? (
                     <>
-                      <span className="text-[#82AAFF]">print</span>
-                      <span className="text-[#EEFFFF]">(</span>
-                      <span className="text-[#C3E88D]">{line.substring(line.indexOf('f"'), line.indexOf('")') + 2)}</span>
-                      <span className="text-[#EEFFFF]">)</span>
+                      <span className="text-[#38BDF8]">print</span>
+                      <span className="text-[#F5F7FF]">(</span>
+                      <span className="text-[#7DD3FC]">{line.substring(line.indexOf('f"'), line.indexOf('")') + 2)}</span>
+                      <span className="text-[#F5F7FF]">)</span>
                     </>
                   ) : line.includes('append(') ? (
                     <>
-                      <span className="text-[#EEFFFF]">    items</span>
-                      <span className="text-[#EEFFFF]">.</span>
-                      <span className="text-[#82AAFF]">append</span>
-                      <span className="text-[#EEFFFF]">(name)</span>
+                      <span className="text-[#F5F7FF]">    items</span>
+                      <span className="text-[#F5F7FF]">.</span>
+                      <span className="text-[#38BDF8]">append</span>
+                      <span className="text-[#F5F7FF]">(name)</span>
                     </>
                   ) : line.includes('add_item(') ? (
                     <>
-                      <span className="text-[#82AAFF]">add_item</span>
-                      <span className="text-[#EEFFFF]">(</span>
-                      <span className="text-[#C3E88D]">{line.substring(line.indexOf('"'), line.lastIndexOf('"') + 1)}</span>
-                      <span className="text-[#EEFFFF]">)</span>
+                      <span className="text-[#38BDF8]">add_item</span>
+                      <span className="text-[#F5F7FF]">(</span>
+                      <span className="text-[#7DD3FC]">{line.substring(line.indexOf('"'), line.lastIndexOf('"') + 1)}</span>
+                      <span className="text-[#F5F7FF]">)</span>
                     </>
                   ) : (
                     line
                   )}
                 </span>
                 {i === code.split('\n').length - 1 && code.length < fullCode.length && cursorVisible && (
-                  <span className="inline-block w-[7px] h-4 bg-[#FF5C35] align-[-3px] ml-0.5" />
+                  <span className="inline-block w-[7px] h-4 bg-[#38BDF8] align-[-3px] ml-0.5" />
                 )}
               </div>
             ))}
           </div>
-          <div className="bg-[#12141C] border-t border-[#2A2D3A] px-5 py-[14px] font-mono text-[12.5px] text-[#14B87F]">
+          <div className="bg-[#0A1218] border-t border-[#F5F7FF]/10 px-5 py-[14px] font-mono text-[12.5px] text-[#38BDF8]">
             {code.includes('oat milk') && (
               <>
                 <div>&gt; added oat milk</div>
@@ -548,12 +566,12 @@ function LanguageStrip() {
   const languages = ['Python', 'JavaScript', 'SQL', 'Go', 'Rust'];
 
   return (
-    <div className="border-y border-[#DEDBD0] bg-[#EFEDE5] py-[26px]">
+    <div className="border-y border-[#F5F7FF]/10 bg-[#0D2447] py-[26px]">
       <div className="max-w-[1160px] mx-auto px-8 flex justify-between items-center flex-wrap gap-4">
-        <div className="font-mono text-[12.5px] text-[#5B5E6B]">
+        <div className="font-mono text-[12.5px] text-[#F5F7FF]/60">
           learn any of these, in order or out of it
         </div>
-        <div className="flex gap-[26px] flex-wrap font-mono text-[14px] font-semibold text-[#1B1D24]">
+        <div className="flex gap-[26px] flex-wrap font-mono text-[14px] font-semibold text-[#F5F7FF]">
           {languages.map((lang) => (
             <span key={lang}>{lang}</span>
           ))}
@@ -586,28 +604,28 @@ function HowItWorks() {
   ];
 
   return (
-    <section id="how" className="py-[104px] bg-[#F7F6F1]">
+    <section id="how" className="py-[104px] bg-[#0A1931]">
       <div className="max-w-[1160px] mx-auto px-8">
         <div className="max-w-[56ch] mb-16">
-          <h2 className="font-mono text-[34px] font-bold tracking-tight text-[#1B1D24] mb-4">
+          <h2 className="font-mono text-[34px] font-bold tracking-tight text-[#F5F7FF] mb-4">
             How a lesson actually works
           </h2>
-          <p className="text-[16.5px] text-[#5B5E6B]">
+          <p className="text-[16.5px] text-[#F5F7FF]/70">
             Every lesson follows the same structure. No new interface to learn, just deeper problems.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-0 border-t border-[#DEDBD0]">
+        <div className="grid lg:grid-cols-3 gap-0 border-t border-[#F5F7FF]/10">
           {steps.map((step, idx) => (
             <div
               key={step.num}
-              className={`p-8 pr-7 border-b border-[#DEDBD0] ${
-                idx !== steps.length - 1 ? 'lg:border-r lg:border-[#DEDBD0]' : ''
+              className={`p-8 pr-7 border-b border-[#F5F7FF]/10 ${
+                idx !== steps.length - 1 ? 'lg:border-r lg:border-[#F5F7FF]/10' : ''
               }`}
             >
-              <div className="font-mono text-[13px] text-[#2D5BFF] font-bold mb-[14px]">{step.num}</div>
-              <h3 className="text-[19px] font-bold text-[#1B1D24] mb-2.5">{step.title}</h3>
-              <p className="text-[15px] text-[#5B5E6B] leading-relaxed">{step.desc}</p>
+              <div className="font-mono text-[13px] text-[#38BDF8] font-bold mb-[14px]">{step.num}</div>
+              <h3 className="text-[19px] font-bold text-[#F5F7FF] mb-2.5">{step.title}</h3>
+              <p className="text-[15px] text-[#F5F7FF]/70 leading-relaxed">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -621,20 +639,20 @@ function HowItWorks() {
 // ============================================
 function CTASection() {
   return (
-    <section className="py-[110px] bg-[#F7F6F1]">
+    <section className="py-[110px] bg-[#0D2447]">
       <div className="max-w-[1160px] mx-auto px-8">
-        <div className="bg-[#1B1D24] text-[#F7F6F1] rounded-2xl px-14 py-16 flex justify-between items-center gap-10 flex-wrap">
+        <div className="bg-[#F5F7FF] rounded-2xl px-14 py-16 flex justify-between items-center gap-10 flex-wrap shadow-[0_8px_30px_rgba(56,189,248,0.15)]">
           <div>
-            <h2 className="font-mono text-[30px] font-bold mb-2.5 max-w-[20ch]">
+            <h2 className="font-mono text-[30px] font-bold mb-2.5 max-w-[20ch] text-[#0A1931]">
               Your first project is five minutes away.
             </h2>
-            <p className="text-[#B8BAC8] text-[15.5px] max-w-[38ch]">
+            <p className="text-[#0A1931]/60 text-[15.5px] max-w-[38ch]">
               No setup, no credit card, no video to sit through first. Just open the editor and start.
             </p>
           </div>
           <div className="flex-shrink-0">
             <Link href="/signup">
-              <a className="inline-block px-7 py-[15px] bg-[#FF5C35] text-white rounded-lg font-bold text-[15.5px] hover:-translate-y-0.5 transition-transform whitespace-nowrap">
+              <a className="inline-block px-7 py-[15px] bg-[#38BDF8] text-white rounded-lg font-bold text-[15.5px] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(56,189,248,0.4)] transition-transform whitespace-nowrap">
                 Start your first project
               </a>
             </Link>
@@ -650,25 +668,25 @@ function CTASection() {
 // ============================================
 function Footer() {
   return (
-    <footer className="border-t border-[#DEDBD0] py-11 bg-[#F7F6F1]">
+    <footer className="border-t border-[#F5F7FF]/10 py-11 bg-[#0A1931]">
       <div className="max-w-[1160px] mx-auto px-8 flex justify-between items-center flex-wrap gap-4">
-        <div className="flex items-center gap-2 font-mono text-[15px] font-bold text-[#1B1D24]">
-          <span className="w-2 h-2 bg-[#2D5BFF] rounded-full" />
+        <div className="flex items-center gap-2 font-mono text-[15px] font-bold text-[#F5F7FF]">
+          <span className="w-2 h-2 bg-[#38BDF8] rounded-full" />
           Infinity Code
         </div>
         <div className="flex gap-[26px]">
           <Link href="/about">
-            <a className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
+            <a className="text-[13.5px] text-[#F5F7FF]/60 hover:text-[#F5F7FF] transition-colors">
               Pricing
             </a>
           </Link>
           <Link href="/about">
-            <a className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
+            <a className="text-[13.5px] text-[#F5F7FF]/60 hover:text-[#F5F7FF] transition-colors">
               For teams
             </a>
           </Link>
           <Link href="/about">
-            <a className="text-[13.5px] text-[#5B5E6B] hover:text-[#1B1D24] transition-colors">
+            <a className="text-[13.5px] text-[#F5F7FF]/60 hover:text-[#F5F7FF] transition-colors">
               Support
             </a>
           </Link>
@@ -685,7 +703,7 @@ export default function HomePage() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="min-h-screen bg-[#F7F6F1]">
+    <div className="min-h-screen bg-[#0A1931]">
       <Nav />
       {isAuthenticated ? (
         <>
