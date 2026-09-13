@@ -10,21 +10,21 @@ const prisma = new PrismaClient();
 async function addUsernames() {
   console.log('Adding usernames to existing users...');
 
-  const users = await prisma.user.findMany({
-    where: {
-      OR: [
-        { username: null },
-        { username: '' },
-      ],
-    },
-  });
+  const users = await prisma.user.findMany();
 
-  console.log(`Found ${users.length} users without usernames`);
+  console.log(`Found ${users.length} total users`);
+
+  let updated = 0;
 
   for (const user of users) {
     try {
+      // Skip if user already has username
+      if (user.username && user.username !== '') {
+        continue;
+      }
+
       // Generate username from email
-      const emailPrefix = user.email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      const emailPrefix = user.email!.split('@')[0]!.toLowerCase().replace(/[^a-z0-9]/g, '');
       let username = emailPrefix;
 
       // Check if username exists
@@ -46,13 +46,14 @@ async function addUsernames() {
         },
       });
 
+      updated++;
       console.log(`✓ Updated user ${user.email} with username: ${username}`);
     } catch (error) {
       console.error(`✗ Failed to update user ${user.email}:`, error);
     }
   }
 
-  console.log('Done!');
+  console.log(`Done! Updated ${updated} users.`);
 }
 
 addUsernames()
