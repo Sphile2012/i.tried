@@ -6,6 +6,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { Clock, ChevronRight, Play, BookOpen, Code, Award } from 'lucide-react';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 export interface LessonCardProps {
   id: string;
@@ -54,8 +55,8 @@ export function MobileLessonCard({
       <div className="bg-white/5 border border-white/10 rounded-2xl p-4 opacity-50">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
-            <h3 className="text-white font-semibold mb-1">{title}</h3>
-            <p className="text-sm text-gray-500 line-clamp-2">{description}</p>
+            <h3 className="text-white font-semibold mb-1">{cleanMarkdown(title)}</h3>
+            <p className="text-sm text-gray-500 line-clamp-2">{cleanMarkdown(description)}</p>
           </div>
           <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center ml-3">
             <span className="text-xl">&#128274;</span>
@@ -92,8 +93,8 @@ export function MobileLessonCard({
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <h3 className="text-white font-semibold mb-1 line-clamp-2">{title}</h3>
-            <p className="text-sm text-gray-500 line-clamp-2 mb-2">{description}</p>
+            <h3 className="text-white font-semibold mb-1 line-clamp-2">{cleanMarkdown(title)}</h3>
+            <p className="text-sm text-gray-500 line-clamp-2 mb-2">{cleanMarkdown(description)}</p>
 
             {/* Tags */}
             {tags.length > 0 && (
@@ -172,7 +173,7 @@ export function CompactLessonCard({
         <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${colorClass} flex items-center justify-center mb-2`}>
           <Icon className="w-4 h-4 text-white" />
         </div>
-        <h4 className="text-white font-medium text-sm line-clamp-2 mb-2">{title}</h4>
+        <h4 className="text-white font-medium text-sm line-clamp-2 mb-2">{cleanMarkdown(title)}</h4>
         {isCompleted ? (
           <div className="flex items-center gap-1 text-green-400 text-xs">
             <span>Done</span>

@@ -4,6 +4,7 @@ import { Brain, CheckCircle, XCircle, ArrowRight, Lightbulb } from 'lucide-react
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 interface QuizQuestion {
   id: number;
@@ -236,7 +237,7 @@ export default function QuizPage() {
 
       <Card className="border-slate-800">
         <CardHeader>
-          <CardTitle className="text-white">{question.question}</CardTitle>
+          <CardTitle className="text-white">{cleanMarkdown(question.question)}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {question.options.map((opt, i) => {
@@ -262,7 +263,7 @@ export default function QuizPage() {
                 className={`w-full text-left rounded-lg border p-4 transition-colors ${className} ${showExplanation ? 'cursor-default' : 'cursor-pointer'}`}
               >
                 <span className="font-medium mr-2">{String.fromCharCode(65 + i)}.</span>
-                {opt}
+                {cleanMarkdown(opt)}
                 {showExplanation && isCorrect && <CheckCircle className="inline-block h-4 w-4 text-green-500 ml-2" />}
                 {showExplanation && isSelected && !isCorrect && <XCircle className="inline-block h-4 w-4 text-red-500 ml-2" />}
               </button>
@@ -278,7 +279,7 @@ export default function QuizPage() {
               <Lightbulb className="h-5 w-5 text-yellow-500 flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm font-semibold text-yellow-400 mb-1">Explanation</p>
-                <p className="text-sm text-slate-300">{question.explanation}</p>
+                <p className="text-sm text-slate-300">{cleanMarkdown(question.explanation)}</p>
               </div>
             </div>
           </CardContent>

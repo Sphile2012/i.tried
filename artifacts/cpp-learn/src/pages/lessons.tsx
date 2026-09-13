@@ -6,6 +6,7 @@
 import { useState, useEffect } from 'react';
 import { ChevronDown, BookOpen, Code2, Info } from 'lucide-react';
 import { lessonContent, glossaries, type LanguageId } from '@/data/lesson-content';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 // Language configuration
 const languages: Record<LanguageId, { name: string; color: string; icon: string }> = {
@@ -22,6 +23,20 @@ export default function LessonsPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [hoveredTerm, setHoveredTerm] = useState<string | null>(null);
+
+  // Load language from URL or localStorage on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const langParam = params.get('lang') as LanguageId;
+    const savedLang = localStorage.getItem('currentLanguage') as LanguageId;
+    
+    if (langParam && languages[langParam]) {
+      setSelectedLanguage(langParam);
+      localStorage.setItem('currentLanguage', langParam);
+    } else if (savedLang && languages[savedLang]) {
+      setSelectedLanguage(savedLang);
+    }
+  }, []);
 
   const currentLessons = lessonContent[selectedLanguage];
   const currentGlossary = glossaries[selectedLanguage];
@@ -41,7 +56,9 @@ export default function LessonsPage() {
 
   // Render content with interactive glossary terms
   const renderInteractiveContent = (content: string) => {
-    const words = content.split(/(\s+)/);
+    // Clean markdown first
+    const cleanedContent = cleanMarkdown(content);
+    const words = cleanedContent.split(/(\s+)/);
     return words.map((word, idx) => {
       const cleanWord = word.toLowerCase().replace(/[^a-z]/g, '');
       const definition = currentGlossary[cleanWord];
@@ -60,7 +77,7 @@ export default function LessonsPage() {
             {hoveredTerm === cleanWord && (
               <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-10 pointer-events-none">
                 <div className="text-xs font-semibold text-blue-400 mb-1 capitalize">{cleanWord}</div>
-                <div className="text-xs text-slate-300">{definition}</div>
+                <div className="text-xs text-slate-300">{cleanMarkdown(definition)}</div>
                 <div className="absolute bottom-0 left-4 transform translate-y-1/2 rotate-45 w-2 h-2 bg-slate-900 border-r border-b border-slate-700"></div>
               </div>
             )}
@@ -112,6 +129,10 @@ export default function LessonsPage() {
                           key={langId}
                           onClick={() => {
                             setSelectedLanguage(langId);
+                            localStorage.setItem('currentLanguage', langId);
+                            // Update URL with new language
+                            const newUrl = `${window.location.pathname}?lang=${langId}`;
+                            window.history.pushState({}, '', newUrl);
                             setDropdownOpen(false);
                           }}
                           className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${

@@ -9,6 +9,7 @@ import { CheckCircle, Lock, Play, Target, Trophy } from 'lucide-react';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { type LanguageId, LANGUAGES } from '@/data/languages';
 import { getConceptsForLanguage } from '@/data/unified-concepts';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 interface LessonNode {
   id: string;
@@ -177,7 +178,7 @@ export default function LearnPath() {
                               <Trophy className="h-4 w-4 text-yellow-400" />
                             )}
                             <h3 className="font-semibold text-white text-base sm:text-lg">
-                              {lesson.title}
+                              {cleanMarkdown(lesson.title)}
                             </h3>
                           </div>
                           

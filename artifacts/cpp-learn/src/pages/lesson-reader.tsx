@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight, BookOpen, Code2, Lightbulb, CheckCircle } from 'lucide-react';
 import { getAllLessons } from '@/data/comprehensive-curriculum';
 import type { LanguageId } from '@/data/languages';
+import { cleanMarkdown, cleanMarkdownPreserveStructure } from '@/utils/cleanMarkdown';
 
 const languages = [
   { id: 'python' as LanguageId, name: 'Python', color: 'bg-blue-500' },
@@ -106,7 +107,7 @@ export default function LessonReaderPage() {
 
             {/* Main Text - Book Paragraphs */}
             <div className="font-serif text-gray-800 leading-relaxed text-base sm:text-lg space-y-6">
-              {currentLesson.conceptText.split('\n\n').map((paragraph, index) => (
+              {cleanMarkdownPreserveStructure(currentLesson.conceptText).split('\n\n').map((paragraph, index) => (
                 <p key={index} className="text-justify first-letter:text-5xl first-letter:font-bold first-letter:text-amber-800 first-letter:mr-2 first-letter:float-left first-letter:leading-none">
                   {paragraph}
                 </p>
@@ -155,7 +156,7 @@ export default function LessonReaderPage() {
             {currentLesson.tryIt && (
               <div className="mt-6 bg-amber-50 border-l-4 border-amber-600 p-6 rounded">
                 <h3 className="text-lg font-serif font-bold text-amber-900 mb-2">Try It Yourself</h3>
-                <p className="font-serif text-gray-800 leading-relaxed">{currentLesson.tryIt}</p>
+                <p className="font-serif text-gray-800 leading-relaxed">{cleanMarkdown(currentLesson.tryIt)}</p>
               </div>
             )}
 
@@ -174,7 +175,7 @@ export default function LessonReaderPage() {
                   <div className="bg-yellow-50 border border-yellow-300 rounded p-4 space-y-2">
                     {currentLesson.hints.map((hint, index) => (
                       <p key={index} className="font-serif text-gray-800 leading-relaxed">
-                        💡 {hint}
+                        {cleanMarkdown(hint)}
                       </p>
                     ))}
                   </div>
@@ -197,7 +198,7 @@ export default function LessonReaderPage() {
                   <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 space-y-6">
                     {currentLesson.quiz.map((q, qIndex) => (
                       <div key={qIndex}>
-                        <p className="font-serif text-gray-900 font-semibold mb-4">{q.question}</p>
+                        <p className="font-serif text-gray-900 font-semibold mb-4">{cleanMarkdown(q.question)}</p>
                         <div className="space-y-2">
                           {q.options.map((option, oIndex) => (
                             <button
@@ -216,14 +217,14 @@ export default function LessonReaderPage() {
                                   : 'bg-white border-gray-300 text-gray-800 hover:bg-amber-50'
                               }`}
                             >
-                              {option}
+                              {cleanMarkdown(option)}
                             </button>
                           ))}
                         </div>
                         
                         {quizSubmitted && (
                           <div className="mt-4 p-4 bg-blue-100 border-l-4 border-blue-600 rounded">
-                            <p className="font-serif text-gray-800 leading-relaxed">{q.explanation}</p>
+                            <p className="font-serif text-gray-800 leading-relaxed">{cleanMarkdown(q.explanation)}</p>
                           </div>
                         )}
                       </div>

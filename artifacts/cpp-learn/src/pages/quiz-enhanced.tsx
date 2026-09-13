@@ -25,6 +25,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 // Question types
 type QuestionType = 'mcq' | 'truefalse' | 'fillcode' | 'debug' | 'ordering';
@@ -467,7 +468,7 @@ export default function QuizEnhanced() {
                 {getQuestionTypeIcon(question.type)}
                 <span className="text-sm text-slate-400 capitalize">{question.type === 'mcq' ? 'Multiple Choice' : question.type === 'truefalse' ? 'True/False' : question.type === 'fillcode' ? 'Fill in Code' : question.type === 'debug' ? 'Debug Code' : 'Order Items'}</span>
               </div>
-              <CardTitle className="text-xl text-white">{question.question}</CardTitle>
+              <CardTitle className="text-xl text-white">{cleanMarkdown(question.question)}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Code snippet for fill-in-code and debug */}
@@ -499,7 +500,7 @@ export default function QuizEnhanced() {
                           : 'border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800/50'
                       }`}
                     >
-                      <span className="font-medium">{String.fromCharCode(65 + index)}.</span> {option}
+                      <span className="font-medium">{String.fromCharCode(65 + index)}.</span> {cleanMarkdown(option)}
                       {showExplanation && option === question.correctAnswer && (
                         <CheckCircle className="inline ml-2 h-4 w-4 text-green-500" />
                       )}
@@ -592,7 +593,7 @@ export default function QuizEnhanced() {
                         onClick={() => setOrderedItems([option])}
                         className="w-full p-3 rounded-lg border border-slate-800 text-left text-slate-300 hover:bg-slate-800/50 transition-colors"
                       >
-                        {option}
+                        {cleanMarkdown(option)}
                       </button>
                     ))}
                     {orderedItems.map((item, index) => (
@@ -601,7 +602,7 @@ export default function QuizEnhanced() {
                           {index + 1}
                         </span>
                         <span className="flex-1 p-3 rounded-lg border border-slate-800 bg-slate-900/50 text-slate-300">
-                          {item}
+                          {cleanMarkdown(item)}
                         </span>
                       </div>
                     ))}
@@ -611,7 +612,7 @@ export default function QuizEnhanced() {
                       <p className="text-green-400 font-medium">Correct order:</p>
                       <ol className="list-decimal list-inside text-green-300 mt-2">
                         {(question.correctAnswer as string[]).map((item, index) => (
-                          <li key={index}>{item}</li>
+                          <li key={index}>{cleanMarkdown(item)}</li>
                         ))}
                       </ol>
                     </div>
@@ -630,7 +631,7 @@ export default function QuizEnhanced() {
                     <Zap className="h-4 w-4 text-yellow-400" />
                     Explanation
                   </h4>
-                  <p className="text-slate-300">{question.explanation}</p>
+                  <p className="text-slate-300">{cleanMarkdown(question.explanation)}</p>
                 </motion.div>
               )}
 

@@ -27,6 +27,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 // Challenge types
 type ChallengeType = 'coding' | 'debug' | 'algorithm' | 'project';
@@ -383,7 +384,7 @@ export default function CodingChallenges() {
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       {getTypeIcon(challenge.type)}
-                      <h3 className="font-semibold text-white">{challenge.title}</h3>
+                      <h3 className="font-semibold text-white">{cleanMarkdown(challenge.title)}</h3>
                     </div>
                     {completedChallenges.includes(challenge.id) && (
                       <CheckCircle className="h-4 w-4 text-green-500" />
@@ -410,8 +411,8 @@ export default function CodingChallenges() {
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-white">{selectedChallenge.title}</CardTitle>
-                      <p className="text-sm text-slate-400 mt-1">{selectedChallenge.description}</p>
+                      <CardTitle className="text-white">{cleanMarkdown(selectedChallenge.title)}</CardTitle>
+                      <p className="text-sm text-slate-400 mt-1">{cleanMarkdown(selectedChallenge.description)}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge className={getDifficultyColor(selectedChallenge.difficulty)}>
@@ -446,7 +447,7 @@ export default function CodingChallenges() {
                     </Button>
                     {showHint > 0 && (
                       <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
-                        <p className="text-sm text-yellow-400">{selectedChallenge.hints[showHint - 1]}</p>
+                        <p className="text-sm text-yellow-400">{cleanMarkdown(selectedChallenge.hints[showHint - 1])}</p>
                       </div>
                     )}
                   </div>

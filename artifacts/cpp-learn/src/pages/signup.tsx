@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Mail, Lock, User, Loader2, CheckCircle, AlertCircle, Github } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, Loader2, CheckCircle, AlertCircle, Github, UserPlus } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,6 +31,16 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
+  const [inviteUsername, setInviteUsername] = useState<string>('');
+
+  // Check for invite parameter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const invite = params.get('invite');
+    if (invite) {
+      setInviteUsername(invite);
+    }
+  }, []);
 
   const validateForm = () => {
     if (!name.trim()) {
@@ -108,6 +118,14 @@ export default function SignupPage() {
           <h1 className="text-3xl font-bold text-white">Start coding in minutes</h1>
           <p className="mt-2 text-sm text-slate-400">Your first working program is just a few clicks away.</p>
         </div>
+
+        {/* Invite Banner */}
+        {inviteUsername && (
+          <div className="mb-4 flex items-center gap-2 rounded-lg border border-blue-700/40 bg-blue-950/40 p-3 text-sm text-blue-300">
+            <UserPlus className="h-4 w-4 flex-shrink-0" />
+            <span>You were invited by <strong>@{inviteUsername}</strong></span>
+          </div>
+        )}
 
         {error && (
           <div className="mb-4 flex items-center gap-2 rounded-lg border border-red-700/40 bg-red-950/40 p-3 text-sm text-red-300">

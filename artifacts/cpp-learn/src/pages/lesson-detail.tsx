@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 const courseData: Record<string, any> = {
   '1': { title: 'C++ Fundamentals', level: 'Beginner', description: 'Master the basics of C++ programming.', modules: [
@@ -53,7 +54,7 @@ export default function LessonDetail() {
     <div className="space-y-6">
       <Link href="/lessons" className="inline-flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300"><ArrowLeft className="h-4 w-4" /> Back to Courses</Link>
       <Card><CardContent className="p-6">
-        <div className="flex items-start justify-between mb-4"><div><h1 className="text-2xl font-bold mb-2">{course.title}</h1><p className="text-slate-400 mb-4">{course.description}</p><div className="flex items-center gap-3"><Badge variant="secondary">{course.level}</Badge><span className="text-sm text-slate-400">{totalLessons} lessons</span></div></div><Button onClick={handleEnroll}>Enroll Now</Button></div>
+        <div className="flex items-start justify-between mb-4"><div><h1 className="text-2xl font-bold mb-2">{cleanMarkdown(course.title)}</h1><p className="text-slate-400 mb-4">{cleanMarkdown(course.description)}</p><div className="flex items-center gap-3"><Badge variant="secondary">{course.level}</Badge><span className="text-sm text-slate-400">{totalLessons} lessons</span></div></div><Button onClick={handleEnroll}>Enroll Now</Button></div>
         <div className="space-y-2"><div className="flex justify-between text-sm"><span className="text-slate-400">Progress</span><span className="font-medium">{progress}%</span></div><Progress value={progress} /></div>
       </CardContent></Card>
       <div className="space-y-4">
@@ -63,7 +64,7 @@ export default function LessonDetail() {
               {module.lessons.map((lesson: any) => (
                 <div key={lesson.id} className="flex items-center gap-3 rounded-lg border border-slate-800 p-3 hover:bg-slate-800/50 transition-colors cursor-pointer">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800">{lesson.completed ? <CheckCircle className="h-5 w-5 text-green-500" /> : iconForType(lesson.type)}</div>
-                  <div className="flex-1"><p className="text-sm font-medium">{lesson.title}</p><p className="text-xs text-slate-400 capitalize">{lesson.type} - {lesson.duration}</p></div>
+                  <div className="flex-1"><p className="text-sm font-medium">{cleanMarkdown(lesson.title)}</p><p className="text-xs text-slate-400 capitalize">{lesson.type} - {lesson.duration}</p></div>
                   {lesson.type === 'quiz' && <Link href={`/quiz/${lesson.id}`}><Button size="sm" variant="outline">Start Quiz</Button></Link>}
                 </div>
               ))}

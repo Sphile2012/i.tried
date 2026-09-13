@@ -38,6 +38,9 @@ import LoginPage from '@/pages/auth/login';
 import OnboardingQuiz from '@/pages/onboarding-quiz';
 import AdminDashboard from '@/pages/admin/admin-dashboard';
 import NotFound from '@/pages/not-found';
+import FriendsPage from '@/pages/friends';
+import InvitePage from '@/pages/invite';
+import TopicsPage from '@/pages/topics';
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 5 * 60 * 1000, retry: false } },
@@ -50,6 +53,9 @@ function Router() {
         <Route path="/" component={HomeNew} />
         <Route path="/home-old" component={HomePage} />
         <Route path="/about" component={AboutPage} />
+        <Route path="/topics" component={TopicsPage} />
+        <Route path="/invite/:username" component={InvitePage} />
+        <Route path="/friends" component={FriendsPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/onboarding/quiz" component={OnboardingQuiz} />
         <Route path="/admin/dashboard" component={AdminDashboard} />
@@ -76,6 +82,7 @@ function Router() {
         <Route path="/portfolio" component={PortfolioPage} />
         <Route path="/download" component={DownloadPage} />
         <Route path="/profile" component={ProfileMultiLang} />
+        <Route path="/profile/:username" component={ProfileMultiLang} />
         <Route path="/profile-old" component={ProfilePage} />
         <Route path="/settings" component={SettingsPage} />
         <Route component={NotFound} />

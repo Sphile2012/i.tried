@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Search, Filter, BookOpen, Code2, Award, Clock } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
+import { cleanMarkdown } from '@/utils/cleanMarkdown';
 
 interface Lesson {
   id: string;
@@ -290,12 +291,12 @@ export default function BrowsePage() {
 
                     {/* Title */}
                     <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-blue-400 transition-colors">
-                      {lesson.title}
+                      {cleanMarkdown(lesson.title)}
                     </h3>
 
                     {/* Description */}
                     <p className="text-sm text-slate-400 mb-4 line-clamp-2">
-                      {lesson.description}
+                      {cleanMarkdown(lesson.description)}
                     </p>
 
                     {/* Meta */}
