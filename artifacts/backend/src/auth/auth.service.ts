@@ -40,12 +40,13 @@ export class AuthService {
       },
     });
 
-    // Generate JWT token
-    const token = this.generateToken(user.id);
+    // Generate JWT token with level data
+    const token = this.generateToken(user);
 
     return {
       user: this.sanitizeUser(user),
       token,
+      requiresOnboarding: !user.onboardingCompleted,
     };
   }
 
@@ -76,8 +77,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Generate JWT token
-    const token = this.generateToken(user.id);
+    // Generate JWT token with level data
+    const token = this.generateToken(user);
 
     // Update last activity
     await this.prisma.user.update({
@@ -88,6 +89,8 @@ export class AuthService {
     return {
       user: this.sanitizeUser(user),
       token,
+      level: user.proficiencyLevel,
+      requiresOnboarding: !user.onboardingCompleted,
     };
   }
 
@@ -127,10 +130,16 @@ export class AuthService {
   }
 
   /**
-   * Generate JWT token
+   * Generate JWT token with user level data
    */
-  private generateToken(userId: string): string {
-    const payload = { sub: userId };
+  private generateToken(user: any): string {
+    const payload = {
+      sub: user.id,
+      proficiencyLevel: user.proficiencyLevel,
+      xp: user.totalXp || user.xp || 0,
+      completionRate: user.completionRate || 0,
+      progressionEligible: user.progressionEligible || false,
+    };
     return this.jwtService.sign(payload);
   }
 

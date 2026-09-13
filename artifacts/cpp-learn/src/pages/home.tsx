@@ -130,7 +130,7 @@ function StatsSection() {
       { value: '6', label: 'Programming Languages Supported' },
       { value: '36+', label: 'Learning Topic Categories' },
       { value: 'Free', label: 'Core Platform Features' },
-      { value: '24/7', label: 'AI Tutor Availability' },
+      { value: '900+', label: 'Interactive Lessons' },
     ];
 
   return (
@@ -180,11 +180,6 @@ function FeaturesSection() {
       title: 'Achievements & XP',
       desc: 'Unlock badges, earn XP, level up, and climb the leaderboard as you learn and build.',
       link: '/achievements',
-    },
-    {
-      title: 'Infinity AI',
-      desc: 'Get personalised learning assistance, code reviews, and study plans powered by AI.',
-      link: '/ai-tutor',
     },
     {
       title: 'Developer Community',

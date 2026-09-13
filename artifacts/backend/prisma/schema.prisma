@@ -28,13 +28,25 @@ model User {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  // Level-Based Progression System fields
+  proficiencyLevel  String?  // BEGINNER, INTERMEDIATE, EXPERT
+  totalXp           Int      @default(0)
+  completionRate    Float    @default(0.0)
+  progressionEligible Boolean @default(false)
+  onboardingCompleted Boolean @default(false)
+  levelSystemMigrated Boolean @default(false)
+
   progresses        Progress[]
   enrollments       Enrollment[]
   subscriptions     Subscription[]
   payments          Payment[]
   challengeAttempts ChallengeAttempt[]
   certificates      Certificate[]
+  quizAttempts      QuizAttempt[]
+  progressionHistory ProgressionHistory[]
+  userProgresses    UserProgress[]
 
+  @@index([proficiencyLevel])
   @@map("User")
 }
 
@@ -93,11 +105,17 @@ model Lesson {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  // Level-Based Progression System fields
+  difficulty        String?  // BEGINNER, INTERMEDIATE, EXPERT
+  xpReward          Int      @default(0)
+
   module            Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
   progresses        Progress[]
   challenges        Challenge[]
+  userProgresses    UserProgress[]
 
   @@unique([moduleId, slug])
+  @@index([difficulty])
   @@map("Lesson")
 }
 
@@ -180,7 +198,7 @@ model Challenge {
   lessonId          String
   title             String
   description       String
-  difficulty        String   // EASY, MEDIUM, HARD
+  difficulty        String   // EASY, MEDIUM, HARD (maps to BEGINNER, INTERMEDIATE, EXPERT for progression)
   points            Int      @default(10)
   testCases         String   // JSON as string
   starterCode       String?
@@ -191,9 +209,15 @@ model Challenge {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
+  // Level-Based Progression System fields
+  proficiencyDifficulty String? // BEGINNER, INTERMEDIATE, EXPERT
+  xpReward          Int      @default(0)
+
   lesson            Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   attempts          ChallengeAttempt[]
+  userProgresses    UserProgress[]
 
+  @@index([proficiencyDifficulty])
   @@map("Challenge")
 }
 
@@ -231,4 +255,71 @@ model Certificate {
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("Certificate")
+}
+
+// Level-Based Progression System Models
+
+model QuizQuestion {
+  id                String   @id @default(uuid())
+  questionText      String
+  optionA           String
+  optionB           String
+  optionC           String
+  optionD           String
+  correctAnswer     String   // A, B, C, or D
+  difficultyWeight  Int      @default(5) // 1-10 scale
+  topic             String?
+  createdAt         DateTime @default(now())
+
+  @@map("QuizQuestion")
+}
+
+model QuizAttempt {
+  id                String   @id @default(uuid())
+  userId            String
+  score             Float
+  assignedLevel     String   // BEGINNER, INTERMEDIATE, EXPERT
+  answers           String   // JSON as string
+  completedAt       DateTime @default(now())
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("QuizAttempt")
+}
+
+model ProgressionHistory {
+  id                String   @id @default(uuid())
+  userId            String
+  previousLevel     String?
+  newLevel          String
+  xpAtProgression   Int
+  completionRateAtProgression Float
+  progressedAt      DateTime @default(now())
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("ProgressionHistory")
+}
+
+model UserProgress {
+  id                String   @id @default(uuid())
+  userId            String
+  contentId         String
+  contentType       String   // LESSON, CHALLENGE
+  status            String   @default("NOT_STARTED") // NOT_STARTED, IN_PROGRESS, COMPLETED
+  completionDate    DateTime?
+  xpEarned          Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson            Lesson?  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  challenge         Challenge? @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
+  @@index([userId])
+  @@index([status])
+  @@map("UserProgress")
 }

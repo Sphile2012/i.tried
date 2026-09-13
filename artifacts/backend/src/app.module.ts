@@ -19,6 +19,9 @@ import { NotificationModule } from './notification/notification.module';
 import { EmailModule } from './email/email.module';
 import { AIModule } from './ai/ai.module';
 import { LessonModule } from './lesson/lesson.module';
+import { ProgressionModule } from './progression/progression.module';
+import { CurriculumModule } from './curriculum/curriculum.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -46,6 +49,9 @@ import { LessonModule } from './lesson/lesson.module';
     CourseModule,
     LessonModule,
     QuizModule,
+    ProgressionModule,
+    CurriculumModule,
+    AdminModule,
     ChallengeModule,
     PaymentModule,
     CertificateModule,

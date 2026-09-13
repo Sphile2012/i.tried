@@ -25,8 +25,6 @@ import {
   Award,
   FileText,
   Users,
-  Brain,
-  BarChart3,
   Briefcase,
   FolderCog,
   GitBranch,
@@ -59,7 +57,6 @@ const drawerNavItems: NavItem[] = [
   
   // Practice
   { path: '/playground', label: 'Code Editor', icon: Code },
-  { path: '/quiz', label: 'Quizzes', icon: Brain },
   { path: '/flashcards', label: 'Flashcards', icon: FileText },
   
   // Progress
@@ -78,9 +75,8 @@ const drawerNavItems: NavItem[] = [
   { path: '/portfolio', label: 'Portfolio', icon: FolderCog },
   { path: '/profile', label: 'Resume Builder', icon: FileSpreadsheet },
   
-  // Community & AI
+  // Community
   { path: '/community', label: 'Community', icon: Users },
-  { path: '/ai-tutor', label: 'AI Tutor', icon: Brain },
   
   // Account
   { path: '/settings', label: 'Settings', icon: Settings },

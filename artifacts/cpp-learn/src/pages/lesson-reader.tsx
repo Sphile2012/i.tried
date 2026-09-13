@@ -1,7 +1,6 @@
 /**
- * PolyCode - Book-Style Lesson Reader
- * Professional, narrative-driven learning experience
- * No stars, no bullets - just clean, readable prose
+ * Book-Style Lesson Reader
+ * Lessons displayed as physical book pages
  */
 
 import { useState } from 'react';
@@ -26,28 +25,37 @@ export default function LessonReaderPage() {
   const [showQuiz, setShowQuiz] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [isFlipping, setIsFlipping] = useState(false);
 
   const currentLesson = lessons[currentLessonIndex];
   const canGoPrev = currentLessonIndex > 0;
   const canGoNext = currentLessonIndex < lessons.length - 1;
 
   const handleNext = () => {
-    if (canGoNext) {
-      setCurrentLessonIndex(currentLessonIndex + 1);
-      setShowHints(false);
-      setShowQuiz(false);
-      setQuizSubmitted(false);
-      setSelectedAnswer(null);
+    if (canGoNext && !isFlipping) {
+      setIsFlipping(true);
+      setTimeout(() => {
+        setCurrentLessonIndex(currentLessonIndex + 1);
+        setShowHints(false);
+        setShowQuiz(false);
+        setQuizSubmitted(false);
+        setSelectedAnswer(null);
+        setIsFlipping(false);
+      }, 300);
     }
   };
 
   const handlePrev = () => {
-    if (canGoPrev) {
-      setCurrentLessonIndex(currentLessonIndex - 1);
-      setShowHints(false);
-      setShowQuiz(false);
-      setQuizSubmitted(false);
-      setSelectedAnswer(null);
+    if (canGoPrev && !isFlipping) {
+      setIsFlipping(true);
+      setTimeout(() => {
+        setCurrentLessonIndex(currentLessonIndex - 1);
+        setShowHints(false);
+        setShowQuiz(false);
+        setQuizSubmitted(false);
+        setSelectedAnswer(null);
+        setIsFlipping(false);
+      }, 300);
     }
   };
 
@@ -56,229 +64,235 @@ export default function LessonReaderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] pt-16 pb-24">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-white/5 border border-white/10 rounded-lg">
-              <BookOpen className="w-5 h-5 text-[#00d4ff]" />
-            </div>
-            <div>
-              <div className="text-sm text-gray-400">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 py-8">
+      {/* Book Container */}
+      <div className="max-w-5xl mx-auto px-4">
+        {/* Book with Page Flip Effect */}
+        <div className={`relative bg-white shadow-2xl rounded-r-2xl transition-transform duration-300 ${isFlipping ? 'scale-95 opacity-90' : 'scale-100'}`}
+             style={{
+               boxShadow: '-5px 5px 20px rgba(0,0,0,0.3), inset 2px 0 5px rgba(0,0,0,0.1)',
+               background: 'linear-gradient(to right, #fefefe 0%, #ffffff 3%, #ffffff 97%, #f5f5f5 100%)'
+             }}>
+          
+          {/* Page Binding Effect */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-amber-100/50 to-transparent pointer-events-none" />
+          
+          {/* Left Page Number */}
+          <div className="absolute left-8 top-8 text-amber-800/40 text-sm font-serif">
+            Page {currentLesson.order * 2 - 1}
+          </div>
+          
+          {/* Right Page Number */}
+          <div className="absolute right-8 top-8 text-amber-800/40 text-sm font-serif">
+            Page {currentLesson.order * 2}
+          </div>
+
+          {/* Page Content */}
+          <div className="p-12 sm:p-16 min-h-[600px]">
+            {/* Chapter Header */}
+            <div className="mb-8 pb-6 border-b-2 border-amber-200">
+              <div className="text-xs uppercase tracking-widest text-amber-700/60 mb-2 font-serif">
                 Lesson {currentLesson.order} of {lessons.length}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-gray-900 mb-3">
                 {currentLesson.title}
               </h1>
+              <div className="flex items-center gap-4 text-xs text-amber-700/70">
+                <span className="italic">{currentLesson.duration}</span>
+                <span>•</span>
+                <span className="capitalize">{currentLesson.category}</span>
+              </div>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-3 text-sm">
-            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-400">
-              {currentLesson.duration}
-            </span>
-            <span className="px-3 py-1 bg-[#00d4ff]/20 border border-[#00d4ff]/30 rounded-full text-[#00d4ff]">
-              {currentLesson.xpReward} XP
-            </span>
-            <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-400 capitalize">
-              {currentLesson.category}
-            </span>
-          </div>
-        </div>
 
-        {/* Main Content - Book Style */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 mb-6">
-          <div className="prose prose-invert prose-lg max-w-none">
-            {currentLesson.conceptText.split('\n\n').map((paragraph, index) => (
-              <p key={index} className="text-gray-300 leading-relaxed mb-6 last:mb-0">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        </div>
-
-        {/* Language Switcher */}
-        <div className="mb-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Code2 className="w-5 h-5 text-gray-400" />
-            <h3 className="text-lg font-semibold text-white">See It In Action</h3>
-          </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide mb-4">
-            {languages.map((lang) => (
-              <button
-                key={lang.id}
-                onClick={() => setSelectedLanguage(lang.id)}
-                className={`flex-shrink-0 px-4 py-2 text-sm rounded-lg transition min-h-[44px] active:scale-[0.95] flex items-center gap-2 ${
-                  selectedLanguage === lang.id
-                    ? 'bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white'
-                    : 'bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                <div className={`w-2 h-2 rounded-full ${lang.color}`} />
-                {lang.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Code Display */}
-          <div className="bg-[#0d0d1a] border border-white/10 rounded-xl overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 bg-[#0a0a0f] border-b border-white/5">
-              <span className="text-xs text-gray-500">
-                {currentLesson.id}.
-                {selectedLanguage === 'python' ? 'py' : selectedLanguage === 'cpp' ? 'cpp' : selectedLanguage === 'java' ? 'java' : selectedLanguage === 'csharp' ? 'cs' : selectedLanguage === 'typescript' ? 'ts' : 'js'}
-              </span>
-              <span className="text-xs text-[#00d4ff] font-medium">
-                {languages.find(l => l.id === selectedLanguage)?.name}
-              </span>
-            </div>
-            <pre className="p-4 text-sm font-mono text-gray-300 overflow-x-auto">
-              <code>{currentLesson.codeExamples[selectedLanguage]}</code>
-            </pre>
-          </div>
-        </div>
-
-        {/* Hints Section */}
-        <div className="mb-4">
-          <button
-            onClick={() => setShowHints(!showHints)}
-            className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 transition mb-3"
-          >
-            <Lightbulb className="w-5 h-5" />
-            <span className="font-medium">
-              {showHints ? 'Hide Hints' : 'Show Hints'}
-            </span>
-          </button>
-          
-          {showHints && (
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 space-y-3">
-              {currentLesson.hints.map((hint, index) => (
-                <p key={index} className="text-gray-300 leading-relaxed">
-                  {hint}
+            {/* Main Text - Book Paragraphs */}
+            <div className="font-serif text-gray-800 leading-relaxed text-base sm:text-lg space-y-6">
+              {currentLesson.conceptText.split('\n\n').map((paragraph, index) => (
+                <p key={index} className="text-justify first-letter:text-5xl first-letter:font-bold first-letter:text-amber-800 first-letter:mr-2 first-letter:float-left first-letter:leading-none">
+                  {paragraph}
                 </p>
               ))}
             </div>
-          )}
+          </div>
         </div>
 
-        {/* Try It Challenge */}
-        {currentLesson.tryIt && (
-          <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-6 mb-6">
-            <h3 className="text-lg font-semibold text-white mb-2">Try It Yourself</h3>
-            <p className="text-gray-300">{currentLesson.tryIt}</p>
-          </div>
-        )}
+        {/* Code Examples Page */}
+        <div className="mt-6 bg-white shadow-2xl rounded-r-2xl overflow-hidden"
+             style={{
+               boxShadow: '-5px 5px 20px rgba(0,0,0,0.3), inset 2px 0 5px rgba(0,0,0,0.1)',
+               background: 'linear-gradient(to right, #fefefe 0%, #ffffff 3%, #ffffff 97%, #f5f5f5 100%)'
+             }}>
+          
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-amber-100/50 to-transparent pointer-events-none" />
+          
+          <div className="p-12 sm:p-16">
+            <h2 className="text-2xl font-serif font-bold text-gray-900 mb-6 border-b-2 border-amber-200 pb-3">
+              Code Examples
+            </h2>
 
-        {/* Quiz Section */}
-        <div className="mb-6">
-          <button
-            onClick={() => setShowQuiz(!showQuiz)}
-            className="flex items-center gap-2 text-[#00d4ff] hover:text-[#00a8cc] transition mb-3"
-          >
-            <CheckCircle className="w-5 h-5" />
-            <span className="font-medium">
-              {showQuiz ? 'Hide Quiz' : 'Take Quiz'}
-            </span>
-          </button>
+            {/* Language Tabs */}
+            <div className="flex gap-2 flex-wrap mb-6">
+              {languages.map((lang) => (
+                <button
+                  key={lang.id}
+                  onClick={() => setSelectedLanguage(lang.id)}
+                  className={`px-4 py-2 text-sm font-medium rounded transition ${
+                    selectedLanguage === lang.id
+                      ? 'bg-amber-700 text-white shadow'
+                      : 'bg-amber-100 text-amber-900 hover:bg-amber-200'
+                  }`}
+                >
+                  {lang.name}
+                </button>
+              ))}
+            </div>
 
-          {showQuiz && currentLesson.quiz.length > 0 && (
-            <div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-6">
-              {currentLesson.quiz.map((q, qIndex) => (
-                <div key={qIndex}>
-                  <p className="text-white font-medium mb-4">{q.question}</p>
-                  <div className="space-y-2">
-                    {q.options.map((option, oIndex) => (
-                      <button
-                        key={oIndex}
-                        onClick={() => !quizSubmitted && setSelectedAnswer(oIndex)}
-                        disabled={quizSubmitted}
-                        className={`w-full text-left p-3 rounded-lg border transition ${
-                          quizSubmitted
-                            ? oIndex === q.correctAnswer
-                              ? 'bg-green-500/20 border-green-500/50 text-white'
-                              : oIndex === selectedAnswer
-                              ? 'bg-red-500/20 border-red-500/50 text-white'
-                              : 'bg-white/5 border-white/10 text-gray-400'
-                            : selectedAnswer === oIndex
-                            ? 'bg-[#00d4ff]/20 border-[#00d4ff]/50 text-white'
-                            : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10'
-                        }`}
-                      >
-                        {option}
-                      </button>
+            {/* Code Block */}
+            <div className="bg-gray-50 border-2 border-amber-200 rounded p-6 font-mono text-sm overflow-x-auto">
+              <pre className="text-gray-800 whitespace-pre-wrap">{currentLesson.codeExamples[selectedLanguage]}</pre>
+            </div>
+
+            {/* Try It Section */}
+            {currentLesson.tryIt && (
+              <div className="mt-6 bg-amber-50 border-l-4 border-amber-600 p-6 rounded">
+                <h3 className="text-lg font-serif font-bold text-amber-900 mb-2">Try It Yourself</h3>
+                <p className="font-serif text-gray-800 leading-relaxed">{currentLesson.tryIt}</p>
+              </div>
+            )}
+
+            {/* Hints Section */}
+            {currentLesson.hints.length > 0 && (
+              <div className="mt-6">
+                <button
+                  onClick={() => setShowHints(!showHints)}
+                  className="flex items-center gap-2 text-amber-800 hover:text-amber-900 font-serif font-medium mb-3"
+                >
+                  <Lightbulb className="w-5 h-5" />
+                  <span>{showHints ? 'Hide Hints' : 'Show Hints'}</span>
+                </button>
+                
+                {showHints && (
+                  <div className="bg-yellow-50 border border-yellow-300 rounded p-4 space-y-2">
+                    {currentLesson.hints.map((hint, index) => (
+                      <p key={index} className="font-serif text-gray-800 leading-relaxed">
+                        💡 {hint}
+                      </p>
                     ))}
                   </div>
-                  
-                  {quizSubmitted && (
-                    <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-                      <p className="text-gray-300 leading-relaxed">{q.explanation}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
+                )}
+              </div>
+            )}
 
-              {!quizSubmitted && selectedAnswer !== null && (
+            {/* Quiz Section */}
+            {currentLesson.quiz && currentLesson.quiz.length > 0 && (
+              <div className="mt-8">
                 <button
-                  onClick={handleSubmitQuiz}
-                  className="w-full min-h-[48px] px-6 py-3 bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white rounded-xl font-semibold hover:opacity-90 active:scale-[0.98] transition-all"
+                  onClick={() => setShowQuiz(!showQuiz)}
+                  className="flex items-center gap-2 text-amber-800 hover:text-amber-900 font-serif font-medium mb-4"
                 >
-                  Submit Answer
+                  <CheckCircle className="w-5 h-5" />
+                  <span>{showQuiz ? 'Hide Quiz' : 'Test Your Knowledge'}</span>
                 </button>
-              )}
-            </div>
-          )}
+
+                {showQuiz && (
+                  <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 space-y-6">
+                    {currentLesson.quiz.map((q, qIndex) => (
+                      <div key={qIndex}>
+                        <p className="font-serif text-gray-900 font-semibold mb-4">{q.question}</p>
+                        <div className="space-y-2">
+                          {q.options.map((option, oIndex) => (
+                            <button
+                              key={oIndex}
+                              onClick={() => !quizSubmitted && setSelectedAnswer(oIndex)}
+                              disabled={quizSubmitted}
+                              className={`w-full text-left p-3 rounded border-2 font-serif transition ${
+                                quizSubmitted
+                                  ? oIndex === q.correctAnswer
+                                    ? 'bg-green-100 border-green-500 text-green-900 font-medium'
+                                    : oIndex === selectedAnswer
+                                    ? 'bg-red-100 border-red-500 text-red-900'
+                                    : 'bg-white border-gray-200 text-gray-500'
+                                  : selectedAnswer === oIndex
+                                  ? 'bg-amber-100 border-amber-500 text-amber-900'
+                                  : 'bg-white border-gray-300 text-gray-800 hover:bg-amber-50'
+                              }`}
+                            >
+                              {option}
+                            </button>
+                          ))}
+                        </div>
+                        
+                        {quizSubmitted && (
+                          <div className="mt-4 p-4 bg-blue-100 border-l-4 border-blue-600 rounded">
+                            <p className="font-serif text-gray-800 leading-relaxed">{q.explanation}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+
+                    {!quizSubmitted && selectedAnswer !== null && (
+                      <button
+                        onClick={handleSubmitQuiz}
+                        className="w-full px-6 py-3 bg-amber-700 text-white rounded-lg font-serif font-semibold hover:bg-amber-800 transition shadow-md"
+                      >
+                        Submit Answer
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between gap-4">
+        {/* Page Navigation - Book Style */}
+        <div className="mt-8 flex items-center justify-between gap-6">
           <button
             onClick={handlePrev}
-            disabled={!canGoPrev}
-            className={`flex items-center gap-2 min-h-[48px] px-6 py-3 rounded-xl font-semibold transition-all ${
-              canGoPrev
-                ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-[0.98]'
-                : 'bg-white/5 border border-white/10 text-gray-600 cursor-not-allowed'
+            disabled={!canGoPrev || isFlipping}
+            className={`flex items-center gap-2 px-8 py-4 rounded-lg font-serif font-semibold transition-all shadow-md ${
+              canGoPrev && !isFlipping
+                ? 'bg-amber-700 text-white hover:bg-amber-800 active:scale-95'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
             <ChevronLeft className="w-5 h-5" />
-            Previous
+            Previous Page
           </button>
+
+          {/* Page Counter */}
+          <div className="text-center">
+            <div className="text-sm text-amber-800/60 font-serif">
+              Lesson {currentLesson.order} of {lessons.length}
+            </div>
+            <div className="flex items-center gap-2 mt-2">
+              {lessons.slice(0, 10).map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-6 rounded-sm transition-all ${
+                    index === currentLessonIndex
+                      ? 'bg-amber-700 w-3'
+                      : index < currentLessonIndex
+                      ? 'bg-green-600'
+                      : 'bg-amber-300'
+                  }`}
+                />
+              ))}
+              {lessons.length > 10 && <span className="text-amber-800/40">...</span>}
+            </div>
+          </div>
 
           <button
             onClick={handleNext}
-            disabled={!canGoNext}
-            className={`flex items-center gap-2 min-h-[48px] px-6 py-3 rounded-xl font-semibold transition-all ${
-              canGoNext
-                ? 'bg-gradient-to-r from-[#00d4ff] to-[#7c3aed] text-white hover:opacity-90 active:scale-[0.98]'
-                : 'bg-white/5 border border-white/10 text-gray-600 cursor-not-allowed'
+            disabled={!canGoNext || isFlipping}
+            className={`flex items-center gap-2 px-8 py-4 rounded-lg font-serif font-semibold transition-all shadow-md ${
+              canGoNext && !isFlipping
+                ? 'bg-amber-700 text-white hover:bg-amber-800 active:scale-95'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >
-            Next Lesson
+            Next Page
             <ChevronRight className="w-5 h-5" />
           </button>
-        </div>
-
-        {/* Progress Indicator */}
-        <div className="mt-8 flex items-center justify-center gap-2">
-          {lessons.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setCurrentLessonIndex(index);
-                setShowHints(false);
-                setShowQuiz(false);
-                setQuizSubmitted(false);
-                setSelectedAnswer(null);
-              }}
-              className={`w-2 h-2 rounded-full transition-all ${
-                index === currentLessonIndex
-                  ? 'bg-[#00d4ff] w-8'
-                  : index < currentLessonIndex
-                  ? 'bg-green-500'
-                  : 'bg-white/20'
-              }`}
-            />
-          ))}
         </div>
       </div>
     </div>

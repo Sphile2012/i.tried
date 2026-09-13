@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
 import { AppLayout } from '@/components/layout/app-layout';
+import { UserProvider } from '@/context/UserContext';
 
 // Pages
 import HomePage from '@/pages/home';
@@ -34,6 +35,8 @@ import ResourcesPage from '@/pages/resources';
 import SettingsPage from '@/pages/settings';
 import LeaderboardPage from '@/pages/leaderboard';
 import LoginPage from '@/pages/auth/login';
+import OnboardingQuiz from '@/pages/onboarding-quiz';
+import AdminDashboard from '@/pages/admin/admin-dashboard';
 import NotFound from '@/pages/not-found';
 
 const queryClient = new QueryClient({
@@ -48,6 +51,8 @@ function Router() {
         <Route path="/home-old" component={HomePage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/onboarding/quiz" component={OnboardingQuiz} />
+        <Route path="/admin/dashboard" component={AdminDashboard} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/learn" component={LearnPath} />
         <Route path="/lessons" component={LessonBrowser} />
@@ -83,9 +88,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-          <Router />
-        </WouterRouter>
+        <UserProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+            <Router />
+          </WouterRouter>
+        </UserProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

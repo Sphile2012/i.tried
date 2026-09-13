@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Crown, Check, Loader2, CreditCard, Zap, Award, BookOpen, Brain, Download, TrendingUp, Target, Shield, Rocket, AlertCircle } from 'lucide-react';
+import { Crown, Check, Loader2, CreditCard, Zap, Award, BookOpen, Download, TrendingUp, Target, Shield, Rocket, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
@@ -18,7 +18,6 @@ type PlanType = 'premium' | 'pro';
 
 const plusFeatures = [
   { icon: BookOpen, text: 'Unlimited access to all core courses' },
-  { icon: Brain, text: 'Unlimited AI coding assistant' },
   { icon: Award, text: 'Completion badges & achievements' },
   { icon: Download, text: 'Downloadable resources & PDFs' },
   { icon: Zap, text: 'Coding challenges & projects' },
@@ -30,7 +29,6 @@ const plusFeatures = [
 const careerFeatures = [
   { icon: BookOpen, text: 'Everything in Plus, plus:' },
   { icon: Rocket, text: 'Advanced C++ topics & deep dives' },
-  { icon: Brain, text: 'Advanced AI with code review' },
   { icon: Zap, text: 'Difficult coding & debugging challenges' },
   { icon: Target, text: 'Advanced performance analytics' },
   { icon: Award, text: 'Interview preparation materials' },

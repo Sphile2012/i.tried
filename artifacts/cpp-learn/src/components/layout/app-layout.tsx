@@ -51,7 +51,6 @@ const moreNavItems: NavItem[] = [
   { path: '/resources', label: 'Resources', icon: Library },
   { path: '/community', label: 'Community', icon: Users },
   { path: '/learning-hub', label: 'Learning Hub', icon: BookOpen },
-  { path: '/ai-tutor', label: 'AI Tutor', icon: MessageSquare },
   { path: '/leaderboard', label: 'Leaderboard', icon: Award },
   { path: '/about', label: 'About', icon: BookOpen },
 ];
@@ -253,9 +252,6 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
               <Link href="/resources">
                 <span className="hover:text-white transition-colors cursor-pointer">Resources</span>
-              </Link>
-              <Link href="/ai-tutor">
-                <span className="hover:text-white transition-colors cursor-pointer">AI Tutor</span>
               </Link>
               <Link href="/about">
                 <span className="hover:text-white transition-colors cursor-pointer">About</span>
