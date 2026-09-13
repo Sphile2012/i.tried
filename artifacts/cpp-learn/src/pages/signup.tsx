@@ -20,15 +20,12 @@ function GoogleIcon({ className }: { className?: string }) {
 }
 
 export default function SignupPage() {
-  const { signup } = useAuth();
   const [, navigate] = useLocation();
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [magicLinkSent, setMagicLinkSent] = useState(false);
   const [inviteUsername, setInviteUsername] = useState<string>('');
 
   // Check for invite parameter
@@ -63,7 +60,6 @@ export default function SignupPage() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    setSuccessMessage(null);
 
     const validationError = validateForm();
     if (validationError) {
@@ -72,20 +68,43 @@ export default function SignupPage() {
       return;
     }
 
-    // Simulate sending magic link
-    setTimeout(() => {
-      setMagicLinkSent(true);
-      setSuccessMessage(`Check your email! We sent a magic link to ${email}`);
+    // Check if user already exists (simulate with localStorage check)
+    const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    const userExists = existingUsers.some((u: any) => u.email === email || u.username === username);
+
+    if (userExists) {
+      setError('You already have an account. Please sign in instead.');
       setIsLoading(false);
-    }, 1000);
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+      return;
+    }
+
+    // Create account
+    const newUser = {
+      name,
+      username,
+      email,
+      createdAt: new Date().toISOString(),
+    };
+
+    existingUsers.push(newUser);
+    localStorage.setItem('users', JSON.stringify(existingUsers));
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userName', name);
+
+    setIsLoading(false);
+    navigate('/dashboard');
   };
 
   const handleGoogleSignIn = () => {
-    setError('Google Sign-In coming soon! Use email magic link for now.');
+    setError('Google Sign-In coming soon!');
   };
 
   const handleGitHubSignIn = () => {
-    setError('GitHub Sign-In coming soon! Use email magic link for now.');
+    setError('GitHub Sign-In coming soon!');
   };
 
   return (
@@ -115,145 +134,109 @@ export default function SignupPage() {
           </div>
         )}
 
-        {successMessage && (
-          <div className="mb-4 flex items-center gap-2 rounded-lg border border-emerald-700/40 bg-emerald-950/40 p-3 text-sm text-emerald-300">
-            <CheckCircle className="h-4 w-4 flex-shrink-0" />
-            {successMessage}
-          </div>
-        )}
-
-        {!magicLinkSent ? (
-          <>
-            {/* Social Sign-In Options */}
-            <div className="space-y-3 mb-6">
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleGoogleSignIn}
-                  className="h-12 bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
-                >
-                  <GoogleIcon className="mr-2" />
-                  Google
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleGitHubSignIn}
-                  className="h-12 bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
-                >
-                  <Github className="mr-2 h-5 w-5" />
-                  GitHub
-                </Button>
-              </div>
-              
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-slate-700"></div>
-                </div>
-                <div className="relative flex justify-center text-xs">
-                  <span className="bg-slate-900 px-3 text-slate-400">or sign up with email</span>
-                </div>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="name" className="mb-2 block text-white">Full Name</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <Input 
-                    id="name" 
-                    type="text" 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)} 
-                    className="h-12 pl-10 bg-slate-950 text-white" 
-                    placeholder="Your name" 
-                    required 
-                    autoComplete="name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="username" className="mb-2 block text-white">Username</Label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <Input 
-                    id="username" 
-                    type="text" 
-                    value={username} 
-                    onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))} 
-                    className="h-12 pl-10 bg-slate-950 text-white" 
-                    placeholder="username" 
-                    required 
-                    minLength={3} 
-                    maxLength={20}
-                    autoComplete="username"
-                  />
-                </div>
-                <p className="mt-1 text-xs text-slate-500">3-20 characters, letters, numbers, and underscores only.</p>
-              </div>
-
-              <div>
-                <Label htmlFor="email" className="mb-2 block text-white">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <Input 
-                    id="email" 
-                    type="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    className="h-12 pl-10 bg-slate-950 text-white" 
-                    placeholder="your@email.com" 
-                    required 
-                    autoComplete="email"
-                  />
-                </div>
-                <p className="mt-1 text-xs text-slate-500">No password needed — we'll send you a magic link</p>
-              </div>
-
-              <Button 
-                type="submit" 
-                disabled={isLoading} 
-                className="h-12 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending magic link...
-                  </>
-                ) : (
-                  'Send magic link'
-                )}
-              </Button>
-            </form>
-          </>
-        ) : (
-          <div className="text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-900/30 border border-emerald-700/50">
-              <Mail className="h-8 w-8 text-emerald-400" />
-            </div>
-            <h2 className="text-xl font-semibold text-white mb-2">Check your email!</h2>
-            <p className="text-slate-400 mb-6">
-              We sent a magic link to <strong className="text-white">{email}</strong>
-            </p>
-            <p className="text-sm text-slate-500 mb-6">
-              Click the link in the email to finish signing up. The link expires in 15 minutes.
-            </p>
-            <Button 
-              onClick={() => {
-                setMagicLinkSent(false);
-                setError(null);
-                setSuccessMessage(null);
-              }}
+        {/* Social Sign-In Options */}
+        <div className="space-y-3 mb-6">
+          <div className="grid grid-cols-2 gap-3">
+            <Button
+              type="button"
               variant="outline"
-              className="bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
+              onClick={handleGoogleSignIn}
+              className="h-12 bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
             >
-              Send another link
+              <GoogleIcon className="mr-2" />
+              Google
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleGitHubSignIn}
+              className="h-12 bg-slate-950 border-slate-700 text-white hover:bg-slate-800 font-medium"
+            >
+              <Github className="mr-2 h-5 w-5" />
+              GitHub
             </Button>
           </div>
-        )}
+          
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-slate-700"></div>
+            </div>
+            <div className="relative flex justify-center text-xs">
+              <span className="bg-slate-900 px-3 text-slate-400">or continue with email</span>
+            </div>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="name" className="mb-2 block text-white">Full Name</Label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input 
+                id="name" 
+                type="text" 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+                className="h-12 pl-10 bg-slate-950 text-white" 
+                placeholder="Your name" 
+                required 
+                autoComplete="name"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="username" className="mb-2 block text-white">Username</Label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input 
+                id="username" 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, ''))} 
+                className="h-12 pl-10 bg-slate-950 text-white" 
+                placeholder="username" 
+                required 
+                minLength={3} 
+                maxLength={20}
+                autoComplete="username"
+              />
+            </div>
+            <p className="mt-1 text-xs text-slate-500">3-20 characters, letters, numbers, and underscores only.</p>
+          </div>
+
+          <div>
+            <Label htmlFor="email" className="mb-2 block text-white">Email</Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input 
+                id="email" 
+                type="email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                className="h-12 pl-10 bg-slate-950 text-white" 
+                placeholder="your@email.com" 
+                required 
+                autoComplete="email"
+              />
+            </div>
+          </div>
+
+          <Button 
+            type="submit" 
+            disabled={isLoading} 
+            className="h-12 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating account...
+              </>
+            ) : (
+              'Create account'
+            )}
+          </Button>
+        </form>
 
         <p className="mt-6 text-center text-sm text-slate-400">
           Already have an account?{' '}
