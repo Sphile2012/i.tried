@@ -31,7 +31,7 @@ export class AuthService {
     let username = providedUsername;
     if (!username) {
       // Generate from email prefix
-      const emailPrefix = email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+      const emailPrefix = email.split('@')[0]!.toLowerCase().replace(/[^a-z0-9]/g, '');
       username = emailPrefix;
       
       // Check if username exists, if so append random number

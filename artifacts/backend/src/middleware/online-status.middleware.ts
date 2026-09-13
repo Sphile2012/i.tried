@@ -2,13 +2,19 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { PrismaService } from '../prisma/prisma.service';
 
+interface RequestWithUser extends Request {
+  user?: {
+    userId: string;
+  };
+}
+
 @Injectable()
 export class OnlineStatusMiddleware implements NestMiddleware {
   constructor(private prisma: PrismaService) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: RequestWithUser, res: Response, next: NextFunction) {
     // Check if user is authenticated
-    const userId = req['user']?.userId;
+    const userId = req.user?.userId;
 
     if (userId) {
       try {
