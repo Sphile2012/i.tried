@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'wouter';
+import { useLocation, Link } from 'wouter';
 import { Search, Filter, BookOpen, Code2, Award, Clock, ChevronDown } from 'lucide-react';
 import { useUser } from '@/context/UserContext';
 import { cleanMarkdown } from '@/utils/cleanMarkdown';
@@ -358,12 +358,14 @@ export default function BrowsePage() {
                     </div>
 
                     {/* Action */}
-                    <button
-                      disabled={lesson.locked}
-                      className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
-                    >
-                      {lesson.locked ? 'Locked' : lesson.completed ? 'Review' : 'Start Lesson'}
-                    </button>
+                    <Link href={`/lesson-reader?id=${lesson.id}`}>
+                      <button
+                        disabled={lesson.locked}
+                        className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
+                      >
+                        {lesson.locked ? 'Locked' : lesson.completed ? 'Review' : 'Start Lesson'}
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))}
