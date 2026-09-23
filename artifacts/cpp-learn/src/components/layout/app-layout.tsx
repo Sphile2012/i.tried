@@ -71,39 +71,82 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A1931] text-[#F5F7FF]">
+    <div className="min-h-screen bg-[#F5F7FF] text-[#0A1931]">
       {/* Top Navigation */}
-      <header className="sticky top-0 z-50 border-b border-[#38BDF8]/20 bg-[#0A1931]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-[#38BDF8]/20 bg-white/95 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex h-16 items-center justify-between">
             {/* Left: Logo */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-8">
               {/* Logo */}
               <Link href="/">
                 <div className="flex items-center gap-2 cursor-pointer">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#38BDF8]">
-                    <Code2 className="h-5 w-5 text-[#0A1931]" />
+                    <Code2 className="h-5 w-5 text-white" />
                   </div>
-                  <span className="text-lg font-bold text-[#F5F7FF] hidden sm:block">
+                  <span className="text-lg font-bold text-[#0A1931]">
                     Infinity Code
                   </span>
                 </div>
               </Link>
+
+              {/* Desktop Navigation Links */}
+              <nav className="hidden md:flex items-center gap-6">
+                <Link href="/browse">
+                  <span className="text-sm font-medium text-[#0A1931] hover:text-[#38BDF8] transition cursor-pointer">
+                    Courses
+                  </span>
+                </Link>
+                <Link href="/about">
+                  <span className="text-sm font-medium text-[#0A1931] hover:text-[#38BDF8] transition cursor-pointer">
+                    How it works
+                  </span>
+                </Link>
+                <Link href="/about">
+                  <span className="text-sm font-medium text-[#0A1931] hover:text-[#38BDF8] transition cursor-pointer">
+                    About
+                  </span>
+                </Link>
+              </nav>
             </div>
 
-            {/* Right: Language Selector + Hamburger (ALWAYS VISIBLE) */}
+            {/* Right: Auth Buttons + Hamburger */}
             <div className="flex items-center gap-3">
-              {/* Language Selector */}
-              <LanguageSelector className="hidden md:block" />
+              {/* 100% FREE Badge */}
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-[#38BDF8]/10 border border-[#38BDF8]/30 rounded-full">
+                <span className="text-xs font-bold text-[#38BDF8]">100% FREE</span>
+              </div>
 
-              {/* Hamburger Button - ALWAYS VISIBLE on ALL devices */}
+              {/* Auth Buttons - Desktop */}
+              {!isAuthenticated ? (
+                <div className="hidden md:flex items-center gap-2">
+                  <Link href="/login">
+                    <span className="px-4 py-2 text-sm font-medium text-[#0A1931] hover:text-[#38BDF8] transition cursor-pointer">
+                      Log in
+                    </span>
+                  </Link>
+                  <Link href="/signup">
+                    <span className="px-5 py-2 bg-[#38BDF8] text-white rounded-lg text-sm font-bold hover:bg-[#0EA5E9] transition cursor-pointer">
+                      Get Started
+                    </span>
+                  </Link>
+                </div>
+              ) : (
+                <Link href="/dashboard">
+                  <span className="hidden md:block px-5 py-2 bg-[#38BDF8] text-white rounded-lg text-sm font-bold hover:bg-[#0EA5E9] transition cursor-pointer">
+                    Dashboard
+                  </span>
+                </Link>
+              )}
+
+              {/* Hamburger Button - Mobile */}
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setMobileOpen(!mobileOpen);
                 }}
-                className="p-2 rounded-lg text-[#F5F7FF] hover:text-[#38BDF8] hover:bg-[#F5F7FF]/10 transition-colors"
+                className="p-2 rounded-lg text-[#0A1931] hover:text-[#38BDF8] hover:bg-[#38BDF8]/10 transition-colors md:hidden"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -249,25 +292,25 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-8">
+      <main className="mx-auto max-w-7xl px-4 py-8 bg-[#F5F7FF]">
         {children}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#38BDF8]/20 mt-16">
+      <footer className="border-t border-[#0A1931]/10 bg-white mt-16">
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#38BDF8]">
-                <Code2 className="h-4 w-4 text-[#0A1931]" />
+                <Code2 className="h-4 w-4 text-white" />
               </div>
-              <span className="text-sm text-[#F5F7FF]/60">
+              <span className="text-sm text-[#0A1931]/60">
                 Infinity Code &copy; {new Date().getFullYear()}
               </span>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-[#F5F7FF]/60">
-              <Link href="/lessons">
-                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Learn</span>
+            <div className="flex flex-wrap justify-center gap-4 text-sm text-[#0A1931]/60">
+              <Link href="/browse">
+                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Courses</span>
               </Link>
               <Link href="/challenges">
                 <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Challenges</span>
@@ -278,14 +321,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               <Link href="/community">
                 <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Community</span>
               </Link>
-              <Link href="/resources">
-                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Resources</span>
-              </Link>
               <Link href="/about">
                 <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">About</span>
-              </Link>
-              <Link href="/download">
-                <span className="hover:text-[#38BDF8] transition-colors cursor-pointer">Download Content</span>
               </Link>
             </div>
           </div>
